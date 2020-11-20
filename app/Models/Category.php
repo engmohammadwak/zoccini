@@ -42,4 +42,8 @@ class Category extends Model
     {
         return $this->belongsTo(Restaurant::class, 'restaurant_id');
     }
+
+    public function item(){
+        return $this->hasMany(Item::class, 'category_id', 'id')->where('status' , '1');
+    }
 }

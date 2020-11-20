@@ -43,6 +43,7 @@ class RestaurantResource extends JsonResource
         }
 
 
+        
         return [
             'id'     => $this->id,
             'logo'   => $logo ,
@@ -53,12 +54,16 @@ class RestaurantResource extends JsonResource
             'payment_method' => PaymentMethodResource::collection($this->payment_methods),
             'delivery' => new DeliveryResource($this->delivery),
             'time_waiting' => $time_waiting,
-            'address' => $this->address,
+            'address' => $this->address ?? '',
+            'lat' => $this->lat ?? '',
+            'lang' => $this->lang ?? '',
+            'phone' => optional($this->restaurant)->phone,
             'opening_and_close_time' => $open_close_time,
             'country' => new CountryResource($this->country),
             'city' => new CityResource($this->city),
-            'min' => 10.00,
-            'rate'   => 5
+            'min' => (float)min_price($this->id),
+            'rate'   => 5,
+            'number_rate'   => 5,
         ];
     }
 }

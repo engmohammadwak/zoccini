@@ -24,6 +24,7 @@ class AllAdsApiController extends Controller
         return successResponse(trans('cruds.api.success') , $data);
     }
 
+
     public function show(Request $request , $id)
     {
         $lang = $request->header('lang');

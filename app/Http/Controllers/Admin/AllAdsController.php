@@ -20,6 +20,7 @@ class AllAdsController extends Controller
 
     public function index()
     {
+
         abort_if(Gate::denies('all_ad_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $allAds = AllAd::all();

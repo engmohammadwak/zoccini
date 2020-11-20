@@ -60,11 +60,11 @@
                             {{ trans('cruds.item.fields.photo') }}
                         </th>
                         <td>
-                            @foreach($item->photo as $key => $media)
-                                <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
-                                    <img src="{{ $media->getUrl('thumb') }}">
+                            @if($item->photo)
+                                <a href="{{ url('local/public/img/item/' . $item->photo) }}" target="_blank">
+                                    <img src="{{ url('local/public/img/item/' . $item->photo) }}" width="50px" height="50px">
                                 </a>
-                            @endforeach
+                            @endif
                         </td>
                     </tr>
                     <tr>
@@ -77,18 +77,18 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.item.fields.restaurant') }}
-                        </th>
-                        <td>
-                            {{ $item->restaurant->mins ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.item.fields.category') }}
                         </th>
                         <td>
                             {{ $item->category->name_en ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.currency.fields.status') }}
+                        </th>
+                        <td>
+                            {{ App\Models\Item::STATUS_RADIO[$item->status] ?? '' }}
                         </td>
                     </tr>
                 </tbody>
@@ -101,6 +101,7 @@
         </div>
     </div>
 </div>
+
 
 
 

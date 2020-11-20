@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyItemRequest;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
@@ -17,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ItemController extends Controller
 {
-    use MediaUploadingTrait;
 
     public function index()
     {
@@ -36,24 +34,23 @@ class ItemController extends Controller
     {
         abort_if(Gate::denies('item_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $restaurants = Restaurant::all()->pluck('mins', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $categories = Category::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.items.create', compact('restaurants', 'categories'));
+        return view('admin.items.create', compact( 'categories'));
     }
 
     public function store(StoreItemRequest $request)
     {
         $item = Item::create($request->all());
 
-        foreach ($request->input('photo', []) as $file) {
-            $item->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('photo');
+        if ($request->file('photo')) {
+            $image = uploadImage($request->file('photo'),'/public/img/item' , $item->photo);
+            $item->fill(['photo' => $image])->save();
         }
-
-        if ($media = $request->input('ck-media', false)) {
-            Media::whereIn('id', $media)->update(['model_id' => $item->id]);
-        }
+        $category = Category::find($request->category_id);
+        $item->restaurant_id = $category->restaurant_id;
+        $item->save();
 
         return redirect()->route('admin.items.index');
     }
@@ -62,34 +59,23 @@ class ItemController extends Controller
     {
         abort_if(Gate::denies('item_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $restaurants = Restaurant::all()->pluck('mins', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $categories = Category::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $item->load('restaurant', 'category');
+        $item->load('category');
 
-        return view('admin.items.edit', compact('restaurants', 'categories', 'item'));
+        return view('admin.items.edit', compact( 'categories', 'item'));
     }
 
     public function update(UpdateItemRequest $request, Item $item)
     {
         $item->update($request->all());
-
-        if (count($item->photo) > 0) {
-            foreach ($item->photo as $media) {
-                if (!in_array($media->file_name, $request->input('photo', []))) {
-                    $media->delete();
-                }
-            }
+        if ($request->file('photo')) {
+            $image = uploadImage($request->file('photo'),'/public/img/item' , $item->photo);
+            $item->fill(['photo' => $image])->save();
         }
-
-        $media = $item->photo->pluck('file_name')->toArray();
-
-        foreach ($request->input('photo', []) as $file) {
-            if (count($media) === 0 || !in_array($file, $media)) {
-                $item->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('photo');
-            }
-        }
+        $category = Category::find($request->category_id);
+        $item->restaurant_id = $category->restaurant_id;
+        $item->save();
 
         return redirect()->route('admin.items.index');
     }
@@ -98,7 +84,7 @@ class ItemController extends Controller
     {
         abort_if(Gate::denies('item_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $item->load('restaurant', 'category');
+        $item->load( 'category');
 
         return view('admin.items.show', compact('item'));
     }

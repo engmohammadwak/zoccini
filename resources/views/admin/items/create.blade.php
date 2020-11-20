@@ -35,8 +35,8 @@
             </div>
             <div class="form-group">
                 <label class="required" for="description_ar">{{ trans('cruds.item.fields.description_ar') }}</label>
-                <input class="form-control {{ $errors->has('description_ar') ? 'is-invalid' : '' }}" type="text" name="description_ar" id="description_ar" value="{{ old('description_ar', '') }}" required>
-                @if($errors->has('description_ar'))
+                <textarea class="form-control {{ $errors->has('description_ar') ? 'is-invalid' : '' }}" name="description_ar" id="description_ar" required>{{ old('description_ar') }}</textarea>
+            @if($errors->has('description_ar'))
                     <span class="text-danger">{{ $errors->first('description_ar') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.item.fields.description_ar_helper') }}</span>
@@ -58,18 +58,6 @@
                 <span class="help-block">{{ trans('cruds.item.fields.price_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="restaurant_id">{{ trans('cruds.item.fields.restaurant') }}</label>
-                <select class="form-control select2 {{ $errors->has('restaurant') ? 'is-invalid' : '' }}" name="restaurant_id" id="restaurant_id">
-                    @foreach($restaurants as $id => $restaurant)
-                        <option value="{{ $id }}" {{ old('restaurant_id') == $id ? 'selected' : '' }}>{{ $restaurant }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('restaurant'))
-                    <span class="text-danger">{{ $errors->first('restaurant') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.item.fields.restaurant_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label for="category_id">{{ trans('cruds.item.fields.category') }}</label>
                 <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
                     @foreach($categories as $id => $category)
@@ -82,6 +70,19 @@
                 <span class="help-block">{{ trans('cruds.item.fields.category_helper') }}</span>
             </div>
             <div class="form-group">
+                <label>{{ trans('cruds.currency.fields.status') }}</label>
+                @foreach(App\Models\Item::STATUS_RADIO as $key => $label)
+                    <div class="form-check {{ $errors->has('status') ? 'is-invalid' : '' }}">
+                        <input class="form-check-input" type="radio" id="status_{{ $key }}" name="status" value="{{ $key }}" {{ old('status', '1') === (string) $key ? 'checked' : '' }}>
+                        <label class="form-check-label" for="status_{{ $key }}">{{ $label }}</label>
+                    </div>
+                @endforeach
+                @if($errors->has('status'))
+                    <span class="text-danger">{{ $errors->first('status') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.currency.fields.status_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
@@ -92,67 +93,4 @@
 
 
 
-@endsection
-
-@section('scripts')
-<script>
-    var uploadedPhotoMap = {}
-Dropzone.options.photoDropzone = {
-    url: '{{ route('admin.items.storeMedia') }}',
-    maxFilesize: 10, // MB
-    acceptedFiles: '.jpeg,.jpg,.png,.gif',
-    addRemoveLinks: true,
-    headers: {
-      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-    },
-    params: {
-      size: 10,
-      width: 4096,
-      height: 4096
-    },
-    success: function (file, response) {
-      $('form').append('<input type="hidden" name="photo[]" value="' + response.name + '">')
-      uploadedPhotoMap[file.name] = response.name
-    },
-    removedfile: function (file) {
-      console.log(file)
-      file.previewElement.remove()
-      var name = ''
-      if (typeof file.file_name !== 'undefined') {
-        name = file.file_name
-      } else {
-        name = uploadedPhotoMap[file.name]
-      }
-      $('form').find('input[name="photo[]"][value="' + name + '"]').remove()
-    },
-    init: function () {
-@if(isset($item) && $item->photo)
-      var files = {!! json_encode($item->photo) !!}
-          for (var i in files) {
-          var file = files[i]
-          this.options.addedfile.call(this, file)
-          this.options.thumbnail.call(this, file, file.preview)
-          file.previewElement.classList.add('dz-complete')
-          $('form').append('<input type="hidden" name="photo[]" value="' + file.file_name + '">')
-        }
-@endif
-    },
-     error: function (file, response) {
-         if ($.type(response) === 'string') {
-             var message = response //dropzone sends it's own error messages in string
-         } else {
-             var message = response.errors.file
-         }
-         file.previewElement.classList.add('dz-error')
-         _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
-         _results = []
-         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-             node = _ref[_i]
-             _results.push(node.textContent = message)
-         }
-
-         return _results
-     }
-}
-</script>
 @endsection

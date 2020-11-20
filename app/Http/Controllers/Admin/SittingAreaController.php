@@ -16,9 +16,7 @@ class SittingAreaController extends Controller
     public function index()
     {
         abort_if(Gate::denies('sitting_area_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $sittingAreas = SittingArea::all();
-
         return view('admin.sittingAreas.index', compact('sittingAreas'));
     }
 

@@ -1,56 +1,41 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Admin;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
-use App\Http\Resources\Admin\CategoryResource;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\ItemResource;
 use App\Models\Category;
-use Gate;
+use App\Models\Item;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class CategoryApiController extends Controller
 {
-    public function index()
+    public function index($id , Request $request)
     {
-        abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $lang = $request->header('lang');
+        setLang($lang);
 
-        return new CategoryResource(Category::with(['restaurant'])->get());
+        $data = CategoryResource::collection(Category::with(['restaurant'])->where('restaurant_id' , $id)->where('status' , 1)->get());
+        return successResponse(trans('cruds.api.success') , $data);
     }
 
-    public function store(StoreCategoryRequest $request)
+    public function show($id,  Request $request)
     {
-        $category = Category::create($request->all());
+        $lang = $request->header('lang');
+        setLang($lang);
+        if ($id != 0){
+            $category = Category::find($id);
+            if ($category){
+                $data = ItemResource::collection(Item::where('category_id' , $id)->paginate(10));
+            }else{
+                return errorResponse(trans('cruds.api.category_not_found'));
+            }
+        }else{
+            $data = "test";
+        }
 
-        return (new CategoryResource($category))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
-    }
+        return successResponse(trans('cruds.api.success') , $data);
 
-    public function show(Category $category)
-    {
-        abort_if(Gate::denies('category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return new CategoryResource($category->load(['restaurant']));
-    }
-
-    public function update(UpdateCategoryRequest $request, Category $category)
-    {
-        $category->update($request->all());
-
-        return (new CategoryResource($category))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
-    }
-
-    public function destroy(Category $category)
-    {
-        abort_if(Gate::denies('category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $category->delete();
-
-        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

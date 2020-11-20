@@ -110,3 +110,10 @@ function get_nearest_sql($table = "restaurants", $lat, $lng)
     $sql = DB::raw("1.609344 * 3956 * acos( cos( radians('$lat') ) * cos( radians($table.lat) ) * cos( radians($table.lang) - radians('$lng') ) + sin( radians('$lat') ) * sin( radians($table.lat) ) ) as distance");
     return $sql;
 }
+
+function min_price($id)
+{
+    $min = \App\Models\Item::where('restaurant_id' ,$id)->min('price');
+
+    return $min;
+}

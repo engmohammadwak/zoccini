@@ -64,6 +64,8 @@ class Restaurant extends Model
     ];
 
 
+
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
@@ -109,6 +111,10 @@ class Restaurant extends Model
     public function city()
     {
         return $this->belongsTo(City::class, 'city_id');
+    }
+
+    public function items(){
+        return $this->hasMany(Item::class, 'restaurant_id', 'id')->where('status' , '1');
     }
 
 }

@@ -10,6 +10,7 @@ class AllAdResource extends JsonResource
 {
     public function toArray($request)
     {
+
         if (App::getLocale() == 'ar') {
             $category = optional($this->category)->name_ar;
             $description = $this->description_ar;

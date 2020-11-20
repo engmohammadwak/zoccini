@@ -35,10 +35,10 @@
                             {{ trans('cruds.item.fields.price') }}
                         </th>
                         <th>
-                            {{ trans('cruds.item.fields.restaurant') }}
+                            {{ trans('cruds.item.fields.category') }}
                         </th>
                         <th>
-                            {{ trans('cruds.item.fields.category') }}
+                            {{ trans('cruds.currency.fields.status') }}
                         </th>
                         <th>
                             &nbsp;
@@ -48,7 +48,6 @@
                         <td>
                         </td>
                         <td>
-                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
@@ -57,15 +56,7 @@
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
                         <td>
-                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                        </td>
-                        <td>
-                            <select class="search">
-                                <option value>{{ trans('global.all') }}</option>
-                                @foreach($restaurants as $key => $item)
-                                    <option value="{{ $item->mins }}">{{ $item->mins }}</option>
-                                @endforeach
-                            </select>
+
                         </td>
                         <td>
                             <select class="search">
@@ -75,6 +66,7 @@
                                 @endforeach
                             </select>
                         </td>
+                        <td></td>
                         <td>
                         </td>
                     </tr>
@@ -98,10 +90,10 @@
                                 {{ $item->price ?? '' }}
                             </td>
                             <td>
-                                {{ $item->restaurant->mins ?? '' }}
+                                {{ $item->category->name_en ?? '' }}
                             </td>
                             <td>
-                                {{ $item->category->name_en ?? '' }}
+                                {{ App\Models\Item::STATUS_RADIO[$item->status] ?? '' }}
                             </td>
                             <td>
                                 @can('item_show')

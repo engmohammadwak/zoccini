@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RestaurantsController extends Controller
 {
-    use MediaUploadingTrait;
 
     public function index()
     {

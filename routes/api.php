@@ -22,6 +22,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1'], functi
     Route::get('all-ads/{id}', 'AllAdsApiController@show');
     // Restaurants
     Route::apiResource('restaurants', 'RestaurantsApiController');
+    // Categories of Restaurants
+    Route::get('restaurants/{id}/categories', 'CategoryApiController@index');
+    Route::get('categories/{id}', 'CategoryApiController@show');
     // Home
     Route::get('home', 'HomeApiController@index');
     // Payment Methods

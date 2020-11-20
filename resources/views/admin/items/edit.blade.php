@@ -36,15 +36,26 @@
             </div>
             <div class="form-group">
                 <label class="required" for="description_ar">{{ trans('cruds.item.fields.description_ar') }}</label>
-                <input class="form-control {{ $errors->has('description_ar') ? 'is-invalid' : '' }}" type="text" name="description_ar" id="description_ar" value="{{ old('description_ar', $item->description_ar) }}" required>
+                <textarea class="form-control {{ $errors->has('description_ar') ? 'is-invalid' : '' }}" name="description_ar" id="description_ar" required>{{ old('description_ar', $item->description_ar) }}</textarea>
                 @if($errors->has('description_ar'))
                     <span class="text-danger">{{ $errors->first('description_ar') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.item.fields.description_ar_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="photo">{{ trans('cruds.item.fields.photo') }}</label>                <input type="file" name="photo" class="form-control {{ $errors->has('photo') ? 'is-invalid' : '' }}">
+                <label class="required" for="photo">{{ trans('cruds.item.fields.photo') }}</label>
+                @if($item->photo)
+                    <a href="{{ url('local/public/img/item/' . $item->photo) }}" target="_blank">
+                        <img src="{{ url('local/public/img/item/' . $item->photo) }}" width="50px" height="50px">
+                    </a>
+                @else
+                    <a href="{{ url('local/public/img/setting/' . getSetting('item_image')) }}" target="_blank">
+                        <img src="{{ url('local/public/img/setting/' . getSetting('item_image')) }}" width="50px" height="50px">
+                    </a>
+                @endif
+
                 <input type="file" name="photo" class="form-control {{ $errors->has('photo') ? 'is-invalid' : '' }}">
+
             @if($errors->has('photo'))
                     <span class="text-danger">{{ $errors->first('photo') }}</span>
                 @endif
@@ -59,18 +70,6 @@
                 <span class="help-block">{{ trans('cruds.item.fields.price_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="restaurant_id">{{ trans('cruds.item.fields.restaurant') }}</label>
-                <select class="form-control select2 {{ $errors->has('restaurant') ? 'is-invalid' : '' }}" name="restaurant_id" id="restaurant_id">
-                    @foreach($restaurants as $id => $restaurant)
-                        <option value="{{ $id }}" {{ (old('restaurant_id') ? old('restaurant_id') : $item->restaurant->id ?? '') == $id ? 'selected' : '' }}>{{ $restaurant }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('restaurant'))
-                    <span class="text-danger">{{ $errors->first('restaurant') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.item.fields.restaurant_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label for="category_id">{{ trans('cruds.item.fields.category') }}</label>
                 <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
                     @foreach($categories as $id => $category)
@@ -81,6 +80,19 @@
                     <span class="text-danger">{{ $errors->first('category') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.item.fields.category_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label>{{ trans('cruds.currency.fields.status') }}</label>
+                @foreach(App\Models\Item::STATUS_RADIO as $key => $label)
+                    <div class="form-check {{ $errors->has('status') ? 'is-invalid' : '' }}">
+                        <input class="form-check-input" type="radio" id="status_{{ $key }}" name="status" value="{{ $key }}" {{ old('status', $item->status) == (string) $key ? 'checked' : '' }}>
+                        <label class="form-check-label" for="status_{{ $key }}">{{ $label }}</label>
+                    </div>
+                @endforeach
+                @if($errors->has('status'))
+                    <span class="text-danger">{{ $errors->first('status') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.currency.fields.status_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
