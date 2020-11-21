@@ -6,7 +6,6 @@
         {{ trans('global.create') }} {{ trans('cruds.allAd.title_singular') }}
     </div>
 
-
     <div class="card-body">
         <form method="POST" action="{{ route("admin.all-ads.store") }}" enctype="multipart/form-data">
             @csrf

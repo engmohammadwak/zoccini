@@ -643,7 +643,6 @@ return [
             'withdraw_day'           => 'Withdraw Day',
             'withdraw_day_helper'    => ' ',
         ],
-
     ],
     'restaurantsManagement' => [
         'title'          => 'Restaurants Management',

@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 class RestaurantsApiController extends Controller
 {
 
-
     public function index(Request $request)
     {
         $lang = $request->header('lang');

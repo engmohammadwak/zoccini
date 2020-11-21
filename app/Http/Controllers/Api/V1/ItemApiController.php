@@ -17,5 +17,4 @@ use Symfony\Component\HttpFoundation\Response;
 class ItemApiController extends Controller
 {
 
-
 }

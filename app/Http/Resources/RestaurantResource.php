@@ -43,7 +43,6 @@ class RestaurantResource extends JsonResource
         }
 
 
-        
         return [
             'id'     => $this->id,
             'logo'   => $logo ,
