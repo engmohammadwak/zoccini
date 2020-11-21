@@ -21,7 +21,6 @@ class RestaurantsApiController extends Controller
               $restaurant = Restaurant::whereHas('restaurant', function ($query) {
                   $query->where('status_id', 1);
               })->with(['restaurant', 'delivery', 'payment_methods', 'sitting_areas', 'country', 'city'])->get();
-
           } else {
               $restaurant = Restaurant::whereHas('restaurant', function ($query) {
                   $query->where('status_id', 1);
