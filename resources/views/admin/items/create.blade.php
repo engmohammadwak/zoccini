@@ -64,6 +64,7 @@
                         <option value="{{ $id }}" {{ old('category_id') == $id ? 'selected' : '' }}>{{ $category }}</option>
                     @endforeach
                 </select>
+
                 @if($errors->has('category'))
                     <span class="text-danger">{{ $errors->first('category') }}</span>
                 @endif

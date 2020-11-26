@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class CityApiController extends Controller
 {
+
     public function index(Request $request)
     {
         $lang = $request->header('lang');

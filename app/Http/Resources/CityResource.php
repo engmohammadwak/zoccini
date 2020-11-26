@@ -9,7 +9,6 @@ class CityResource extends JsonResource
 {
     public function toArray($request)
     {
-
         if ( App::getLocale() == 'ar') {
             $name = $this->name_ar ;
         }else {

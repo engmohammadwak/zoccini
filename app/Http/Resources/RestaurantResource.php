@@ -42,7 +42,6 @@ class RestaurantResource extends JsonResource
             $open_close_time = '';
         }
 
-
         return [
             'id'     => $this->id,
             'logo'   => $logo ,

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\App;
 
 class AllAdResource extends JsonResource
 {
+
     public function toArray($request)
     {
         if (App::getLocale() == 'ar') {

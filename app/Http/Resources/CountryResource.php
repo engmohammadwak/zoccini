@@ -9,6 +9,7 @@ class CountryResource extends JsonResource
 {
     public function toArray($request)
     {
+
         if ( App::getLocale() == 'ar') {
             $name        = $this->name_ar;
             $currency    = optional($this->currency)->name_ar;

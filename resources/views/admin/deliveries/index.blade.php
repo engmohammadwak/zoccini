@@ -9,6 +9,7 @@
         </div>
     </div>
 @endcan
+
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.delivery.title_singular') }} {{ trans('global.list') }}

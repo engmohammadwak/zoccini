@@ -5,7 +5,6 @@
     <div class="card-header">
         {{ trans('global.create') }} {{ trans('cruds.delivery.title_singular') }}
     </div>
-
     <div class="card-body">
         <form method="POST" action="{{ route("admin.deliveries.store") }}" enctype="multipart/form-data">
             @csrf
