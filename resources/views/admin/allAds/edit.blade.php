@@ -71,6 +71,7 @@
                     <div class="form-group">
                         <label for="image">{{ trans('cruds.allAd.fields.image') }}</label>
                         <br>
+
                         @if($allAd->image)
                             <a href="{{ url('local/public/img/ads/' . $allAd->image) }}" target="_blank">
                                 <img src="{{ url('local/public/img/ads/' . $allAd->image) }}" width="50px" height="50px">

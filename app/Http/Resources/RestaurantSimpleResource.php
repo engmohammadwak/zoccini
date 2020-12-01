@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\App;
 
 class RestaurantSimpleResource extends JsonResource
 {
-    
+
     public function toArray($request)
     {
 

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 
 class OnboadingResource extends JsonResource
 {
+
     public function toArray($request)
     {
 

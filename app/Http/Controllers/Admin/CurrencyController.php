@@ -16,7 +16,6 @@ class CurrencyController extends Controller
     public function index()
     {
         abort_if(Gate::denies('currency_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $currencies = Currency::all();
 
         return view('admin.currencies.index', compact('currencies'));

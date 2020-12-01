@@ -36,6 +36,7 @@ class RestaurantResource extends JsonResource
             $time_waiting = '';
         }
 
+
         if ($this->open_time != '' & $this->close_time != ''){
             $open_close_time = $this->open_time.' - '.$this->close_time;
         }else{

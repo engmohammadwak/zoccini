@@ -77,6 +77,7 @@
                     @endif
                     <span class="help-block">{{ trans('cruds.allAd.fields.voucher_number_helper') }}</span>
                 </div>
+
                 <div class="form-group">
                     <label for="image">{{ trans('cruds.allAd.fields.image') }}</label>
                     <input type="file" name="image" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}">

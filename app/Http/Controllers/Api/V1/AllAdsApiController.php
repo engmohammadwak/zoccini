@@ -13,6 +13,7 @@ class AllAdsApiController extends Controller
 
     public function index(Request $request , $type)
     {
+
         $lang = $request->header('lang');
         setLang($lang);
         $category_ad = AdsCategory::find($type);

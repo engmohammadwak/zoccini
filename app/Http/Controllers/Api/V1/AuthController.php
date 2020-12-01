@@ -18,6 +18,7 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+
         $lang = $request->header('lang');
         setLang($lang);
 

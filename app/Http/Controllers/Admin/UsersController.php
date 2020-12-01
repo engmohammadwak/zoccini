@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UsersController extends Controller
 {
-    use MediaUploadingTrait;
-
     public function index()
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

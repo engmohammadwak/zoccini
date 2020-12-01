@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdsCategoryController extends Controller
 {
+
     public function index()
     {
         abort_if(Gate::denies('ads_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

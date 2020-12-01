@@ -14,6 +14,7 @@ class StoreCartRequest extends FormRequest
         return Gate::allows('cart_create');
     }
 
+
     public function rules()
     {
         return [

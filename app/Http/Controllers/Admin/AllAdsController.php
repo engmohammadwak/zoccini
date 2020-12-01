@@ -43,7 +43,6 @@ class AllAdsController extends Controller
     public function store(StoreAllAdRequest $request)
     {
         $allAd = AllAd::create($request->all());
-
         if ($request->file('image')) {
             $image = uploadImage($request->file('image'),'/public/img/ads' , $allAd->image);
             $allAd->fill(['image' => $image])->save();

@@ -55,6 +55,7 @@ class ItemController extends Controller
         return redirect()->route('admin.items.index');
     }
 
+
     public function edit(Item $item)
     {
         abort_if(Gate::denies('item_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');

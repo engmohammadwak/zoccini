@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 
 class PaymentMethodResource extends JsonResource
 {
+
     public function toArray($request)
     {
         if ( App::getLocale() == 'ar') {

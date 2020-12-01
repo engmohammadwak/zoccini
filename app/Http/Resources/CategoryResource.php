@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\App;
 class CategoryResource extends JsonResource
 {
 
+
     public function toArray($request)
     {
         if ( App::getLocale() == 'ar') {

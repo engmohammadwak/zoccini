@@ -13,6 +13,7 @@ class Coupon extends Model
 
     public $table = 'coupons';
 
+
     const TYPE_SELECT = [
         '0' => 'Fixed',
         '1' => 'percent',

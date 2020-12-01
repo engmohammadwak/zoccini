@@ -2,6 +2,7 @@
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1'], function () {
 
+
     Route::post('/login', 'AuthController@login');
     Route::post('/register', 'AuthController@register');
     Route::post('/resetCode', 'AuthController@reset_code');

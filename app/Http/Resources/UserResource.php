@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\App;
 
 class UserResource extends JsonResource
 {
+
     public function toArray($request)
     {
 

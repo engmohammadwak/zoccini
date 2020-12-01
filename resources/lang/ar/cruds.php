@@ -5,6 +5,7 @@ return [
         'title'          => 'إدارة المستخدمين',
         'title_singular' => 'إدارة المستخدمين',
     ],
+
     'permission'            => [
         'title'          => 'الصلاحيات',
         'title_singular' => 'الصلاحية',

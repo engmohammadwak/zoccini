@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 class SlideShowApiController extends Controller
 {
 
+
     public function index(Request $request)
     {
         $lang = $request->header('lang');

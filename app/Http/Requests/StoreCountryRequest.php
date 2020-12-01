@@ -14,6 +14,7 @@ class StoreCountryRequest extends FormRequest
         return Gate::allows('country_create');
     }
 
+
     public function rules()
     {
         return [

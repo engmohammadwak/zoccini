@@ -18,8 +18,6 @@ class ItemResource extends JsonResource
             $description = $this->description_en;
         }
 
-
-
         return [
             'id' => $this->id,
             'name' => $name,

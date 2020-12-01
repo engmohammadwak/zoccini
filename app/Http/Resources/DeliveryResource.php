@@ -15,7 +15,6 @@ class DeliveryResource extends JsonResource
             $name  = $this->name_en ;
         }
 
-
         return [
             'id' => $this->id,
             'name' => $name,

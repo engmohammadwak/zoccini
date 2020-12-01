@@ -10,6 +10,7 @@ class Item extends Model
 {
     use SoftDeletes;
 
+
     public $table = 'items';
 
     const STATUS_RADIO = [

@@ -16,7 +16,6 @@ class OrderTypeController extends Controller
     public function index()
     {
         abort_if(Gate::denies('order_type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $orderTypes = OrderType::all();
 
         return view('admin.orderTypes.index', compact('orderTypes'));

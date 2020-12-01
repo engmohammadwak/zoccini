@@ -14,6 +14,7 @@ class StorePermissionRequest extends FormRequest
         return Gate::allows('permission_create');
     }
 
+
     public function rules()
     {
         return [

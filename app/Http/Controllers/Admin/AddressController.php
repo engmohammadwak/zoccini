@@ -23,6 +23,7 @@ class AddressController extends Controller
         return view('admin.addresses.index', compact('addresses'));
     }
 
+
     public function create()
     {
         abort_if(Gate::denies('address_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 
 class SlideShowResource extends JsonResource
 {
+
     public function toArray($request)
     {
         if ($this->type == 'image'){

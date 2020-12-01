@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 
 class DeliveryCompanyResource extends JsonResource
 {
+
     public function toArray($request)
     {
         if ( App::getLocale() == 'ar') {
