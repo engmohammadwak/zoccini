@@ -1,20 +1,20 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.slideShow.title') }}
-    </div>
+    <div class="card">
+        <div class="card-header">
+            {{ trans('global.show') }} {{ trans('cruds.slideShow.title') }}
+        </div>
 
-    <div class="card-body">
-        <div class="form-group">
+        <div class="card-body">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.slide-shows.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
-            </div>
-            <table class="table table-bordered table-striped">
-                <tbody>
+                <div class="form-group">
+                    <a class="btn btn-default" href="{{ route('admin.slide-shows.index') }}">
+                        {{ trans('global.back_to_list') }}
+                    </a>
+                </div>
+                <table class="table table-bordered table-striped">
+                    <tbody>
                     <tr>
                         <th>
                             {{ trans('cruds.slideShow.fields.id') }}
@@ -57,22 +57,41 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.slideShow.fields.product_restaurant') }}
+                        </th>
+                        @if ($slideShow->product_restaurant != '0')
+                        <td>
+                            @if ($slideShow->product_restaurant == '1')
+                                <a href="{{ route('admin.items.show', $slideShow->product_restaurant_id) }}">
+                                    {{ trans('global.view') }}
+                                </a>
+                            @elseif($slideShow->product_restaurant == '2')
+                                <a href="{{ route('admin.restaurants.show', $slideShow->product_restaurant_id) }}">
+                                    {{ trans('global.view') }}
+                                </a>
+                            @endif
+                        </td>
+                        @endif
+                    </tr>
+
+                    <tr>
+                        <th>
                             {{ trans('cruds.slideShow.fields.status') }}
                         </th>
                         <td>
                             {{ App\Models\SlideShow::STATUS_RADIO[$slideShow->status] ?? '' }}
                         </td>
                     </tr>
-                </tbody>
-            </table>
-            <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.slide-shows.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <a class="btn btn-default" href="{{ route('admin.slide-shows.index') }}">
+                        {{ trans('global.back_to_list') }}
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 

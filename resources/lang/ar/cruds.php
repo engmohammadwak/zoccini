@@ -133,6 +133,11 @@ return [
             'type_helper'       => ' ',
             'video_url'         => 'Video Url',
             'video_url_helper'  => ' ',
+            'product_restaurant'         => 'product or restaurant',
+            'product_restaurant_helper'  => ' ',
+            'product'            => 'منتج',
+            'restaurant'         => 'مطعم',
+
         ],
     ],
     'restaurant'            => [

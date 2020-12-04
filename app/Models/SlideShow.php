@@ -37,6 +37,8 @@ class SlideShow extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'product_restaurant',
+        'product_restaurant_id',
     ];
 
     protected function serializeDate(DateTimeInterface $date)

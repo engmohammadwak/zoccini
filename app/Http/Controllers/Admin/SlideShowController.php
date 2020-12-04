@@ -3,19 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroySlideShowRequest;
 use App\Http\Requests\StoreSlideShowRequest;
 use App\Http\Requests\UpdateSlideShowRequest;
+use App\Models\Item;
+use App\Models\Restaurant;
 use App\Models\SlideShow;
+use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
-use Spatie\MediaLibrary\Models\Media;
+use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;
 
 class SlideShowController extends Controller
 {
-    use MediaUploadingTrait;
 
     public function index()
     {
@@ -29,8 +30,10 @@ class SlideShowController extends Controller
     public function create()
     {
         abort_if(Gate::denies('slide_show_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $restaurants = Restaurant::all()->pluck('name_'.App::getLocale(), 'id')->prepend(trans('global.pleaseSelect'), '');
+        $items = Item::all()->pluck('name_'.App::getLocale(), 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.slideShows.create');
+        return view('admin.slideShows.create' , compact('restaurants','items'));
     }
 
     public function store(StoreSlideShowRequest $request)

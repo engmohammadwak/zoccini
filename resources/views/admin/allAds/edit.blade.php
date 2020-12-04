@@ -12,9 +12,9 @@
                 @method('PUT')
                 @csrf
                 <div class="form-group">
-                    <label class="required" for="restaurant_id">{{ trans('cruds.allAd.fields.restaurant') }}</label>
+                    <label for="restaurant_id">{{ trans('cruds.allAd.fields.restaurant') }}</label>
                     <select class="form-control select2 {{ $errors->has('restaurant') ? 'is-invalid' : '' }}"
-                            name="restaurant_id" id="restaurant_id" required>
+                            name="restaurant_id" id="restaurant_id">
                         @foreach($restaurants as $id => $restaurant)
                             <option value="{{ $id }}" {{ (old('restaurant_id') ? old('restaurant_id') : $allAd->restaurant->id ?? '') == $id ? 'selected' : '' }}>{{ $restaurant }}</option>
                         @endforeach
@@ -80,24 +80,26 @@
 
                         <input type="file" name="image" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}">
 
-                    @if($errors->has('image'))
+                        @if($errors->has('image'))
                             <span class="text-danger">{{ $errors->first('image') }}</span>
                         @endif
                         <span class="help-block">{{ trans('cruds.allAd.fields.image_helper') }}</span>
                     </div>
-{{--                    <div class="form-group">--}}
-{{--                        <label for="winner_id">{{ trans('cruds.allAd.fields.winner') }}</label>--}}
-{{--                        <select class="form-control select2 {{ $errors->has('winner') ? 'is-invalid' : '' }}"--}}
-{{--                                name="winner_id" id="winner_id">--}}
-{{--                            @foreach($winners as $id => $winner)--}}
-{{--                                <option value="{{ $id }}" {{ (old('winner_id') ? old('winner_id') : $allAd->winner->id ?? '') == $id ? 'selected' : '' }}>{{ $winner }}</option>--}}
-{{--                            @endforeach--}}
-{{--                        </select>--}}
-{{--                        @if($errors->has('winner'))--}}
-{{--                            <span class="text-danger">{{ $errors->first('winner') }}</span>--}}
-{{--                        @endif--}}
-{{--                        <span class="help-block">{{ trans('cruds.allAd.fields.winner_helper') }}</span>--}}
-{{--                    </div>--}}
+                    <div class="form-group">
+                        <label for="winner_id">{{ trans('cruds.allAd.fields.winner') }}</label>
+                        <select class="form-control select2 {{ $errors->has('winner') ? 'is-invalid' : '' }}"
+                                name="winner_id" id="winner_id">
+                            @foreach($winners as $id => $winner)
+                                <option value="{{ $id }}" {{ (old('winner_id') ? old('winner_id') : $allAd->winner->id ?? '') == $id ? 'selected' : '' }}>{{ $winner }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('winner'))
+                            <span class="text-danger">{{ $errors->first('winner') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.allAd.fields.winner_helper') }}</span>
+                    </div>
+
+
                     <div class="form-group">
                         <label for="withdraw_day">{{ trans('cruds.allAd.fields.withdraw_day') }}</label>
                         <input class="form-control date {{ $errors->has('withdraw_day') ? 'is-invalid' : '' }}" type="text"
@@ -108,7 +110,8 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.allAd.fields.withdraw_day_helper') }}</span>
                     </div>
-    @else
+    @elseif ($allAd->category->id == 2)
+
                     <div class="form-group">
                         <label for="discount">{{ trans('cruds.allAd.fields.discount') }}</label>
                         <input class="form-control {{ $errors->has('discount') ? 'is-invalid' : '' }}" type="text"
@@ -118,7 +121,24 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.allAd.fields.discount_helper') }}</span>
                     </div>
+@elseif($allAd->category->id == 3)
+                    <div class="form-group">
+                        <label for="image">{{ trans('cruds.allAd.fields.image') }}</label>
+                        <br>
 
+                        @if($allAd->image)
+                            <a href="{{ url('local/public/img/ads/' . $allAd->image) }}" target="_blank">
+                                <img src="{{ url('local/public/img/ads/' . $allAd->image) }}" width="50px" height="50px">
+                            </a>
+                        @endif
+
+                        <input type="file" name="image" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}">
+
+                        @if($errors->has('image'))
+                            <span class="text-danger">{{ $errors->first('image') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.allAd.fields.image_helper') }}</span>
+                    </div>
 @endif
                 <div class="form-group">
                     <label>{{ trans('cruds.slideShow.fields.status') }}</label>

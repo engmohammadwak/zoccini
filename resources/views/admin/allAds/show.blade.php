@@ -77,22 +77,23 @@
                         </tr>
                         <tr>
                             <th>
-                                {{ trans('cruds.allAd.fields.image') }}
-                            </th>
-                            <td>
-                                @if($allAd->image)
-                                    <a href="{{ url('local/public/img/ads/' . $allAd->image) }}" target="_blank">
-                                        <img src="{{ url('local/public/img/ads/' . $allAd->image) }}" width="50px" height="50px">
-                                    </a>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
                                 {{ trans('cruds.allAd.fields.winner') }}
                             </th>
                             <td>
                                 {{ $allAd->winner->name ?? '' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                {{ trans('cruds.allAd.fields.image') }}
+                            </th>
+                            <td>
+                                @if($allAd->image)
+
+                                    <a href="{{ url('local/public/img/ads/' . $allAd->image) }}" target="_blank">
+                                        <img src="{{ url('local/public/img/ads/' . $allAd->image) }}" width="50px" height="50px">
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                         <tr  style="background-color:
@@ -107,13 +108,28 @@
                                 {{ $allAd->withdraw_day }}
                             </td>
                         </tr>
-                    @else
+                    @elseif($allAd->category->id == 2)
                         <tr>
                             <th>
                                 {{ trans('cruds.allAd.fields.discount') }}
                             </th>
                             <td>
                                 {{ $allAd->discount }}
+                            </td>
+                        </tr>
+                        @elseif($allAd->category->id == 3 )
+
+                        <tr>
+                            <th>
+                                {{ trans('cruds.allAd.fields.image') }}
+                            </th>
+                            <td>
+                                @if($allAd->image)
+
+                                    <a href="{{ url('local/public/img/ads/' . $allAd->image) }}" target="_blank">
+                                        <img src="{{ url('local/public/img/ads/' . $allAd->image) }}" width="50px" height="50px">
+                                    </a>
+                                @endif
                             </td>
                         </tr>
                     @endif

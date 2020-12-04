@@ -18,8 +18,7 @@ class StoreAllAdRequest extends FormRequest
     {
         return [
             'restaurant_id'   => [
-                'required',
-                'integer',
+                'nullable',
             ],
             'number_requests' => [
                 'string',

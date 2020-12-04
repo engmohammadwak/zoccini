@@ -28,7 +28,7 @@
                             {{ trans('cruds.item.fields.name') }}
                         </th>
                         <td>
-                            {{ $item->name }}
+                            {{ $item->name_en }}
                         </td>
                     </tr>
                     <tr>
@@ -44,7 +44,7 @@
                             {{ trans('cruds.item.fields.description') }}
                         </th>
                         <td>
-                            {{ $item->description }}
+                            {{ $item->description_en }}
                         </td>
                     </tr>
                     <tr>

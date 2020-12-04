@@ -80,7 +80,7 @@
                                 {{ $item->id ?? '' }}
                             </td>
                             <td>
-                                {{ $item->name ?? '' }}
+                                {{ $item->name_en ?? '' }}
                             </td>
                             <td>
                                 {{ $item->name_ar ?? '' }}

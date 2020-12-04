@@ -11,6 +11,7 @@ use App\Models\Item;
 use App\Models\Restaurant;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Spatie\MediaLibrary\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -35,7 +36,7 @@ class ItemController extends Controller
         abort_if(Gate::denies('item_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
 
-        $categories = Category::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $categories = Category::all()->pluck('name_'.App::getLocale(), 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.items.create', compact( 'categories'));
     }
@@ -60,7 +61,7 @@ class ItemController extends Controller
     {
         abort_if(Gate::denies('item_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $categories = Category::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $categories = Category::all()->pluck('name_'.App::getLocale(), 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $item->load('category');
 

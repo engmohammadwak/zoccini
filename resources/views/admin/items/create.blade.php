@@ -10,10 +10,10 @@
         <form method="POST" action="{{ route("admin.items.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label class="required" for="name">{{ trans('cruds.item.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
-                @if($errors->has('name'))
-                    <span class="text-danger">{{ $errors->first('name') }}</span>
+                <label class="required" for="name_en">{{ trans('cruds.item.fields.name') }}</label>
+                <input class="form-control {{ $errors->has('name_en') ? 'is-invalid' : '' }}" type="text" name="name_en" id="name_en" value="{{ old('name_en', '') }}" required>
+                @if($errors->has('name_en'))
+                    <span class="text-danger">{{ $errors->first('name_en') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.item.fields.name_helper') }}</span>
             </div>
@@ -27,9 +27,9 @@
             </div>
             <div class="form-group">
                 <label class="required" for="description">{{ trans('cruds.item.fields.description') }}</label>
-                <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description" required>{{ old('description') }}</textarea>
-                @if($errors->has('description'))
-                    <span class="text-danger">{{ $errors->first('description') }}</span>
+                <textarea class="form-control {{ $errors->has('description_en') ? 'is-invalid' : '' }}" name="description_en" id="description_en" required>{{ old('description_en') }}</textarea>
+                @if($errors->has('description_en'))
+                    <span class="text-danger">{{ $errors->first('description_en') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.item.fields.description_helper') }}</span>
             </div>

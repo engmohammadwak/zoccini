@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="dbc65eeb-0e70-4202-aec1-f36709f6a360" name="shop" url="http://88.198.132.80">
-        <fileTransfer host="88.198.132.80" port="21" rootFolder="/public_html/local">
+        <fileTransfer host="88.198.132.80" port="21" rootFolder="/public_html/sh/local">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

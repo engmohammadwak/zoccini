@@ -22,17 +22,19 @@ class AllAdResource extends JsonResource
         return [
             'id' => $this->id,
             'category' => $category ?? '',
-            'restaurant' => new RestaurantSimpleResource($this->restaurant) ?? '',
+            'restaurant' => $this->restaurant ? new RestaurantSimpleResource($this->restaurant) : '' ,
             $this->mergeWhen($this->category_id == '1', [
                 'description' => $description ?? '',
                 'number_requests' => $this->number_requests ?? '',
                 'voucher_number' => $this->voucher_number ?? '',
                 'winner' => $this->winner->name ?? '',
                 'withdraw_day' => $this->withdraw_day ?? '',
-                'image' => url('local/public/img/ads/' . $this->image) ?? '',
             ]),
             $this->mergeWhen($this->category_id == '2', [
                 'discount' => $this->discount ?? '',
+            ]),
+            $this->mergeWhen($this->category_id == '1' || $this->category_id == '3', [
+                'image' => url('local/public/img/ads/' . $this->image) ?? '',
             ]),
         ];
     }
