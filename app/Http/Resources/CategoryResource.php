@@ -20,8 +20,8 @@ class CategoryResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'name' => $name,
-            'food' => ItemResource::collection($this->item),
+            'name' => $name  ?? '',
+//            'food' => ItemResource::collection($this->item),
         ];
     }
 }

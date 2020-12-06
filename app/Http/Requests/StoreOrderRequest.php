@@ -21,10 +21,6 @@ class StoreOrderRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            'user_id'        => [
-                'required',
-                'integer',
-            ],
             'type_id'        => [
                 'required',
                 'integer',

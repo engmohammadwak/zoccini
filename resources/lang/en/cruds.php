@@ -629,7 +629,7 @@ return [
             'description_en_helper'  => ' ',
             'number_requests'        => 'Number Requests',
             'number_requests_helper' => ' ',
-            'voucher_number'         => 'Voucher Number',
+            'voucher_number'         => 'point Number',
             'voucher_number_helper'  => ' ',
             'category'               => 'Category',
             'category_helper'        => ' ',

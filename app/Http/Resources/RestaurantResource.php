@@ -13,9 +13,13 @@ class RestaurantResource extends JsonResource
         if ( App::getLocale() == 'ar') {
             $name = $this->name_ar ;
             $description = $this->description_ar ;
+            $country = optional($this->country)->name_ar ?? '' ;
+            $city = optional($this->city)->name_ar ?? '' ;
         }else {
             $name  = $this->name_en ;
             $description = $this->description_en ;
+            $country = optional($this->country)->name ?? '' ;
+            $city = optional($this->city)->name_en ?? '' ;
         }
 
         if ($this->image == ''){
@@ -38,28 +42,29 @@ class RestaurantResource extends JsonResource
 
 
         if ($this->open_time != '' & $this->close_time != ''){
-            $open_close_time = $this->open_time.' - '.$this->close_time;
+            $open_close_time =  date('h:i a', strtotime($this->open_time)).' - '.date('h:i a', strtotime($this->close_time));
         }else{
             $open_close_time = '';
         }
 
         return [
             'id'     => $this->id,
-            'logo'   => $logo ,
-            'image'  => $image,
+            'logo'   => $logo ?? '',
+            'image'  => $image ?? '',
             'name'   => $name ?? '',
             'description'   => $description ?? '',
             'tag'   => $this->tag ?? '',
             'payment_method' => PaymentMethodResource::collection($this->payment_methods),
             'delivery' => new DeliveryResource($this->delivery),
+            'sitting_area' => SittingAreasResource::collection($this->sitting_areas),
             'time_waiting' => $time_waiting,
             'address' => $this->address ?? '',
             'lat' => $this->lat ?? '',
             'lang' => $this->lang ?? '',
             'phone' => optional($this->restaurant)->phone,
             'opening_and_close_time' => $open_close_time,
-            'country' => new CountryResource($this->country),
-            'city' => new CityResource($this->city),
+            'country' => $country,
+            'city' => $city,
             'min' => (float)min_price($this->id),
             'rate'   => 5,
             'number_rate'   => 5,

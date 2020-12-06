@@ -20,10 +20,10 @@ class ItemResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'name' => $name,
-            'price' => $this->price,
-            'description' => $description,
-            'photo' => $image,
+            'name' => $name ?? '',
+            'price' => (double) $this->price ?? '',
+            'description' => $description ?? '',
+            'photo' => $image ?? '',
         ];
     }
 }

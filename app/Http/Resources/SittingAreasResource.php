@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\App;
 
-class DeliveryCompanyResource extends JsonResource
+class SittingAreasResource extends JsonResource
 {
 
     public function toArray($request)
@@ -18,9 +18,8 @@ class DeliveryCompanyResource extends JsonResource
 
 
         return [
-            'id' => $this->id,
+            'id' => $this->id ,
             'name' => $name ?? '',
-            'rate' => (int) $this->rate ?? '',
         ];
     }
 }

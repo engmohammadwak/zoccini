@@ -35,6 +35,7 @@ class Order extends Model
         'deleted_at',
     ];
 
+
     protected $fillable = [
         'restaurants_id',
         'user_id',

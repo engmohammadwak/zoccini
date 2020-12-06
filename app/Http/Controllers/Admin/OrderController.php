@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends Controller
 {
+    
     public function index()
     {
         abort_if(Gate::denies('order_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

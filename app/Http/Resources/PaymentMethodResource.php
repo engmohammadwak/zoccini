@@ -18,8 +18,8 @@ class PaymentMethodResource extends JsonResource
 
 
         return [
-            'id' => $this->id,
-            'name' => $name,
+            'id' => $this->id ,
+            'name' => $name ?? '',
         ];
     }
 }
