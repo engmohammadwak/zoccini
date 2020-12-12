@@ -117,4 +117,8 @@ class Restaurant extends Model
         return $this->hasMany(Item::class, 'restaurant_id', 'id')->where('status' , '1');
     }
 
+    public function branch(){
+        return $this->hasMany(Otherbranch::class, 'restaurants_id', 'id');
+    }
+
 }

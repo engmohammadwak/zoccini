@@ -8,6 +8,7 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\AllAd;
 use App\Models\CanselReason;
+use App\Models\CarList;
 use App\Models\DeliveryCompany;
 use App\Models\Item;
 use App\Models\Order;
@@ -22,12 +23,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends Controller
 {
-    
     public function index()
     {
         abort_if(Gate::denies('order_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $orders = Order::all();
+        $orders = Order::with(['restaurants', 'user', 'type', 'sitting_area', 'delivery_company', 'status', 'items', 'cansel_reason', 'winner', 'car_number'])->get();
 
         $restaurants = Restaurant::get();
 
@@ -47,7 +47,9 @@ class OrderController extends Controller
 
         $all_ads = AllAd::get();
 
-        return view('admin.orders.index', compact('orders', 'restaurants', 'users', 'order_types', 'sitting_areas', 'delivery_companies', 'order_statuses', 'items', 'cansel_reasons', 'all_ads'));
+        $car_lists = CarList::get();
+
+        return view('admin.orders.index', compact('orders', 'restaurants', 'users', 'order_types', 'sitting_areas', 'delivery_companies', 'order_statuses', 'items', 'cansel_reasons', 'all_ads', 'car_lists'));
     }
 
     public function create()
@@ -70,7 +72,9 @@ class OrderController extends Controller
 
         $cansel_reasons = CanselReason::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.orders.create', compact('restaurants', 'users', 'types', 'sitting_areas', 'delivery_companies', 'statuses', 'items', 'cansel_reasons'));
+        $car_numbers = CarList::all()->pluck('pate_number', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.orders.create', compact('restaurants', 'users', 'types', 'sitting_areas', 'delivery_companies', 'statuses', 'items', 'cansel_reasons', 'car_numbers'));
     }
 
     public function store(StoreOrderRequest $request)
@@ -101,9 +105,11 @@ class OrderController extends Controller
 
         $cansel_reasons = CanselReason::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $order->load('restaurants', 'user', 'type', 'sitting_area', 'delivery_company', 'status', 'items', 'cansel_reason', 'winner');
+        $car_numbers = CarList::all()->pluck('pate_number', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.orders.edit', compact('restaurants', 'users', 'types', 'sitting_areas', 'delivery_companies', 'statuses', 'items', 'cansel_reasons', 'order'));
+        $order->load('restaurants', 'user', 'type', 'sitting_area', 'delivery_company', 'status', 'items', 'cansel_reason', 'winner', 'car_number');
+
+        return view('admin.orders.edit', compact('restaurants', 'users', 'types', 'sitting_areas', 'delivery_companies', 'statuses', 'items', 'cansel_reasons', 'car_numbers', 'order'));
     }
 
     public function update(UpdateOrderRequest $request, Order $order)
@@ -118,7 +124,7 @@ class OrderController extends Controller
     {
         abort_if(Gate::denies('order_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $order->load('restaurants', 'user', 'type', 'sitting_area', 'delivery_company', 'status', 'items', 'cansel_reason', 'winner');
+        $order->load('restaurants', 'user', 'type', 'sitting_area', 'delivery_company', 'status', 'items', 'cansel_reason', 'winner', 'car_number');
 
         return view('admin.orders.show', compact('order'));
     }

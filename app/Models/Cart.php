@@ -21,9 +21,7 @@ class Cart extends Model
     protected $fillable = [
         'restaurant_id',
         'user_id',
-        'item_id',
-        'quantity',
-        'extra_json',
+        'item_json',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -44,8 +42,4 @@ class Cart extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function item()
-    {
-        return $this->belongsTo(Item::class, 'item_id');
-    }
 }

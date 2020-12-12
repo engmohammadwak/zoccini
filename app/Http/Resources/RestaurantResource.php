@@ -26,6 +26,7 @@ class RestaurantResource extends JsonResource
             $image = url('local/public/img/setting/' . getSetting('restaurant_image'));
         }else{
             $image = url('local/public/img/user/' .$this->image );
+            
         }
 
         if ($this->restaurant->image == ''){
@@ -68,6 +69,8 @@ class RestaurantResource extends JsonResource
             'min' => (float)min_price($this->id),
             'rate'   => 5,
             'number_rate'   => 5,
+            'isFavority' => isFavority($this->id , 2),
+            'branch' => BranchResource::collection($this->branch),
         ];
     }
 }

@@ -38,28 +38,43 @@ class AuthController extends Controller
         } else {
             $user_count_phone = User::where('phone', $request->phone)->count();
             if ($user_count_phone == 0) {
-                return errorResponse(trans('cruds.api.no_account'));
-            } else {
-                $credentials = $request->only(['phone', 'password']);
-                if (Auth::attempt($credentials)) {
-                    $user = Auth::user();
-                    if ($user->status_id == 2) {
-                        return errorResponse(trans('cruds.api.not_active'));
-                    } elseif ($user->status_id == 3) {
-                        return errorResponse(trans('cruds.api.ban'));
-                    } else {
-                        if ($request->fcm_token !== '') {
-                            $user->fill(['fcm_token' => $request->fcm_token])->save();
-                        }
-                        $token = $user->createToken('user')->accessToken;
-                        $data = new UserResource($user);
+                $user_count_email = User::where('email', $request->phone)->count();
+                if ($user_count_email > 0)
+                {
+                    $phone = User::where('email', $request->phone)->first();
+                    $request->request->add(['phone' => $phone]);
+                    return $this->check_login($request);
 
-                        return successResponse(trans('cruds.api.success'), $data, $token);
-                    }
-                } else {
-                    return errorResponse(trans('cruds.api.Unauthorized'));
+                }else{
+                    return errorResponse(trans('cruds.api.no_account'));
                 }
+
+            } else {
+               return $this->check_login($request);
             }
+        }
+    }
+
+    public function check_login($request)
+    {
+        $credentials = $request->only(['phone', 'password']);
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            if ($user->status_id == 2) {
+                return errorResponse(trans('cruds.api.not_active'));
+            } elseif ($user->status_id == 3) {
+                return errorResponse(trans('cruds.api.ban'));
+            } else {
+                if ($request->fcm_token !== '') {
+                    $user->fill(['fcm_token' => $request->fcm_token])->save();
+                }
+                $token = $user->createToken('user')->accessToken;
+                $data = new UserResource($user);
+
+                return successResponse(trans('cruds.api.success'), $data, $token);
+            }
+        } else {
+            return errorResponse(trans('cruds.api.Unauthorized'));
         }
     }
 

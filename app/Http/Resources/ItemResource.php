@@ -24,6 +24,7 @@ class ItemResource extends JsonResource
             'price' => (double) $this->price ?? '',
             'description' => $description ?? '',
             'photo' => $image ?? '',
+            'isFavority' => isFavority($this->id , 1),
         ];
     }
 }

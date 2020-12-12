@@ -216,6 +216,22 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('settings/destroy', 'SettingController@massDestroy')->name('settings.massDestroy');
     Route::resource('settings', 'SettingController');
 
+    // Carbrands
+    Route::delete('carbrands/destroy', 'CarbrandController@massDestroy')->name('carbrands.massDestroy');
+    Route::resource('carbrands', 'CarbrandController');
+
+    // Type Of Cars
+    Route::delete('type-of-cars/destroy', 'TypeOfCarController@massDestroy')->name('type-of-cars.massDestroy');
+    Route::resource('type-of-cars', 'TypeOfCarController');
+
+    // Car Colors
+    Route::delete('car-colors/destroy', 'CarColorController@massDestroy')->name('car-colors.massDestroy');
+    Route::resource('car-colors', 'CarColorController');
+
+    // Car Lists
+    Route::delete('car-lists/destroy', 'CarListController@massDestroy')->name('car-lists.massDestroy');
+    Route::resource('car-lists', 'CarListController');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
 // Change password

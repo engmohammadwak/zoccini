@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
 
-class CanselReason extends Model
+class CancelReason extends Model
 {
     use SoftDeletes;
 

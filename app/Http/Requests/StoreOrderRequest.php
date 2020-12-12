@@ -21,6 +21,10 @@ class StoreOrderRequest extends FormRequest
                 'required',
                 'integer',
             ],
+            'user_id'        => [
+                'required',
+                'integer',
+            ],
             'type_id'        => [
                 'required',
                 'integer',
@@ -31,10 +35,6 @@ class StoreOrderRequest extends FormRequest
             ],
             'schedule_date'  => [
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-                'nullable',
-            ],
-            'car_number'     => [
-                'string',
                 'nullable',
             ],
             'items.*'        => [

@@ -35,7 +35,6 @@ class Order extends Model
         'deleted_at',
     ];
 
-
     protected $fillable = [
         'restaurants_id',
         'user_id',
@@ -45,14 +44,14 @@ class Order extends Model
         'schedule_request',
         'schedule_date',
         'car_number_yes',
-        'car_number',
         'delivery',
         'delivery_company_id',
         'status_id',
         'item_json',
-        'cansel_reason_id',
-        'cansel_reason_message',
+        'cancel_reason_id',
+        'cancel_reason_message',
         'winner_id',
+        'car_number_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -105,7 +104,7 @@ class Order extends Model
 
     public function items()
     {
-        return $this->belongsToMany(Item::class);
+        return $this->belongsToMany(Item::class)->withPivot('count' , 'price');
     }
 
     public function cansel_reason()
@@ -116,5 +115,15 @@ class Order extends Model
     public function winner()
     {
         return $this->belongsTo(AllAd::class, 'winner_id');
+    }
+
+    public function car_number()
+    {
+        return $this->belongsTo(CarList::class, 'car_number_id');
+    }
+
+    public function extras()
+    {
+        return $this->belongsToMany(Extra::class)->withPivot('item_id','count' , 'price');
     }
 }

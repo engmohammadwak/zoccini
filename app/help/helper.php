@@ -69,7 +69,7 @@ function setLang($lang)
 {
     if ($lang == AR) {
         App::setLocale(AR);
-    }else {
+    } else {
         App::setLocale(EN);
     }
 }
@@ -100,7 +100,8 @@ function errorResponse($message, $status_code = 200)
     ];
 }
 
-function send_pin($code , $phone){
+function send_pin($code, $phone)
+{
 
     return true;
 }
@@ -113,7 +114,39 @@ function get_nearest_sql($table = "restaurants", $lat, $lng)
 
 function min_price($id)
 {
-    $min = \App\Models\Item::where('restaurant_id' ,$id)->min('price');
+    $min = \App\Models\Item::where('restaurant_id', $id)->min('price');
 
     return $min;
+}
+
+function final_price_cart($id)
+{
+    $cart = \App\Models\Cart::find($id);
+    $price = 0;
+    if ($cart) {
+        foreach (json_decode($cart->item_json) as $item) {
+            $price = $price + ($item->count * $item->price);
+            foreach ($item->extra as $extra) {
+                $price = $price + ($item->count * $item->price);
+            }
+        }
+    }
+    return $price;
+}
+
+function isFavority($id, $type)
+{
+    $user = auth('api')->user()['id'];
+
+    if ($type == 1) {
+        $check = \App\Models\Favorite::where('user_id' , $user)->where('type', '1')->where('object_favority', $id)->count();
+    } else {
+        $check = \App\Models\Favorite::where('user_id' , $user)->where('type', '2')->where('object_favority', $id)->count();
+    }
+    if ($check > 0) {
+        return true;
+    } else {
+        return false;
+    }
+
 }

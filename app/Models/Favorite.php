@@ -26,8 +26,7 @@ class Favorite extends Model
     protected $fillable = [
         'user_id',
         'type',
-        'item_id',
-        'restaurant_id',
+        'object_favority',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -45,11 +44,11 @@ class Favorite extends Model
 
     public function item()
     {
-        return $this->belongsTo(Item::class, 'item_id');
+        return $this->belongsTo(Item::class, 'object_favority');
     }
 
     public function restaurant()
     {
-        return $this->belongsTo(Restaurant::class, 'restaurant_id');
+        return $this->belongsTo(Restaurant::class, 'object_favority');
     }
 }

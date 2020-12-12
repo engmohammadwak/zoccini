@@ -902,6 +902,90 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 224,
+                'title' => 'car_access',
+            ],
+            [
+                'id'    => 225,
+                'title' => 'carbrand_create',
+            ],
+            [
+                'id'    => 226,
+                'title' => 'carbrand_edit',
+            ],
+            [
+                'id'    => 227,
+                'title' => 'carbrand_show',
+            ],
+            [
+                'id'    => 228,
+                'title' => 'carbrand_delete',
+            ],
+            [
+                'id'    => 229,
+                'title' => 'carbrand_access',
+            ],
+            [
+                'id'    => 230,
+                'title' => 'type_of_car_create',
+            ],
+            [
+                'id'    => 231,
+                'title' => 'type_of_car_edit',
+            ],
+            [
+                'id'    => 232,
+                'title' => 'type_of_car_show',
+            ],
+            [
+                'id'    => 233,
+                'title' => 'type_of_car_delete',
+            ],
+            [
+                'id'    => 234,
+                'title' => 'type_of_car_access',
+            ],
+            [
+                'id'    => 235,
+                'title' => 'car_color_create',
+            ],
+            [
+                'id'    => 236,
+                'title' => 'car_color_edit',
+            ],
+            [
+                'id'    => 237,
+                'title' => 'car_color_show',
+            ],
+            [
+                'id'    => 238,
+                'title' => 'car_color_delete',
+            ],
+            [
+                'id'    => 239,
+                'title' => 'car_color_access',
+            ],
+            [
+                'id'    => 240,
+                'title' => 'car_list_create',
+            ],
+            [
+                'id'    => 241,
+                'title' => 'car_list_edit',
+            ],
+            [
+                'id'    => 242,
+                'title' => 'car_list_show',
+            ],
+            [
+                'id'    => 243,
+                'title' => 'car_list_delete',
+            ],
+            [
+                'id'    => 244,
+                'title' => 'car_list_access',
+            ],
+            [
+                'id'    => 245,
                 'title' => 'profile_password_edit',
             ],
         ];

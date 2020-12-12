@@ -599,7 +599,69 @@
                         </a>
                     </li>
                 @endcan
+                @can('car_access')
+                    <li class="nav-item has-treeview {{ request()->is("admin/carbrands*") ? "menu-open" : "" }} {{ request()->is("admin/type-of-cars*") ? "menu-open" : "" }} {{ request()->is("admin/car-colors*") ? "menu-open" : "" }} {{ request()->is("admin/car-lists*") ? "menu-open" : "" }}">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="fa-fw nav-icon fas fa-car">
 
+                            </i>
+                            <p>
+                                {{ trans('cruds.car.title') }}
+                                <i class="right fa fa-fw fa-angle-left nav-icon"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('carbrand_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.carbrands.index") }}" class="nav-link {{ request()->is("admin/carbrands") || request()->is("admin/carbrands/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-braille">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.carbrand.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('type_of_car_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.type-of-cars.index") }}" class="nav-link {{ request()->is("admin/type-of-cars") || request()->is("admin/type-of-cars/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-braille">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.typeOfCar.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('car_color_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.car-colors.index") }}" class="nav-link {{ request()->is("admin/car-colors") || request()->is("admin/car-colors/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-braille">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.carColor.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('car_list_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.car-lists.index") }}" class="nav-link {{ request()->is("admin/car-lists") || request()->is("admin/car-lists/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-car">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.carList.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
                 @can('rate_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.rates.index") }}" class="nav-link {{ request()->is("admin/rates") || request()->is("admin/rates/*") ? "active" : "" }}">

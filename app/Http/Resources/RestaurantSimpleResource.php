@@ -23,10 +23,10 @@ class RestaurantSimpleResource extends JsonResource
             $image = url('local/public/img/user/' .$this->image );
         }
 
-        if ($this->restaurant->image == ''){
+        if (optional($this->restaurant)->image == ''){
             $logo = url('local/public/img/setting/' . getSetting('restaurant_image'));
         }else{
-            $logo = url('local/public/img/restaurant/' .$this->restaurant->image );
+            $logo = url('local/public/img/restaurant/' .optional($this->restaurant)->image );
 
         }
         if ($this->min_waiting != '' & $this->max_waiting != ''){
@@ -46,7 +46,8 @@ class RestaurantSimpleResource extends JsonResource
             'delivery' => new DeliveryResource($this->delivery),
             'time_waiting' => $time_waiting,
             'min' => (float) 10.00,
-            'rate'   => 5
+            'rate'   => 5,
+            'isFavority' => isFavority($this->id , 2),
         ];
     }
 }
