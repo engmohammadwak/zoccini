@@ -29,6 +29,9 @@
                             {{ trans('cruds.subscriptionPackage.fields.name') }}
                         </th>
                         <th>
+                            {{ trans('cruds.subscriptionPackage.fields.name_en') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.subscriptionPackage.fields.price') }}
                         </th>
                         <th>
@@ -36,9 +39,6 @@
                         </th>
                         <th>
                             {{ trans('cruds.subscriptionPackage.fields.number_branches') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.subscriptionPackage.fields.file_size') }}
                         </th>
                         <th>
                             &nbsp;
@@ -58,6 +58,9 @@
                                 {{ $subscriptionPackage->name ?? '' }}
                             </td>
                             <td>
+                                {{ $subscriptionPackage->name_en ?? '' }}
+                            </td>
+                            <td>
                                 {{ $subscriptionPackage->price ?? '' }}
                             </td>
                             <td>
@@ -66,9 +69,7 @@
                             <td>
                                 {{ $subscriptionPackage->number_branches ?? '' }}
                             </td>
-                            <td>
-                                {{ $subscriptionPackage->file_size ?? '' }}
-                            </td>
+
                             <td>
                                 @can('subscription_package_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.subscription-packages.show', $subscriptionPackage->id) }}">
@@ -148,7 +149,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

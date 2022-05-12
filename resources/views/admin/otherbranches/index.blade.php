@@ -22,23 +22,17 @@
                         <th width="10">
 
                         </th>
-                        <th>
-                            {{ trans('cruds.otherbranch.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.otherbranch.fields.restaurants') }}
-                        </th>
+                        @if (\Illuminate\Support\Facades\Auth::user()['user_type'] != 3)
+                            <th>
+                                {{ trans('cruds.otherbranch.fields.restaurants') }}
+                            </th>
+                        @endif
+
                         <th>
                             {{ trans('cruds.otherbranch.fields.branch_name_ar') }}
                         </th>
                         <th>
                             {{ trans('cruds.otherbranch.fields.branch_name_en') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.otherbranch.fields.branch_address_ar') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.otherbranch.fields.branch_address_en') }}
                         </th>
                         <th>
                             {{ trans('cruds.otherbranch.fields.phone') }}
@@ -57,23 +51,17 @@
                             <td>
 
                             </td>
-                            <td>
-                                {{ $otherbranch->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $otherbranch->restaurants->name_en ?? '' }}
-                            </td>
+
+                            @if (\Illuminate\Support\Facades\Auth::user()['user_type'] != 3)
+                                <td>
+                                    {{ $otherbranch->restaurants->name_en ?? '' }}
+                                </td>
+                            @endif
                             <td>
                                 {{ $otherbranch->branch_name_ar ?? '' }}
                             </td>
                             <td>
                                 {{ $otherbranch->branch_name_en ?? '' }}
-                            </td>
-                            <td>
-                                {{ $otherbranch->branch_address_ar ?? '' }}
-                            </td>
-                            <td>
-                                {{ $otherbranch->branch_address_en ?? '' }}
                             </td>
                             <td>
                                 {{ $otherbranch->phone ?? '' }}

@@ -31,24 +31,39 @@
                             {{ $userAlert->alert_text }}
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.userAlert.fields.alert_link') }}
-                        </th>
-                        <td>
-                            {{ $userAlert->alert_link }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.userAlert.fields.user') }}
-                        </th>
-                        <td>
-                            @foreach($userAlert->users as $key => $user)
-                                <span class="label label-info">{{ $user->name }}</span>
-                            @endforeach
-                        </td>
-                    </tr>
+                    @if ($userAlert->alert_body)
+                        <tr>
+                            <th>
+                                {{ trans('cruds.userAlert.fields.alert_body') }}
+                            </th>
+                            <td>
+                                {{ $userAlert->alert_body }}
+                            </td>
+                        </tr>
+                    @endif
+                    @if ($userAlert->alert_link)
+                        <tr>
+                            <th>
+                                {{ trans('cruds.userAlert.fields.alert_link') }}
+                            </th>
+                            <td>
+                                {{ $userAlert->alert_link }}
+                            </td>
+                        </tr>
+                    @endif
+                   @if ($userAlert->users)
+                       <tr>
+                           <th>
+                               {{ trans('cruds.userAlert.fields.user') }}
+                           </th>
+                           <td>
+                               @foreach($userAlert->users as $key => $user)
+                                   <span class="label label-info">{{ $user->name }}</span>
+                               @endforeach
+                           </td>
+                       </tr>
+                   @endif
+
                     <tr>
                         <th>
                             {{ trans('cruds.userAlert.fields.created_at') }}

@@ -19,8 +19,10 @@
             </div>
             <div class="form-group">
                 <label class="required" for="a_ar">{{ trans('cruds.faq.fields.a_ar') }}</label>
-                <input class="form-control {{ $errors->has('a_ar') ? 'is-invalid' : '' }}" type="text" name="a_ar" id="a_ar" value="{{ old('a_ar', '') }}" required>
-                @if($errors->has('a_ar'))
+{{--                <input class="form-control {{ $errors->has('a_ar') ? 'is-invalid' : '' }}" type="text" name="a_ar" id="a_ar" value="{{ old('a_ar', '') }}" required>--}}
+                <textarea class="form-control ckeditor {{ $errors->has('a_ar') ? 'is-invalid' : '' }}" name="a_ar" id="a_ar">{!! old('a_ar') !!}</textarea>
+
+            @if($errors->has('a_ar'))
                     <span class="text-danger">{{ $errors->first('a_ar') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.faq.fields.a_ar_helper') }}</span>
@@ -35,8 +37,9 @@
             </div>
             <div class="form-group">
                 <label class="required" for="a_en">{{ trans('cruds.faq.fields.a_en') }}</label>
-                <input class="form-control {{ $errors->has('a_en') ? 'is-invalid' : '' }}" type="text" name="a_en" id="a_en" value="{{ old('a_en', '') }}" required>
-                @if($errors->has('a_en'))
+{{--                <input class="form-control {{ $errors->has('a_en') ? 'is-invalid' : '' }}" type="text" name="a_en" id="a_en" value="{{ old('a_en', '') }}" required>--}}
+                <textarea class="form-control ckeditor {{ $errors->has('a_en') ? 'is-invalid' : '' }}" name="a_en" id="a_en">{{ old('a_en') }}</textarea>
+            @if($errors->has('a_en'))
                     <span class="text-danger">{{ $errors->first('a_en') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.faq.fields.a_en_helper') }}</span>
@@ -51,5 +54,23 @@
 </div>
 
 
+
+@endsection
+
+
+@section('scripts')
+    <script>
+        $(document).ready(function () {
+
+            var allEditors = document.querySelectorAll('.ckeditor');
+            for (var i = 0; i < allEditors.length; ++i) {
+                ClassicEditor.create(
+                    allEditors[i], {
+                        extraPlugins: [SimpleUploadAdapter]
+                    }
+                );
+            }
+        });
+    </script>
 
 @endsection

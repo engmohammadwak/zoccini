@@ -50,7 +50,7 @@ class CanselReasonController extends Controller
         return redirect()->route('admin.cansel-reasons.index');
     }
 
-    public function show(CanselReason $canselReason)
+    public function show(CancelReason $canselReason)
     {
         abort_if(Gate::denies('cansel_reason_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

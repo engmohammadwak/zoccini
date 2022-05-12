@@ -28,8 +28,12 @@ class ReportingApiController extends Controller
         if ($validator->fails()) {
             return errorResponse($validator->errors()->first());
         }
-        $request->request->add(['user_id' => Auth::id(), 'type', '0']);
-        $data = new ReportingResource(Reporting::create($request->all()));
+        $request->request->add(['user_id' => Auth::id(), 'type' => 0]);
+        $report = Reporting::create($request->all());
+        $data = new ReportingResource($report);
+
+        alert_user($request->message ,url('admin/reportings/'.$report->id) );
+
         return successResponse(trans('cruds.api.success'), $data);
     }
 
@@ -44,7 +48,7 @@ class ReportingApiController extends Controller
         if ($validator->fails()) {
             return errorResponse($validator->errors()->first());
         }
-        $request->request->add(['user_id' => Auth::id(), 'type', '1']);
+        $request->request->add(['user_id' => Auth::id(), 'type'=> 1]);
         $data = new ReportingResource(Reporting::create($request->all()));
         return successResponse(trans('cruds.api.success'), $data);
     }

@@ -7,6 +7,8 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Order;
+use App\Models\OrderStatus;
 use App\Models\Restaurant;
 use App\Models\Role;
 use App\Models\User;
@@ -22,20 +24,32 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = User::all();
+        $users = User::whereNotIn('user_type' , [3 , 2 , 10  , 12])->get();
 
-        $roles = Role::get();
+        $roles = Role::whereNotIn('id' , [2,3 , 10 , 12])->get();
 
         $user_statuses = UserStatus::get();
 
+
         return view('admin.users.index', compact('users', 'roles', 'user_statuses'));
+    }
+
+    public function type($type)
+    {
+        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $users = User::where('user_type' , $type)->get();
+
+        $user_statuses = UserStatus::get();
+
+        return view('admin.users.index', compact('users', 'type', 'user_statuses'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $roles = Role::all()->pluck('title', 'id');
+        $roles = Role::whereNotIn('id' , [2,3])->get()->pluck('title', 'id');
 
         $statuses = UserStatus::all()->pluck('name_ar', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -67,7 +81,7 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $roles = Role::all()->pluck('title', 'id');
+        $roles = Role::whereNotIn('id' , [2,3])->get()->pluck('title', 'id');
 
         $statuses = UserStatus::all()->pluck('name_ar', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -80,11 +94,15 @@ class UsersController extends Controller
     {
         $request->request->add(['user_type' => $request->input('roles')[0]]);
         $user->update($request->all());
-        $user->roles()->sync($request->input('roles', []));
+        if ($request->input('roles', []))
+        {
+            $user->roles()->sync($request->input('roles', []));
+        }
 
         if ($request->file('image')) {
-            $image = uploadImage($request->file('image'),'local/public/img/user' , $user->image);
-            $user->fill(['image' => $image])->save();
+            $image = uploadImage($request->file('image'),'/public/img/user' , $user->image);
+            $user->image = $image;
+            $user->save();
         }
 
         if ($request->input('roles')[0] == 3){
@@ -95,7 +113,10 @@ class UsersController extends Controller
             $restaurant->save();
         }
 
-        return redirect()->route('admin.users.index');
+
+//            return redirect()->url('/admin/users/'.$user->user_type.'/type');
+
+        return redirect()->route('admin.users.user_type' , $user->user_type);
     }
 
     public function show(User $user)
@@ -121,6 +142,16 @@ class UsersController extends Controller
         User::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function user_order($id)
+    {
+        $orders = Order::where('user_id' , $id)->get();
+        $restaurants = Restaurant::get();
+
+        $orders->load('restaurants', 'user', 'type', 'sitting_area', 'delivery_company', 'status', 'items', 'cansel_reason', 'winner', 'car_number');
+        $order_statuses = OrderStatus::get();
+        return view('admin.users.user_order', compact('orders','order_statuses','restaurants'));
     }
 
 }

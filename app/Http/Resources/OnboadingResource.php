@@ -23,9 +23,9 @@ class OnboadingResource extends JsonResource
 
         return [
             'id' => $this->id ,
-            'name' => $name ?? '',
-            'description' => $description ?? '',
-            'photo' => $image ?? '',
+            'name' => $name,
+            'description' => $description,
+            'photo' => $image,
         ];
     }
 }

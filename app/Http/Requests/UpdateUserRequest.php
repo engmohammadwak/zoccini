@@ -9,10 +9,10 @@ use Illuminate\Http\Response;
 
 class UpdateUserRequest extends FormRequest
 {
-    public function authorize()
-    {
-        return Gate::allows('user_edit');
-    }
+//    public function authorize()
+//    {
+//        return Gate::allows('user_edit');
+//    }
 
     public function rules()
     {
@@ -28,18 +28,18 @@ class UpdateUserRequest extends FormRequest
             'phone'              => [
                 'string',
                 'required',
+                'min:9',
             ],
-            'email'              => [
-                'required',
-                'unique:users,email,' . request()->route('user')->id,
-            ],
-            'roles.*'            => [
-                'integer',
-            ],
-            'roles'              => [
-                'required',
-                'array',
-            ],
+//            'email'              => [
+//                'required',
+//                'unique:users,email,' . request()->route('user')['id'],
+//            ],
+//            'roles.*'            => [
+//                'integer',
+//            ],
+//            'roles'              => [
+//                'required',
+//            ],
             'date_of_birth'      => [
                 'date_format:' . config('panel.date_format'),
                 'nullable',

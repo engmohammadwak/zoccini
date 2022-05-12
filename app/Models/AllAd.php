@@ -19,6 +19,7 @@ class AllAd extends Model
     const STATUS_RADIO = [
         '0' => 'inactive',
         '1' => 'active',
+        '2' => 'complete',
     ];
 
     protected $dates = [
@@ -74,5 +75,9 @@ class AllAd extends Model
     public function setWithdrawDayAttribute($value)
     {
         $this->attributes['withdraw_day'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
+    }
+
+    public function offer(){
+        return $this->hasMany(OfferUser::class, 'offer_id','id');
     }
 }

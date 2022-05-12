@@ -48,6 +48,7 @@ return [
     'view_file'                            => 'View file',
     'year'                                 => 'Year',
     'yes'                                  => 'Yes',
+    'active'                               => 'active',
     'youAreLoggedIn'                       => 'You are logged in!',
     'yourAccountNeedsAdminApproval'        => 'Your accounts needs an administrator approval in order to log in',
     'submit'                               => 'Submit',
@@ -302,4 +303,5 @@ return [
     'team-members'                         => 'Team members',
     'calendar'                             => 'Calendar',
     'messenger'                            => 'Messenger',
+    'order_user'                            => 'Order',
 ];

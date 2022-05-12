@@ -25,7 +25,7 @@ class StoreItemRequest extends FormRequest
                 'string',
                 'required',
             ],
-            'description'    => [
+            'description_en'    => [
                 'required',
             ],
             'description_ar' => [

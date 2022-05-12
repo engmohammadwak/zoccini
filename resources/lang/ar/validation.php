@@ -116,5 +116,8 @@ return [
     'dont_allow_first_letter_number' => 'حقل الادخال \":input\" لايمكن ان يكون اول خانة رقم',
     'exceeds_maximum_number'         => 'ال :attribute وصل الحد الاقصى للمودل',
     'db_column'                      => 'ال :attribute يمكن ان يحتوى فقط على ترميز الايزو للاحراف اللاتينية وارقام وعلامة الداش ولايمكن ان يبدأ برقم',
-    'attributes'                     => [],
+    'attributes'                     => [
+        'coupon'                     => 'الكوبون',
+
+    ],
 ];

@@ -12,7 +12,7 @@
                 @method('PUT')
                 @csrf
                 <div class="form-group">
-                    <label for="restaurant_id">{{ trans('cruds.allAd.fields.restaurant') }}</label>
+                    <label class="required" for="restaurant_id">{{ trans('cruds.allAd.fields.restaurant') }}</label>
                     <select class="form-control select2 {{ $errors->has('restaurant') ? 'is-invalid' : '' }}"
                             name="restaurant_id" id="restaurant_id">
                         @foreach($restaurants as $id => $restaurant)
@@ -29,7 +29,7 @@
 
 
                     <div class="form-group">
-                        <label for="description_ar">{{ trans('cruds.allAd.fields.description_ar') }}</label>
+                        <label class="required" for="description_ar">{{ trans('cruds.allAd.fields.description_ar') }}</label>
                         <textarea class="form-control ckeditor {{ $errors->has('description_ar') ? 'is-invalid' : '' }}"
                                   name="description_ar"
                                   id="description_ar">{!! old('description_ar', $allAd->description_ar) !!}</textarea>
@@ -39,7 +39,7 @@
                         <span class="help-block">{{ trans('cruds.allAd.fields.description_ar_helper') }}</span>
                     </div>
                     <div class="form-group">
-                        <label for="description_en">{{ trans('cruds.allAd.fields.description_en') }}</label>
+                        <label class="required" for="description_en">{{ trans('cruds.allAd.fields.description_en') }}</label>
                         <textarea class="form-control ckeditor {{ $errors->has('description_en') ? 'is-invalid' : '' }}"
                                   name="description_en"
                                   id="description_en">{!! old('description_en', $allAd->description_en) !!}</textarea>
@@ -49,7 +49,7 @@
                         <span class="help-block">{{ trans('cruds.allAd.fields.description_en_helper') }}</span>
                     </div>
                     <div class="form-group">
-                        <label for="number_requests">{{ trans('cruds.allAd.fields.number_requests') }}</label>
+                        <label class="required" for="number_requests">{{ trans('cruds.allAd.fields.number_requests') }}</label>
                         <input class="form-control {{ $errors->has('number_requests') ? 'is-invalid' : '' }}" type="text"
                                name="number_requests" id="number_requests"
                                value="{{ old('number_requests', $allAd->number_requests) }}">
@@ -59,7 +59,7 @@
                         <span class="help-block">{{ trans('cruds.allAd.fields.number_requests_helper') }}</span>
                     </div>
                     <div class="form-group">
-                        <label for="voucher_number">{{ trans('cruds.allAd.fields.voucher_number') }}</label>
+                        <label class="required" for="voucher_number">{{ trans('cruds.allAd.fields.voucher_number') }}</label>
                         <input class="form-control {{ $errors->has('voucher_number') ? 'is-invalid' : '' }}" type="text"
                                name="voucher_number" id="voucher_number"
                                value="{{ old('voucher_number', $allAd->voucher_number) }}">
@@ -69,7 +69,7 @@
                         <span class="help-block">{{ trans('cruds.allAd.fields.voucher_number_helper') }}</span>
                     </div>
                     <div class="form-group">
-                        <label for="image">{{ trans('cruds.allAd.fields.image') }}</label>
+                        <label class="required" for="image">{{ trans('cruds.allAd.fields.image') }}</label>
                         <br>
 
                         @if($allAd->image)
@@ -89,8 +89,9 @@
                         <label for="winner_id">{{ trans('cruds.allAd.fields.winner') }}</label>
                         <select class="form-control select2 {{ $errors->has('winner') ? 'is-invalid' : '' }}"
                                 name="winner_id" id="winner_id">
-                            @foreach($winners as $id => $winner)
-                                <option value="{{ $id }}" {{ (old('winner_id') ? old('winner_id') : $allAd->winner->id ?? '') == $id ? 'selected' : '' }}>{{ $winner }}</option>
+                            <option value="">{{trans('global.pleaseSelect')}}</option>
+                            @foreach($winners as $winner)
+                                <option value="{{ $winner['id'] }}" {{ (old('winner_id') ? old('winner_id') : $allAd->winner->id ?? '') == $winner['id'] ? 'selected' : '' }}>{{ $winner['name'].' '. $winner['last_name'] }}</option>
                             @endforeach
                         </select>
                         @if($errors->has('winner'))
@@ -99,9 +100,8 @@
                         <span class="help-block">{{ trans('cruds.allAd.fields.winner_helper') }}</span>
                     </div>
 
-
                     <div class="form-group">
-                        <label for="withdraw_day">{{ trans('cruds.allAd.fields.withdraw_day') }}</label>
+                        <label  for="withdraw_day">{{ trans('cruds.allAd.fields.withdraw_day') }}</label>
                         <input class="form-control date {{ $errors->has('withdraw_day') ? 'is-invalid' : '' }}" type="text"
                                name="withdraw_day" id="withdraw_day"
                                value="{{ old('withdraw_day', $allAd->withdraw_day) }}">
@@ -113,7 +113,7 @@
     @elseif ($allAd->category->id == 2)
 
                     <div class="form-group">
-                        <label for="discount">{{ trans('cruds.allAd.fields.discount') }}</label>
+                        <label class="required" for="discount">{{ trans('cruds.allAd.fields.discount') }}</label>
                         <input class="form-control {{ $errors->has('discount') ? 'is-invalid' : '' }}" type="text"
                                name="discount" id="discount" value="{{ old('discount', $allAd->discount) }}">
                         @if($errors->has('discount'))
@@ -123,7 +123,7 @@
                     </div>
 @elseif($allAd->category->id == 3)
                     <div class="form-group">
-                        <label for="image">{{ trans('cruds.allAd.fields.image') }}</label>
+                        <label class="required" for="image">{{ trans('cruds.allAd.fields.image') }}</label>
                         <br>
 
                         @if($allAd->image)
@@ -141,7 +141,7 @@
                     </div>
 @endif
                 <div class="form-group">
-                    <label>{{ trans('cruds.slideShow.fields.status') }}</label>
+                    <label class="required">{{ trans('cruds.slideShow.fields.status') }}</label>
                     @foreach(App\Models\AllAd::STATUS_RADIO as $key => $label)
                         <div class="form-check {{ $errors->has('status') ? 'is-invalid' : '' }}">
                             <input class="form-check-input" type="radio" id="status_{{ $key }}" name="status" value="{{ $key }}" {{ old('status', $allAd->status) == (string) $key ? 'checked' : '' }}>

@@ -17,10 +17,8 @@ class StoreOtherbranchRequest extends FormRequest
     public function rules()
     {
         return [
-            'restaurants_id'    => [
-                'required',
-                'integer',
-            ],
+
+
             'branch_name_ar'    => [
                 'string',
                 'nullable',
@@ -42,8 +40,8 @@ class StoreOtherbranchRequest extends FormRequest
                 'nullable',
             ],
             'email'             => [
-                'string',
-                'nullable',
+                'required',
+                'unique:users',
             ],
         ];
     }

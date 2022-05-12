@@ -20,18 +20,30 @@ class SubscriptionPackage extends Model
 
     protected $fillable = [
         'name',
+        'name_en',
         'description',
+        'description_en',
         'price',
         'duration',
         'number_branches',
-        'file_size',
+        'percentage_of_sales',
         'created_at',
         'updated_at',
         'deleted_at',
+        'referral_price',
+        'offer',
+        'have_map',
+        'currency_id',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
+    }
+
 }

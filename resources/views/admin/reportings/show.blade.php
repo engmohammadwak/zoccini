@@ -47,14 +47,14 @@
                             {{ $reporting->user->name ?? '' }}
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.reporting.fields.type') }}
-                        </th>
-                        <td>
-                            {{ App\Models\Reporting::TYPE_SELECT[$reporting->type] ?? '' }}
-                        </td>
-                    </tr>
+{{--                    <tr>--}}
+{{--                        <th>--}}
+{{--                            {{ trans('cruds.reporting.fields.type') }}--}}
+{{--                        </th>--}}
+{{--                        <td>--}}
+{{--                            {{ App\Models\Reporting::TYPE_SELECT[$reporting->type] ?? '' }}--}}
+{{--                        </td>--}}
+{{--                    </tr>--}}
                 </tbody>
             </table>
             <div class="form-group">

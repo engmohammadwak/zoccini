@@ -10,18 +10,20 @@
         <form method="POST" action="{{ route("admin.subscription-users.update", [$subscriptionUser->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
-            <div class="form-group">
-                <label class="required" for="user_id">{{ trans('cruds.subscriptionUser.fields.user') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
-                    @foreach($users as $id => $user)
-                        <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $subscriptionUser->user->id ?? '') == $id ? 'selected' : '' }}>{{ $user }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('user'))
-                    <span class="text-danger">{{ $errors->first('user') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.subscriptionUser.fields.user_helper') }}</span>
-            </div>
+{{--            <div class="form-group">--}}
+{{--                <label class="required" for="user_id">{{ trans('cruds.subscriptionUser.fields.user') }}</label>--}}
+{{--                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>--}}
+{{--                    @foreach($users as $id => $user)--}}
+{{--                        <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $subscriptionUser->user->id ?? '') == $id ? 'selected' : '' }}>{{ $user }}</option>--}}
+{{--                    @endforeach--}}
+{{--                </select>--}}
+{{--                @if($errors->has('user'))--}}
+{{--                    <span class="text-danger">{{ $errors->first('user') }}</span>--}}
+{{--                @endif--}}
+{{--                <span class="help-block">{{ trans('cruds.subscriptionUser.fields.user_helper') }}</span>--}}
+{{--            </div>--}}
+
+            <input type="hidden" name="user_id"  value="{{$subscriptionUser->user_id}}">
             <div class="form-group">
                 <label class="required" for="package_id">{{ trans('cruds.subscriptionUser.fields.package') }}</label>
                 <select class="form-control select2 {{ $errors->has('package') ? 'is-invalid' : '' }}" name="package_id" id="package_id" required>

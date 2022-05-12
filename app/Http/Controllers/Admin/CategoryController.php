@@ -10,14 +10,22 @@ use App\Models\Category;
 use App\Models\Restaurant;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
+
     public function index()
     {
         abort_if(Gate::denies('category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $categories = Category::all();
+        if (Auth::user()['user_type'] == 3)
+        {
+            $restaurant = Restaurant::where('restaurant_id' , Auth::id())->first();
+            $categories = Category::where('restaurant_id' , $restaurant->id)->get();
+        }else{
+            $categories = Category::all();
+        }
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -26,13 +34,13 @@ class CategoryController extends Controller
     {
         abort_if(Gate::denies('category_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $restaurants = Restaurant::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.categories.create', compact('restaurants'));
+        return view('admin.categories.create');
     }
 
     public function store(StoreCategoryRequest $request)
     {
+        $restaurant = Restaurant::where('restaurant_id' , Auth::id())->first();
+        $request->request->add(['restaurant_id' => $restaurant->id]);
         $category = Category::create($request->all());
 
         return redirect()->route('admin.categories.index');
@@ -42,15 +50,16 @@ class CategoryController extends Controller
     {
         abort_if(Gate::denies('category_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $restaurants = Restaurant::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $category->load('restaurant');
 
-        return view('admin.categories.edit', compact('restaurants', 'category'));
+        return view('admin.categories.edit', compact('category'));
     }
 
     public function update(UpdateCategoryRequest $request, Category $category)
     {
+        $restaurant = Restaurant::where('restaurant_id' , Auth::id())->first();
+        $request->request->add(['restaurant_id' => $restaurant->id]);
+
         $category->update($request->all());
 
         return redirect()->route('admin.categories.index');

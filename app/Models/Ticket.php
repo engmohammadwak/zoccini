@@ -21,10 +21,10 @@ class Ticket extends Model
     protected $fillable = [
         'user_id',
         'title',
-        'message',
         'status_id',
         'rate',
         'comment',
+        'support_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -43,5 +43,10 @@ class Ticket extends Model
     public function status()
     {
         return $this->belongsTo(TicketStatus::class, 'status_id');
+    }
+
+    public function message()
+    {
+        return $this->hasMany(TicketMessage::class, 'ticket_id', 'id');
     }
 }

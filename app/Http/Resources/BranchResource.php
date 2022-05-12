@@ -19,10 +19,10 @@ class BranchResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'phone' => $this->phone  ?? '',
-            'email' => $this->email  ?? '',
-            'branch_name' => $branch_name  ?? '',
-            'branch_address' => $branch_address  ?? '',
+            'phone' => $this->phone ,
+            'email' => $this->email ,
+            'branch_name' => $branch_name ,
+            'branch_address' => $branch_address,
 
         ];
     }

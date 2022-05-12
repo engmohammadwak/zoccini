@@ -19,6 +19,7 @@ class Table extends Model
     ];
 
     protected $fillable = [
+        'restaurants_id',
         'number',
         'sitting_area_id',
         'chares',

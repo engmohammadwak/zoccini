@@ -7,9 +7,11 @@ use App\Http\Requests\MassDestroyReportingRequest;
 use App\Http\Requests\StoreReportingRequest;
 use App\Http\Requests\UpdateReportingRequest;
 use App\Models\Reporting;
+use App\Models\Restaurant;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class ReportingController extends Controller
@@ -18,7 +20,15 @@ class ReportingController extends Controller
     {
         abort_if(Gate::denies('reporting_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $reportings = Reporting::all();
+        if (Auth::user()['user_type'] == 1)
+        {
+            $reportings = Reporting::where('type' , 0)->get();
+
+        }else{
+
+            $reportings = Reporting::where('type' , 1)->where('restaurant_id' , Auth::user()['restaurant_id'])->get();
+
+        }
 
         return view('admin.reportings.index', compact('reportings'));
     }

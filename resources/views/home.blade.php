@@ -1,28 +1,417 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    Dashboard
-                </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        Dashboard
+                        @if(\Illuminate\Support\Facades\Auth::user()['user_type'] == 3)
+                            <div style="float: right;background-color: #f5ebeb;padding: 6px;">
+                                {{ trans('cruds.end_subscription') .' '.optional(\App\Models\SubscriptionUser::where('user_id' , \Illuminate\Support\Facades\Auth::id())->where('status' , 1)->first())->end_day ?? ''}}
+                            </div>
+                        @endif
+                    </div>
 
-                <div class="card-body">
-                    @if(session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                    <div class="card-body">
+                        @if(session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+                        @can('home')
+                            <div class="row">
+                                @if (\Illuminate\Support\Facades\Auth::user()['user_type'] !=  3)
+                                    <div class="{{ $settings1['column_class'] }}">
+                                        <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
 
-                    You are logged in!
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">{{ $settings1['chart_title'] }}</span>
+                                                <span
+                                                    class="info-box-number">{{ number_format($settings1['total_number']) }}</span>
+                                            </div>
+                                            <!-- /.info-box-content -->
+                                        </div>
+                                        <!-- /.info-box -->
+                                    </div>
+                                    <div class="{{ $settings2['column_class'] }}">
+                                        <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">{{ $settings2['chart_title'] }}</span>
+                                                <span
+                                                    class="info-box-number">{{ number_format($settings2['total_number']) }}</span>
+                                            </div>
+                                            <!-- /.info-box-content -->
+                                        </div>
+                                        <!-- /.info-box -->
+                                    </div>
+                                @endif
+
+                                <div class="{{ $settings3['column_class'] }}">
+                                    <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">{{ $settings3['chart_title'] }}</span>
+                                            <span
+                                                class="info-box-number">{{ number_format($settings3['total_number']) }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <div class="{{ $settings4['column_class'] }}">
+                                    <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">{{ $settings4['chart_title'] }}</span>
+                                            <span
+                                                class="info-box-number">{{ number_format($settings4['total_number']) }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <div class="{{ $settings10['column_class'] }}">
+                                    <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">{{ $settings10['chart_title'] }}</span>
+                                            <span
+                                                class="info-box-number">{{ number_format($settings10['total_number']) }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <div class="{{ $settings11['column_class'] }}">
+                                    <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">{{ $settings11['chart_title'] }}</span>
+                                            <span
+                                                class="info-box-number">{{ number_format($settings11['total_number']) }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <div class="{{ $settings12['column_class'] }}">
+                                    <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">{{ $settings12['chart_title'] }}</span>
+                                            <span
+                                                class="info-box-number">{{ number_format($settings12['total_number']) }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                {{--                            <div class="{{ $settings13['column_class'] }}">--}}
+                                {{--                                <div class="info-box">--}}
+                                {{--                                <span class="info-box-icon bg-red"--}}
+                                {{--                                      style="display:flex; flex-direction: column; justify-content: center;">--}}
+                                {{--                                    <i class="fa fa-chart-line"></i>--}}
+                                {{--                                </span>--}}
+
+                                {{--                                    <div class="info-box-content">--}}
+                                {{--                                        <span class="info-box-text">{{ $settings13['chart_title'] }}</span>--}}
+                                {{--                                        <span class="info-box-number">{{ number_format($settings13['total_number']) }}</span>--}}
+                                {{--                                    </div>--}}
+                                {{--                                    <!-- /.info-box-content -->--}}
+                                {{--                                </div>--}}
+                                {{--                                <!-- /.info-box -->--}}
+                                {{--                            </div>--}}
+                                {{--                            <div class="{{ $settings14['column_class'] }}">--}}
+                                {{--                                <div class="info-box">--}}
+                                {{--                                <span class="info-box-icon bg-red"--}}
+                                {{--                                      style="display:flex; flex-direction: column; justify-content: center;">--}}
+                                {{--                                    <i class="fa fa-chart-line"></i>--}}
+                                {{--                                </span>--}}
+
+                                {{--                                    <div class="info-box-content">--}}
+                                {{--                                        <span class="info-box-text">{{ $settings14['chart_title'] }}</span>--}}
+                                {{--                                        <span class="info-box-number">{{ number_format($settings14['total_number']) }}</span>--}}
+                                {{--                                    </div>--}}
+                                {{--                                    <!-- /.info-box-content -->--}}
+                                {{--                                </div>--}}
+                                {{--                                <!-- /.info-box -->--}}
+                                {{--                            </div>--}}
+                                <div class="{{ $settings15['column_class'] }}">
+                                    <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">{{ $settings15['chart_title'] }}</span>
+                                            <span
+                                                class="info-box-number">{{ number_format($settings15['total_number']) }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <div class="{{ $settings16['column_class'] }}">
+                                    <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">{{ $settings16['chart_title'] }}</span>
+                                            <span
+                                                class="info-box-number">{{ number_format($settings16['total_number']) }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <div class="{{ $settings17['column_class'] }}">
+                                    <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">{{ $settings17['chart_title'] }}</span>
+                                            <span
+                                                class="info-box-number">{{ number_format($settings17['total_number']) }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+
+                                <div class="{{ $settings18['column_class'] }}">
+                                    <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">{{ $settings18['chart_title'] }}</span>
+                                            <span
+                                                class="info-box-number">{{ number_format($settings18['total_number']) }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+
+                                @if (\Illuminate\Support\Facades\Auth::user()['user_type'] ==  3)
+                                    <div class="col-md-3">
+                                        <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">{{ trans('cruds.rates') }}</span>
+                                                <span
+                                                    class="info-box-number">{{ number_format(\App\Models\Rate::where('restaurant_id' , \Illuminate\Support\Facades\Auth::id())->avg('rating')) }}</span>
+                                            </div>
+                                            <!-- /.info-box-content -->
+                                        </div>
+                                        <!-- /.info-box -->
+                                    </div>
+                                @endif
+
+                                @if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 1)
+                                    <div class="{{ $settings19['column_class'] }}">
+                                        <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">{{ $settings19['chart_title'] }}</span>
+                                                <span
+                                                    class="info-box-number">{{ number_format($settings19['total_number']) }}</span>
+                                            </div>
+                                            <!-- /.info-box-content -->
+                                        </div>
+                                        <!-- /.info-box -->
+                                    </div>
+
+                                @endif
+                                @if (\Illuminate\Support\Facades\Auth::user()['user_type'] ==  3)
+                                    <div class="{{ $settings24['column_class'] }}">
+                                        <div class="info-box">
+                                <span class="info-box-icon bg-red"
+                                      style="display:flex; flex-direction: column; justify-content: center;">
+                                    <i class="fa fa-chart-line"></i>
+                                </span>
+
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">{{ $settings24['chart_title'] }}</span>
+                                                <span
+                                                    class="info-box-number">{{ number_format($settings24['total_number']) }}</span>
+                                            </div>
+                                            <!-- /.info-box-content -->
+                                        </div>
+                                        <!-- /.info-box -->
+                                    </div>
+                                @endif
+                                <div class="{{ $chart5->options['column_class'] }}">
+                                    <h3>{!! $chart5->options['chart_title'] !!}</h3>
+                                    {!! $chart5->renderHtml() !!}
+                                </div>
+                                @if (\Illuminate\Support\Facades\Auth::user()['user_type'] !=  3)
+                                    <div class="{{ $chart6->options['column_class'] }}">
+                                        <h3>{!! $chart6->options['chart_title'] !!}</h3>
+                                        {!! $chart6->renderHtml() !!}
+                                    </div>
+                                    <div class="{{ $chart7->options['column_class'] }}">
+                                        <h3>{!! $chart7->options['chart_title'] !!}</h3>
+                                        {!! $chart7->renderHtml() !!}
+                                    </div>
+                                    {{-- Widget - latest entries --}}
+                                    <div class="{{ $settings8['column_class'] }}" style="overflow-x: auto;">
+                                        <h3>{{ $settings8['chart_title'] }}</h3>
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr>
+                                                @foreach($settings8['fields'] as $key => $value)
+                                                    <th>
+                                                        {{ trans(sprintf('cruds.%s.fields.%s', strtolower(last(explode('\\', $settings8['model']))), $key)) }}
+                                                    </th>
+                                                @endforeach
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @forelse($settings8['data'] as $entry)
+                                                <tr>
+                                                    @foreach($settings8['fields'] as $key => $value)
+                                                        <td>
+                                                            @if($value === '')
+                                                                {{ $entry->{$key} }}
+                                                            @elseif(is_iterable($entry->{$key}))
+                                                                @foreach($entry->{$key} as $subEentry)
+                                                                    <span
+                                                                        class="label label-info">{{ $subEentry->{$value} }}</span>
+                                                                @endforeach
+                                                            @else
+                                                                {{ data_get($entry, $key . '.' . $value) }}
+                                                            @endif
+                                                        </td>
+                                                    @endforeach
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="{{ count($settings8['fields']) }}">{{ __('No entries found') }}</td>
+                                                </tr>
+                                            @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    {{-- Widget - latest entries --}}
+                                    <div class="{{ $settings9['column_class'] }}" style="overflow-x: auto;">
+                                        <h3>{{ $settings9['chart_title'] }}</h3>
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr>
+                                                @foreach($settings9['fields'] as $key => $value)
+                                                    <th>
+                                                        {{ trans(sprintf('cruds.%s.fields.%s', strtolower(last(explode('\\', $settings9['model']))), $key)) }}
+                                                    </th>
+                                                @endforeach
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @forelse($settings9['data'] as $entry)
+                                                <tr>
+                                                    @foreach($settings9['fields'] as $key => $value)
+                                                        <td>
+                                                            @if($value === '')
+                                                                {{ $entry->{$key} }}
+                                                            @elseif(is_iterable($entry->{$key}))
+                                                                @foreach($entry->{$key} as $subEentry)
+                                                                    <span
+                                                                        class="label label-info">{{ $subEentry->{$value} }}</span>
+                                                                @endforeach
+                                                            @else
+                                                                {{ data_get($entry, $key . '.' . $value) }}
+                                                            @endif
+                                                        </td>
+                                                    @endforeach
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="{{ count($settings9['fields']) }}">{{ __('No entries found') }}</td>
+                                                </tr>
+                                            @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @endif
+                                <div class="{{ $chart17->options['column_class'] }}">
+                                    <h3>{!! $chart17->options['chart_title'] !!}</h3>
+                                    {!! $chart17->renderHtml() !!}
+                                </div>
+                                <div class="{{ $chart18->options['column_class'] }}">
+                                    <h3>{!! $chart18->options['chart_title'] !!}</h3>
+                                    {!! $chart18->renderHtml() !!}
+                                </div>
+                                <div class="{{ $chart19->options['column_class'] }}">
+                                    <h3>{!! $chart19->options['chart_title'] !!}</h3>
+                                    {!! $chart19->renderHtml() !!}
+                                </div>
+                                <div class="{{ $chart20->options['column_class'] }}">
+                                    <h3>{!! $chart20->options['chart_title'] !!}</h3>
+                                    {!! $chart20->renderHtml() !!}
+                                </div>
+                            </div>
+                        @endcan
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
 @section('scripts')
-@parent
-
+    @parent
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>{!! $chart5->renderJs() !!}
+    @if (\Illuminate\Support\Facades\Auth::user()['user_type'] !=  3)
+        {!! $chart7->renderJs() !!}
+        {!! $chart6->renderJs() !!}
+    @endif
+    {!! $chart17->renderJs() !!}{!! $chart18->renderJs() !!}{!! $chart19->renderJs() !!}{!! $chart20->renderJs() !!}
 @endsection

@@ -22,6 +22,7 @@ class Rate extends Model
         'user_id',
         'restaurant_id',
         'rating',
+        'order_id',
         'rate_1',
         'rate_2',
         'rate_3',

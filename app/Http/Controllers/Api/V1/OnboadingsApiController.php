@@ -13,7 +13,13 @@ class OnboadingsApiController extends Controller
     {
         $lang = $request->header('lang');
         setLang($lang);
-        $data = OnboadingResource::collection(Onbordering::where('status' , 1)->get()) ;
+        if ($request->type)
+        {
+            $data = OnboadingResource::collection(Onbordering::where('status' , 1)->where('type' , $request->type)->get()) ;
+
+        }else{
+            $data = OnboadingResource::collection(Onbordering::where('status' , 1)->where('type' , 1)->get()) ;
+        }
         return successResponse(trans('cruds.api.success') , $data);
     }
 }

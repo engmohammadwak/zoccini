@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Gaza',
 
     /*
     |--------------------------------------------------------------------------
@@ -176,6 +176,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
+
+
+//        Laravel\Socialite\SocialiteServiceProvider::class,
+
     ],
 
     /*
@@ -229,6 +233,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
+//        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+
+
     ],
 
 ];

@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'fcm_key' => env('FCM_KEY', ''),
+
+
     'driver' => env('FCM_PROTOCOL', 'http'),
     'log_enabled' => false,
 

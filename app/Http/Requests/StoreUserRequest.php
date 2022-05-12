@@ -9,10 +9,10 @@ use Illuminate\Http\Response;
 
 class StoreUserRequest extends FormRequest
 {
-    public function authorize()
-    {
-        return Gate::allows('user_create');
-    }
+//    public function authorize()
+//    {
+//        return Gate::allows('user_create');
+//    }
 
     public function rules()
     {
@@ -29,6 +29,7 @@ class StoreUserRequest extends FormRequest
                 'string',
                 'required',
                 'unique:users',
+                'min:9',
             ],
             'email'              => [
                 'required',
@@ -42,7 +43,6 @@ class StoreUserRequest extends FormRequest
             ],
             'roles'              => [
                 'required',
-                'array',
             ],
             'date_of_birth'      => [
                 'date_format:' . config('panel.date_format'),

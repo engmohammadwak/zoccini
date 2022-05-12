@@ -52,16 +52,16 @@
                                 {{ $faq->id ?? '' }}
                             </td>
                             <td>
-                                {{ $faq->q_ar ?? '' }}
+                                {{    $faq->q_ar ?? ''}}
                             </td>
                             <td>
-                                {{ $faq->a_ar ?? '' }}
+                                {!! $faq->a_ar ?? '' !!}
                             </td>
                             <td>
                                 {{ $faq->q_en ?? '' }}
                             </td>
                             <td>
-                                {{ $faq->a_en ?? '' }}
+                                {!! $faq->a_en ?? '' !!}
                             </td>
                             <td>
                                 @can('faq_show')
@@ -142,7 +142,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

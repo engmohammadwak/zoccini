@@ -67,7 +67,7 @@
                                 {{ App\Models\Country::STATUS_RADIO[$country->status] ?? '' }}
                             </td>
                             <td>
-                                {{ $country->currency->name_ar ?? '' }}
+                                {{ optional($country->currency)->name_ar ?? '' }}
                             </td>
                             <td>
                                 @can('country_show')
@@ -148,7 +148,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

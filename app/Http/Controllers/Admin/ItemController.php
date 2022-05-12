@@ -12,6 +12,7 @@ use App\Models\Restaurant;
 use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,13 +22,16 @@ class ItemController extends Controller
     public function index()
     {
         abort_if(Gate::denies('item_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $items = Item::all();
-
-        $restaurants = Restaurant::get();
-
-        $categories = Category::get();
-
+        $restaurant = Restaurant::where('restaurant_id' , Auth::id())->first();
+        if (Auth::user()['user_type'] == 3) {
+            $items = Item::where('restaurant_id' ,$restaurant->id)->get();
+            $restaurants = Restaurant::where('restaurant_id' , $restaurant->id)->get();
+            $categories = Category::where('restaurant_id' , $restaurant->id)->get();
+        } else {
+            $items = Item::all();
+            $restaurants = Restaurant::get();
+            $categories = Category::get();
+        }
         return view('admin.items.index', compact('items', 'restaurants', 'categories'));
     }
 
@@ -35,24 +39,23 @@ class ItemController extends Controller
     {
         abort_if(Gate::denies('item_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $restaurant = Restaurant::where('restaurant_id' , Auth::id())->first();
 
-        $categories = Category::all()->pluck('name_'.App::getLocale(), 'id')->prepend(trans('global.pleaseSelect'), '');
+        $categories = Category::where('restaurant_id' , $restaurant->id)->get()->pluck('name_' . App::getLocale(), 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.items.create', compact( 'categories'));
+        return view('admin.items.create', compact('categories'));
     }
 
     public function store(StoreItemRequest $request)
     {
+        $restaurant = Restaurant::where('restaurant_id' , Auth::id())->first();
+        $request->request->add(['restaurant_id' => $restaurant->id]);
         $item = Item::create($request->all());
 
         if ($request->file('photo')) {
-            $image = uploadImage($request->file('photo'),'/public/img/item' , $item->photo);
+            $image = uploadImage($request->file('photo'), '/public/img/item', $item->photo);
             $item->fill(['photo' => $image])->save();
         }
-        $category = Category::find($request->category_id);
-        $item->restaurant_id = $category->restaurant_id;
-        $item->save();
-
         return redirect()->route('admin.items.index');
     }
 
@@ -60,25 +63,27 @@ class ItemController extends Controller
     public function edit(Item $item)
     {
         abort_if(Gate::denies('item_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        if (Auth::user()['user_type'] != 3)
+        {
+            $restaurant = Restaurant::where('id' , $item->restaurant_id)->first();
+        }else{
+            $restaurant = Restaurant::where('restaurant_id' , Auth::id())->first();
+        }
 
-        $categories = Category::all()->pluck('name_'.App::getLocale(), 'id')->prepend(trans('global.pleaseSelect'), '');
+        $categories = Category::where('restaurant_id' , $restaurant->id)->get()->pluck('name_' . App::getLocale(), 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $item->load('category');
 
-        return view('admin.items.edit', compact( 'categories', 'item'));
+        return view('admin.items.edit', compact('categories', 'item'));
     }
 
     public function update(UpdateItemRequest $request, Item $item)
     {
         $item->update($request->all());
         if ($request->file('photo')) {
-            $image = uploadImage($request->file('photo'),'/public/img/item' , $item->photo);
+            $image = uploadImage($request->file('photo'), '/public/img/item', $item->photo);
             $item->fill(['photo' => $image])->save();
         }
-        $category = Category::find($request->category_id);
-        $item->restaurant_id = $category->restaurant_id;
-        $item->save();
-
         return redirect()->route('admin.items.index');
     }
 
@@ -86,7 +91,7 @@ class ItemController extends Controller
     {
         abort_if(Gate::denies('item_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $item->load( 'category');
+        $item->load('category');
 
         return view('admin.items.show', compact('item'));
     }
@@ -105,17 +110,5 @@ class ItemController extends Controller
         Item::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-    }
-
-    public function storeCKEditorImages(Request $request)
-    {
-        abort_if(Gate::denies('item_create') && Gate::denies('item_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $model         = new Item();
-        $model->id     = $request->input('crud_id', 0);
-        $model->exists = true;
-        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
-
-        return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }
 }

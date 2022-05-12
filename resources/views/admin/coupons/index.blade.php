@@ -45,7 +45,7 @@
                             {{ trans('cruds.coupon.fields.end_day') }}
                         </th>
                         <th>
-                            {{ trans('cruds.coupon.fields.type') }}
+                            {{ trans('cruds.coupon.fields.number_used') }}
                         </th>
                         <th>
                             &nbsp;
@@ -80,7 +80,7 @@
                                 {{ $coupon->end_day ?? '' }}
                             </td>
                             <td>
-                                {{ App\Models\Coupon::TYPE_SELECT[$coupon->type] ?? '' }}
+                                {{ $coupon->number_used ?? '' }}
                             </td>
                             <td>
                                 @can('coupon_show')
@@ -161,7 +161,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

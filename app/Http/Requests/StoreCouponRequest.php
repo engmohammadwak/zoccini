@@ -36,13 +36,9 @@ class StoreCouponRequest extends FormRequest
                 'required',
                 'date_format:' . config('panel.date_format'),
             ],
-            'end_day'       => [
-                'required',
-                'date_format:' . config('panel.date_format'),
-            ],
-            'type'          => [
-                'required',
-            ],
+//            'type'          => [
+//                'required',
+//            ],
         ];
     }
 }

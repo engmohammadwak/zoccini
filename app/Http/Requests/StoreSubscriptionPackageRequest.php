@@ -34,12 +34,11 @@ class StoreSubscriptionPackageRequest extends FormRequest
             ],
             'number_branches' => [
                 'string',
-                'required',
             ],
-            'file_size'       => [
-                'string',
-                'required',
-            ],
+//            'percentage_of_sales'       => [
+//                'string',
+//                'required',
+//            ],
         ];
     }
 }

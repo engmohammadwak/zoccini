@@ -16,9 +16,12 @@ class UserAlert extends Model
 
     protected $fillable = [
         'alert_text',
+        'status',
         'alert_link',
         'created_at',
         'updated_at',
+        'user_type',
+        'alert_body',
     ];
 
     protected function serializeDate(DateTimeInterface $date)

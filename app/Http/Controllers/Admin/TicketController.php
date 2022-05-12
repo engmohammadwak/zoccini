@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyTicketRequest;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use App\Http\Resources\TicketMessageResource;
 use App\Models\Ticket;
+use App\Models\TicketMessage;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class TicketController extends Controller
@@ -22,43 +25,14 @@ class TicketController extends Controller
         return view('admin.tickets.index', compact('tickets'));
     }
 
-    public function create()
-    {
-        abort_if(Gate::denies('ticket_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.tickets.create');
-    }
-
-    public function store(StoreTicketRequest $request)
-    {
-        $ticket = Ticket::create($request->all());
-
-        return redirect()->route('admin.tickets.index');
-    }
-
-    public function edit(Ticket $ticket)
-    {
-        abort_if(Gate::denies('ticket_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $ticket->load('user', 'status');
-
-        return view('admin.tickets.edit', compact('ticket'));
-    }
-
-    public function update(UpdateTicketRequest $request, Ticket $ticket)
-    {
-        $ticket->update($request->all());
-
-        return redirect()->route('admin.tickets.index');
-    }
 
     public function show(Ticket $ticket)
     {
         abort_if(Gate::denies('ticket_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $ticket->load('user', 'status');
-
-        return view('admin.tickets.show', compact('ticket'));
+        $ticket_messages = TicketMessage::where('ticket_id', $ticket->id)->orderBy('id' , 'asc')->get();
+        return view('admin.tickets.show', compact('ticket','ticket_messages'));
     }
 
     public function destroy(Ticket $ticket)
@@ -76,4 +50,26 @@ class TicketController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+    public function replay(Request $request , $id)
+    {
+
+        $message = new TicketMessage();
+        $message->ticket_id = $id;
+        $message->user_id = Auth::id() ;
+        $message->message = $request->message;
+        $message->save() ;
+        return back();
+    }
+
+
+    public function close(Request $request , $id)
+    {
+
+        $ticket =  Ticket::where('id' , $id)->first();
+        $ticket->status_id = 3;
+        $ticket->save() ;
+        return back();
+    }
+
 }

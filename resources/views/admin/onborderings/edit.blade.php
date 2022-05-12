@@ -13,16 +13,11 @@
             <div class="form-group">
                 <label for="image">{{ trans('cruds.onbordering.fields.image') }}</label>
                 <br>
-                @if($user->image)
+                @if($onbordering->image)
                     <a href="{{ url('local/public/img/onbording/' . $onbordering->image) }}" target="_blank">
                         <img src="{{ url('local/public/img/onbording/' . $onbordering->image) }}" width="50px" height="50px">
                     </a>
-                @else
-                    <a href="{{ url('local/public/img/setting/' . getSetting('user_image')) }}" target="_blank">
-                        <img src="{{ url('local/public/img/setting/' . getSetting('user_image')) }}" width="50px" height="50px">
-                    </a>
                 @endif
-
                 <input type="file" name="image" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}">
 
             @if($errors->has('image'))
@@ -62,6 +57,23 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.onbordering.fields.description_en_helper') }}</span>
             </div>
+
+
+            <div class="form-group">
+                <label>{{ trans('cruds.onbordering.fields.type') }}</label>
+                <select class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type" id="type">
+                    <option value disabled {{ old('type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Models\Onbordering::TYPE_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('type', $onbordering->type) == (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('type'))
+                    <span class="text-danger">{{ $errors->first('type') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.onbordering.fields.type_helper') }}</span>
+            </div>
+
+
             <div class="form-group">
                 <label>{{ trans('cruds.onbordering.fields.status') }}</label>
                 <select class="form-control {{ $errors->has('status') ? 'is-invalid' : '' }}" name="status" id="status">

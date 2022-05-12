@@ -1,12 +1,93 @@
 <?php
 
-Route::redirect('/', '/login');
+//Route::redirect('/', '/login');
+Route::get('/clear', function () {
+
+    $exitCode = \Illuminate\Support\Facades\Artisan::call('view:clear');
+    $exitCode = \Illuminate\Support\Facades\Artisan::call('config:cache');
+    $exitCode = \Illuminate\Support\Facades\Artisan::call('config:clear');
+
+});
+
+Route::get('/', 'HomeController@index')->name('home_loop');
+Route::get('/AboutUs', function () {
+    return view('about_us');
+});
+Route::get('/becomePartner', 'HomeController@become_partner');
+Route::post('/join_loop_post', 'HomeController@join_loop_post');
+Route::get('/becomePartner_2', function () {
+    return view('become_partner_2');
+});
+
+Route::post('/become_partner_store', 'HomeController@become_partner_store');
+Route::get('/become_partner_store', 'HomeController@index');
+Route::post('/update_profile', 'HomeController@update_profile');
+Route::get('/update_profile_payment', 'HomeController@update_profile_payment');
+Route::get('/map', 'HomeController@map');
+
+Route::get('/our_profile', function () {
+    return view('our_profile');
+});
+Route::get('/privacy_policy', function () {
+    return view('privacy_policy');
+});
+Route::get('/terms_of_use', function () {
+    return view('terms_of_use');
+});
+Route::get('/client_terms', function () {
+    return view('client_terms');
+});
+
+Route::get('/lhome', function () {
+    $plan = \App\Models\SubscriptionPackage::all();
+    $subscription = \App\Models\ReferralSubscription::where('user_loop_id' , \Illuminate\Support\Facades\Auth::id())->where('created_at', '>=', \Carbon\Carbon::now()->startOfMonth()->subMonth()->toDateString())->get();
+    return view('loop_home' , compact('plan' , 'subscription'));
+});
+
+Route::get('/history', function () {
+    $plan = \App\Models\SubscriptionPackage::all();
+    $subscription = \App\Models\ReferralSubscription::where('user_loop_id' , \Illuminate\Support\Facades\Auth::id())->get();
+    return view('history' , compact('plan' , 'subscription'));
+});
+
+Route::get('/profile', function () {
+    return view('profile');
+});
+
+Route::get('/id_verification', function () {
+    $user = \App\Models\Loopuser::where('user_id' , \Illuminate\Support\Facades\Auth::id())->first();
+    return view('id_verification' , compact('user'));
+});
+
+Route::get('/payout_method', function () {
+    $user = \App\Models\Loopuser::with('bank')->where('user_id' , \Illuminate\Support\Facades\Auth::id())->first();
+    return view('payout_method' , compact('user'));
+});
+
+Route::get('/success', function () {
+    return view('success');
+});
+
+Route::get('/loop_join', function () {
+    $country = \App\Models\Country::where('status' , 1)->get();
+    $city = \App\Models\City::where('status' , 1)->get();
+    return view('join_loop' , compact('country' , 'city'));
+});
+
+Route::get('/plan', function () {
+
+    $plan = \App\Models\SubscriptionPackage::all();
+    return view('plan' , compact('plan'));
+});
+
+
+
 Route::get('/home', function () {
     if (session('status')) {
         return redirect()->route('admin.home')->with('status', session('status'));
     }
 
-    
+
     return redirect()->route('admin.home');
 });
 
@@ -27,6 +108,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('users/media', 'UsersController@storeMedia')->name('users.storeMedia');
     Route::post('users/ckmedia', 'UsersController@storeCKEditorImages')->name('users.storeCKEditorImages');
     Route::resource('users', 'UsersController');
+    Route::get('users/{id}/order', 'UsersController@user_order')->name('users.user_order');
+    Route::get('users/{type}/type', 'UsersController@type')->name('users.user_type');
+
+    // employees
+    Route::delete('employees/destroy', 'EmployeesController@massDestroy')->name('employees.massDestroy');
+    Route::resource('employees', 'EmployeesController');
 
     // User Statuses
     Route::delete('user-statuses/destroy', 'UserStatusController@massDestroy')->name('user-statuses.massDestroy');
@@ -43,6 +130,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('restaurants/media', 'RestaurantsController@storeMedia')->name('restaurants.storeMedia');
     Route::post('restaurants/ckmedia', 'RestaurantsController@storeCKEditorImages')->name('restaurants.storeCKEditorImages');
     Route::resource('restaurants', 'RestaurantsController');
+    Route::get('restaurants_register', 'RestaurantsController@index');
+    Route::get('restaurants/{id}/active', 'RestaurantsController@active')->name('restaurants.active');
+    Route::get('restaurants/{id}/order', 'RestaurantsController@restaurant_order')->name('restaurants.restaurant_order');
+
+    //image
+    Route::get('deleteImage/{id}', 'ImagesController@deleteImage')->name('deleteImage');
 
     // Deliveries
     Route::delete('deliveries/destroy', 'DeliveryController@massDestroy')->name('deliveries.massDestroy');
@@ -63,6 +156,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('items/media', 'ItemController@storeMedia')->name('items.storeMedia');
     Route::post('items/ckmedia', 'ItemController@storeCKEditorImages')->name('items.storeCKEditorImages');
     Route::resource('items', 'ItemController');
+    Route::get('items/{id}/extra', 'ExtraController@index')->name('items.extra');
+    Route::get('items/{id}/create_extra', 'ExtraController@create')->name('items.extra.create');
+
+
+    // Extras
+    Route::delete('extras/destroy', 'ExtraController@massDestroy')->name('extras.massDestroy');
+    Route::resource('extras', 'ExtraController');
 
     // Sitting Areas
     Route::delete('sitting-areas/destroy', 'SittingAreaController@massDestroy')->name('sitting-areas.massDestroy');
@@ -122,10 +222,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('orders/destroy', 'OrderController@massDestroy')->name('orders.massDestroy');
     Route::resource('orders', 'OrderController');
 
-    // Extras
-    Route::delete('extras/destroy', 'ExtraController@massDestroy')->name('extras.massDestroy');
-    Route::resource('extras', 'ExtraController');
-
     // Order Types
     Route::delete('order-types/destroy', 'OrderTypeController@massDestroy')->name('order-types.massDestroy');
     Route::resource('order-types', 'OrderTypeController');
@@ -153,6 +249,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Tickets
     Route::delete('tickets/destroy', 'TicketController@massDestroy')->name('tickets.massDestroy');
     Route::resource('tickets', 'TicketController');
+    Route::post('tickets/{id}/replay', 'TicketController@replay');
+    Route::get('tickets/{id}/close', 'TicketController@close')->name('tickets.close');
 
     // Ticket Statuses
     Route::delete('ticket-statuses/destroy', 'TicketStatusController@massDestroy')->name('ticket-statuses.massDestroy');
@@ -210,7 +308,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('messenger/{topic}', 'MessengerController@destroyTopic')->name('messenger.destroyTopic');
     Route::post('messenger/{topic}/reply', 'MessengerController@replyToTopic')->name('messenger.reply');
     Route::get('messenger/{topic}/reply', 'MessengerController@showReply')->name('messenger.showReply');
-    Route::get('user-alerts/read', 'UserAlertsController@read');
+    Route::get('user-alert/read', 'UserAlertsController@read');
 
     // Settings
     Route::delete('settings/destroy', 'SettingController@massDestroy')->name('settings.massDestroy');
@@ -231,6 +329,70 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Car Lists
     Route::delete('car-lists/destroy', 'CarListController@massDestroy')->name('car-lists.massDestroy');
     Route::resource('car-lists', 'CarListController');
+
+
+    // Expense Category
+    Route::delete('expense-categories/destroy', 'ExpenseCategoryController@massDestroy')->name('expense-categories.massDestroy');
+    Route::resource('expense-categories', 'ExpenseCategoryController');
+
+    // Income Category
+    Route::delete('income-categories/destroy', 'IncomeCategoryController@massDestroy')->name('income-categories.massDestroy');
+    Route::resource('income-categories', 'IncomeCategoryController');
+
+    // Expense
+    Route::delete('expenses/destroy', 'ExpenseController@massDestroy')->name('expenses.massDestroy');
+    Route::resource('expenses', 'ExpenseController');
+
+    // Income
+    Route::delete('incomes/destroy', 'IncomeController@massDestroy')->name('incomes.massDestroy');
+    Route::resource('incomes', 'IncomeController');
+
+    // Expense Report
+    Route::delete('expense-reports/destroy', 'ExpenseReportController@massDestroy')->name('expense-reports.massDestroy');
+    Route::resource('expense-reports', 'ExpenseReportController');
+
+
+
+    Route::resource('reports', 'ReportController');
+
+    // Sliders
+    Route::delete('sliders/destroy', 'SliderController@massDestroy')->name('sliders.massDestroy');
+    Route::resource('sliders', 'SliderController');
+
+    // Top Restaurants
+    Route::delete('top-restaurants/destroy', 'TopRestaurantsController@massDestroy')->name('top-restaurants.massDestroy');
+    Route::resource('top-restaurants', 'TopRestaurantsController');
+
+    // Category Top Restaurants
+    Route::delete('category-top-restaurants/destroy', 'CategoryTopRestaurantsController@massDestroy')->name('category-top-restaurants.massDestroy');
+    Route::resource('category-top-restaurants', 'CategoryTopRestaurantsController');
+
+    // Venture Companies
+    Route::delete('venture-companies/destroy', 'VentureCompaniesController@massDestroy')->name('venture-companies.massDestroy');
+    Route::resource('venture-companies', 'VentureCompaniesController');
+
+    // Become Partners
+    Route::delete('become-partners/destroy', 'BecomePartnerController@massDestroy')->name('become-partners.massDestroy');
+    Route::resource('become-partners', 'BecomePartnerController');
+
+    // Sms History
+    Route::delete('sms-histories/destroy', 'SmsHistoryController@massDestroy')->name('sms-histories.massDestroy');
+    Route::resource('sms-histories', 'SmsHistoryController');
+
+    // Loopuser
+    Route::delete('loopusers/destroy', 'LoopuserController@massDestroy')->name('loopusers.massDestroy');
+    Route::resource('loopusers', 'LoopuserController');
+    Route::get('loopusers/{id}/active', 'LoopuserController@active')->name('loopusers.active');
+
+    // Loop Bank
+    Route::delete('loop-banks/destroy', 'LoopBankController@massDestroy')->name('loop-banks.massDestroy');
+    Route::resource('loop-banks', 'LoopBankController');
+
+    // Referral Subscription
+    Route::delete('referral-subscriptions/destroy', 'ReferralSubscriptionController@massDestroy')->name('referral-subscriptions.massDestroy');
+    Route::resource('referral-subscriptions', 'ReferralSubscriptionController');
+
+
 
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {

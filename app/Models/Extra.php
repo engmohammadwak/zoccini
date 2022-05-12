@@ -5,13 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
+use Illuminate\Support\Facades\App;
 
 class Extra extends Model
 {
     use SoftDeletes;
 
     public $table = 'extras';
-
+    protected $appends = [
+        'name',
+    ];
     const STATUS_SELECT = [
         '0' => 'inactive',
         '1' => 'active',
@@ -42,5 +45,9 @@ class Extra extends Model
     public function item()
     {
         return $this->belongsTo(Item::class, 'item_id');
+    }
+    public function getNameAttribute($value)
+    {
+        return App::getLocale() == 'ar' ? $this->name_ar : $this->name_en;
     }
 }

@@ -18,7 +18,7 @@ class CancelReasonResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'name' => $name  ?? '',
+            'name' => $name,
         ];
     }
 }

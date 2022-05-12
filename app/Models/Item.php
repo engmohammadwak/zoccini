@@ -34,6 +34,7 @@ class Item extends Model
         'status',
         'restaurant_id',
         'category_id',
+        'sale_count',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -48,4 +49,24 @@ class Item extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+
+    public function extra(){
+        return $this->hasMany(Extra::class, 'item_id', 'id')->where('status' , 1);
+    }
+
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class, 'restaurant_id');
+    }
+
+
+    public function scopeSearch($query, $value)
+    {
+        $query->where(function ($query) use ($value) {
+            $query
+                ->where('name_ar', 'LIKE', '%' . $value . '%')
+                ->orWhere('name_en', 'LIKE', '%' . $value . '%');
+        });
+    }
+
 }

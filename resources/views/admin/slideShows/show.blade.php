@@ -61,14 +61,16 @@
                         </th>
                         @if ($slideShow->product_restaurant != '0')
                         <td>
-                            @if ($slideShow->product_restaurant == '1')
-                                <a href="{{ route('admin.items.show', $slideShow->product_restaurant_id) }}">
-                                    {{ trans('global.view') }}
-                                </a>
-                            @elseif($slideShow->product_restaurant == '2')
-                                <a href="{{ route('admin.restaurants.show', $slideShow->product_restaurant_id) }}">
-                                    {{ trans('global.view') }}
-                                </a>
+                            @if ($slideShow->product_restaurant_id)
+                                @if ($slideShow->product_restaurant == '1')
+                                    <a href="{{ route('admin.items.show', $slideShow->product_restaurant_id) }}">
+                                        {{ trans('global.view') }}
+                                    </a>
+                                @elseif($slideShow->product_restaurant == '2')
+                                    <a href="{{ route('admin.restaurant.show', $slideShow->product_restaurant_id) }}">
+                                        {{ trans('global.view') }}
+                                    </a>
+                                @endif
                             @endif
                         </td>
                         @endif

@@ -8,10 +8,13 @@ use App\Http\Requests\StoreAllAdRequest;
 use App\Http\Requests\UpdateAllAdRequest;
 use App\Models\AdsCategory;
 use App\Models\AllAd;
+use App\Models\OfferUser;
+use App\Models\Point;
 use App\Models\Restaurant;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -48,6 +51,7 @@ class AllAdsController extends Controller
             $allAd->fill(['image' => $image])->save();
         }
 
+
         return redirect()->route('admin.all-ads.index');
     }
 
@@ -59,10 +63,10 @@ class AllAdsController extends Controller
 
         $categories = AdsCategory::all()->pluck('name_ar', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $winners = User::where('user_type',2)->get()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
+//        $winners = User::where('user_type',2)->get()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $offer_user = OfferUser::with('users')->where('offer_id', $allAd->id)->get()->pluck('users');
+        $winners = collect($offer_user->toArray())->all();
         $allAd->load('restaurant', 'category', 'winner');
-
         return view('admin.allAds.edit', compact('restaurants', 'categories', 'winners', 'allAd'));
     }
 
@@ -73,6 +77,29 @@ class AllAdsController extends Controller
         if ($request->file('image')) {
             $image = uploadImage($request->file('image'),'/public/img/ads' , $allAd->image);
             $allAd->fill(['image' => $image])->save();
+        }
+        if ($request->winner_id)
+        {
+            $offer_user = OfferUser::where('user_id' ,$request->winner_id )->where('offer_id' , $allAd->id)->first();
+            if ($offer_user)
+            {
+            $offer_user->winner = 1;
+            $offer_user->save();
+            }
+            $all_user_offer = OfferUser::where('offer_id' , $allAd->id)->where('user_id' , '!=' ,$request->winner_id)->get();
+            if ($all_user_offer)
+            {
+                foreach ($all_user_offer as $value){
+                    $point  = new Point();
+                    $point->user_id = $value->user_id;
+                    $point->type_id = 3;
+                    $point->value = $allAd->voucher_number;
+                    $point->save() ;
+                }
+            }
+
+            $allAd->status = 2;
+            $allAd->save();
         }
         return redirect()->route('admin.all-ads.index');
     }

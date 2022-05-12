@@ -33,18 +33,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.extra.fields.price_helper') }}</span>
             </div>
-            <div class="form-group">
-                <label class="required" for="item_id">{{ trans('cruds.extra.fields.item') }}</label>
-                <select class="form-control select2 {{ $errors->has('item') ? 'is-invalid' : '' }}" name="item_id" id="item_id" required>
-                    @foreach($items as $id => $item)
-                        <option value="{{ $id }}" {{ old('item_id') == $id ? 'selected' : '' }}>{{ $item }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('item'))
-                    <span class="text-danger">{{ $errors->first('item') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.extra.fields.item_helper') }}</span>
-            </div>
+           <input type="hidden" name="item_id" value="{{$id}}">
             <div class="form-group">
                 <label>{{ trans('cruds.extra.fields.status') }}</label>
                 <select class="form-control {{ $errors->has('status') ? 'is-invalid' : '' }}" name="status" id="status">

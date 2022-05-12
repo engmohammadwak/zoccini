@@ -10,7 +10,7 @@ class FavoriteResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => $this->type  ?? '',
+            'type' => $this->type ,
             $this->mergeWhen($this->type == 1, [
                 'mail' => new ItemResource($this->item),
             ]),

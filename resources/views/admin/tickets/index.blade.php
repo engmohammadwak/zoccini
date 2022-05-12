@@ -1,23 +1,15 @@
 @extends('layouts.admin')
 @section('content')
-@can('ticket_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.tickets.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.ticket.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.ticket.title_singular') }} {{ trans('global.list') }}
-    </div>
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Ticket">
-                <thead>
+    <div class="card">
+        <div class="card-header">
+            {{ trans('cruds.ticket.title_singular') }} {{ trans('global.list') }}
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class=" table table-bordered table-striped table-hover datatable datatable-Ticket">
+                    <thead>
                     <tr>
                         <th width="10">
 
@@ -32,13 +24,16 @@
                             {{ trans('cruds.ticket.fields.title') }}
                         </th>
                         <th>
-                            {{ trans('cruds.ticket.fields.message') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.ticket.fields.status') }}
                         </th>
                         <th>
                             {{ trans('cruds.ticket.fields.rate') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.last_message') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.admin_last_message') }}
                         </th>
                         <th>
                             {{ trans('cruds.ticket.fields.comment') }}
@@ -47,8 +42,8 @@
                             &nbsp;
                         </th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     @foreach($tickets as $key => $ticket)
                         <tr data-entry-id="{{ $ticket->id }}">
                             <td>
@@ -64,98 +59,97 @@
                                 {{ $ticket->title ?? '' }}
                             </td>
                             <td>
-                                {{ $ticket->message ?? '' }}
-                            </td>
-                            <td>
-                                {{ $ticket->status->name_en ?? '' }}
+                                {{ \Illuminate\Support\Facades\App::getLocale() == 'ar' ? $ticket->status->name_ar : $ticket->status->name_en ?? '' }}
                             </td>
                             <td>
                                 {{ $ticket->rate ?? '' }}
+                            </td>
+                            <td>
+                                {{ optional(\App\Models\TicketMessage::where('ticket_id' , $ticket->id)->latest('id')->first())->created_at ?? '' }}
+                            </td>
+                            <td>
+                                {{ optional(optional(\App\Models\TicketMessage::where('ticket_id' , $ticket->id)->latest('id')->first())->user)->name?? '' }}
                             </td>
                             <td>
                                 {{ $ticket->comment ?? '' }}
                             </td>
                             <td>
                                 @can('ticket_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.tickets.show', $ticket->id) }}">
+                                    <a class="btn btn-xs btn-primary"
+                                       href="{{ route('admin.tickets.show', $ticket->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
-
-                                @can('ticket_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.tickets.edit', $ticket->id) }}">
-                                        {{ trans('global.edit') }}
+                                @if ($ticket->status_id != 3)
+                                    <a class="btn btn-xs btn-danger"
+                                       href="{{ route('admin.tickets.close', $ticket->id) }}">
+                                        {{ trans('global.close') }}
                                     </a>
-                                @endcan
-
-                                @can('ticket_delete')
-                                    <form action="{{ route('admin.tickets.destroy', $ticket->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
+                                @endif
 
                             </td>
 
                         </tr>
                     @endforeach
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 
 
 
 @endsection
 @section('scripts')
-@parent
-<script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('ticket_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.tickets.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
+    @parent
+    <script>
+        $(function () {
+            let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+                    @can('ticket_delete')
+            let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+            let deleteButton = {
+                text: deleteButtonTrans,
+                url: "{{ route('admin.tickets.massDestroy') }}",
+                className: 'btn-danger',
+                action: function (e, dt, node, config) {
+                    var ids = $.map(dt.rows({selected: true}).nodes(), function (entry) {
+                        return $(entry).data('entry-id')
+                    });
 
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
+                    if (ids.length === 0) {
+                        alert('{{ trans('global.datatables.zero_selected') }}')
 
-        return
-      }
+                        return
+                    }
 
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
+                    if (confirm('{{ trans('global.areYouSure') }}')) {
+                        $.ajax({
+                            headers: {'x-csrf-token': _token},
+                            method: 'POST',
+                            url: config.url,
+                            data: {ids: ids, _method: 'DELETE'}
+                        })
+                            .done(function () {
+                                location.reload()
+                            })
+                    }
+                }
+            }
+            dtButtons.push(deleteButton)
+            @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-Ticket:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
-})
+            $.extend(true, $.fn.dataTable.defaults, {
+                orderCellsTop: true,
+                order: [[1, 'desc']],
+                pageLength: 100,
+            });
+            let table = $('.datatable-Ticket:not(.ajaxTable)').DataTable({buttons: dtButtons})
+            $('a[data-toggle="tab"]').on('shown.bs.tab click', function (e) {
+                $($.fn.dataTable.tables(true)).DataTable()
+                    .columns.adjust();
+            });
 
-</script>
+        })
+
+    </script>
 @endsection

@@ -10,33 +10,97 @@
         <form method="POST" action="{{ route("admin.restaurants.update", [$restaurant->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
-{{--            <div class="form-group">--}}
-{{--                <label for="restaurant_id">{{ trans('cruds.restaurant.fields.restaurant') }}</label>--}}
-{{--                <select class="form-control select2 {{ $errors->has('restaurant') ? 'is-invalid' : '' }}" name="restaurant_id" id="restaurant_id">--}}
-{{--                    @foreach($restaurants as $id => $restaurant)--}}
-{{--                        <option value="{{ $id }}" {{ (old('restaurant_id') ? old('restaurant_id') : $restaurant->restaurant->id ?? '') == $id ? 'selected' : '' }}>{{ $restaurant }}</option>--}}
-{{--                    @endforeach--}}
-{{--                </select>--}}
-{{--                @if($errors->has('restaurant'))--}}
-{{--                    <span class="text-danger">{{ $errors->first('restaurant') }}</span>--}}
-{{--                @endif--}}
-{{--                <span class="help-block">{{ trans('cruds.restaurant.fields.restaurant_helper') }}</span>--}}
-{{--            </div>--}}
-            <div class="form-group">
-                <label class="required" for="name_ar">{{ trans('cruds.restaurant.fields.name_ar') }}</label>
-                <input class="form-control {{ $errors->has('name_ar') ? 'is-invalid' : '' }}" type="text" name="name_ar" id="name_ar" value="{{ old('name_ar', $restaurant->name_ar) }}" required>
-                @if($errors->has('name_ar'))
-                    <span class="text-danger">{{ $errors->first('name_ar') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.restaurant.fields.name_ar_helper') }}</span>
+            <div class="row">
+                <div class="col-md-6"><div class="form-group">
+                        <label class="required" for="name">{{ trans('cruds.user.fields.name') }}</label>
+                        <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', optional($restaurant->restaurant)->name) }}" required>
+                        @if($errors->has('name'))
+                            <span class="text-danger">{{ $errors->first('name') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.user.fields.name_helper') }}</span>
+                    </div></div>
+                <div class="col-md-6"><div class="form-group">
+                        <label class="required" for="last_name">{{ trans('cruds.user.fields.last_name') }}</label>
+                        <input class="form-control {{ $errors->has('last_name') ? 'is-invalid' : '' }}" type="text" name="last_name" id="last_name" value="{{ old('last_name', optional($restaurant->restaurant)->last_name) }}" required>
+                        @if($errors->has('last_name'))
+                            <span class="text-danger">{{ $errors->first('last_name') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.user.fields.last_name_helper') }}</span>
+                    </div></div>
             </div>
             <div class="form-group">
-                <label class="required" for="name_en">{{ trans('cruds.restaurant.fields.name_en') }}</label>
-                <input class="form-control {{ $errors->has('name_en') ? 'is-invalid' : '' }}" type="text" name="name_en" id="name_en" value="{{ old('name_en', $restaurant->name_en) }}" required>
-                @if($errors->has('name_en'))
-                    <span class="text-danger">{{ $errors->first('name_en') }}</span>
+                <label class="required" for="phone">{{ trans('cruds.user.fields.phone') }}</label>
+                <input class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" type="text" name="phone" id="phone" value="{{ old('phone', optional($restaurant->restaurant)->phone) }}" required>
+                @if($errors->has('phone'))
+                    <span class="text-danger">{{ $errors->first('phone') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.restaurant.fields.name_en_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.user.fields.phone_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="email">{{ trans('cruds.user.fields.email') }}</label>
+                <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email" id="email" value="{{ old('email', optional($restaurant->restaurant)->email) }}" required>
+                @if($errors->has('email'))
+                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.email_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="password">{{ trans('cruds.user.fields.password') }}</label>
+                <input class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" type="password" name="password" id="password">
+                @if($errors->has('password'))
+                    <span class="text-danger">{{ $errors->first('password') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.password_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="status_id">{{ trans('cruds.user.fields.status') }}</label>
+                <select class="form-control select2 {{ $errors->has('status') ? 'is-invalid' : '' }}" name="status_id" id="status_id">
+                    @foreach($statuses as $id => $status)
+                        <option value="{{ $id }}" {{ (old('status_id') ? old('status_id') : optional($restaurant->restaurant)->status->id ?? '') == $id ? 'selected' : '' }}>{{ $status }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('status'))
+                    <span class="text-danger">{{ $errors->first('status') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.status_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="image">{{ trans('cruds.user.fields.image') }}</label>
+                <br>
+                @if(optional($restaurant->restaurant)->image)
+                    <a href="{{ url('local/public/img/user/' . optional($restaurant->restaurant)->image) }}" target="_blank">
+                        <img src="{{ url('local/public/img/user/' . optional($restaurant->restaurant)->image) }}" width="50px" height="50px">
+                    </a>
+                @else
+                    <a href="{{ url('local/public/img/setting/' . getSetting('user_image')) }}" target="_blank">
+                        <img src="{{ url('local/public/img/setting/' . getSetting('user_image')) }}" width="50px" height="50px">
+                    </a>
+                @endif
+
+                <input type="file" name="logo" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}">
+
+                @if($errors->has('image'))
+                    <span class="text-danger">{{ $errors->first('image') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.image_helper') }}</span>
+            </div>
+            <div class="row">
+                <div class="col-md-6"><div class="form-group">
+                        <label class="required" for="name_ar">{{ trans('cruds.restaurant.fields.name_ar') }}</label>
+                        <input class="form-control {{ $errors->has('name_ar') ? 'is-invalid' : '' }}" type="text" name="name_ar" id="name_ar" value="{{ old('name_ar', $restaurant->name_ar) }}" required>
+                        @if($errors->has('name_ar'))
+                            <span class="text-danger">{{ $errors->first('name_ar') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.restaurant.fields.name_ar_helper') }}</span>
+                    </div></div>
+                <div class="col-md-6"><div class="form-group">
+                        <label class="required" for="name_en">{{ trans('cruds.restaurant.fields.name_en') }}</label>
+                        <input class="form-control {{ $errors->has('name_en') ? 'is-invalid' : '' }}" type="text" name="name_en" id="name_en" value="{{ old('name_en', $restaurant->name_en) }}" required>
+                        @if($errors->has('name_en'))
+                            <span class="text-danger">{{ $errors->first('name_en') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.restaurant.fields.name_en_helper') }}</span>
+                    </div></div>
             </div>
             <div class="form-group">
                 <label for="description_ar">{{ trans('cruds.restaurant.fields.description_ar') }}</label>
@@ -54,16 +118,50 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.restaurant.fields.description_en_helper') }}</span>
             </div>
-{{--            <div class="form-group">--}}
-{{--                <label for="image">{{ trans('cruds.restaurant.fields.image') }}</label>--}}
-{{--                <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">--}}
-{{--                </div>--}}
-{{--                @if($errors->has('image'))--}}
-{{--                    <span class="text-danger">{{ $errors->first('image') }}</span>--}}
-{{--                @endif--}}
-{{--                <span class="help-block">{{ trans('cruds.restaurant.fields.image_helper') }}</span>--}}
-{{--            </div>--}}
+            <div class="form-group">
+                <label class="required" for="image">{{ trans('cruds.restaurant.fields.image') }}</label>
+                @if($restaurant->image)
+                    <a href="{{ $restaurant->image_url }}" target="_blank">
+                        <img src="{{ $restaurant->image_url }}" width="50px" height="50px">
+                    </a>
+                @endif
 
+                <input type="file" name="image" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}">
+
+                @if($errors->has('image'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('image') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.restaurant.fields.image_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="photo">{{ trans('cruds.restaurant.fields.photo') }}</label>
+                @if(isset($restaurant->media))
+                    <div class="container">
+                        <div class="row">
+                        @foreach($restaurant->media as $value)
+                            <!-- TH1 -->
+                                <div class="col-sm-1" style="float: right ; width: 140px;margin-top: 3%;">
+                                    <div class="thumbnail">
+                                        <a href="{{ route('admin.deleteImage', $value->id) }}" style="margin-top: -18%;margin-right: 34px;">&#10006;</a>
+                                        <img class="img-fluid" src="{{$value->image_url}}" height="100" width="100">
+
+                                    </div>
+                                </div>
+                            @endforeach
+
+                        </div>
+                    </div>
+                @endif
+                <input type="file" name="photo[]" multiple>
+
+                @if($errors->has('photo'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('photo') }}
+                    </div>
+                @endif
+            </div>
             <div class="form-group">
                 <label for="delivery_id">{{ trans('cruds.restaurant.fields.delivery') }}</label>
                 <select class="form-control select2 {{ $errors->has('delivery') ? 'is-invalid' : '' }}" name="delivery_id" id="delivery_id">
@@ -124,7 +222,6 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.restaurant.fields.address_helper') }}</span>
             </div>
-
             <div class="form-group">
                 <label for="number_of_employees">{{ trans('cruds.restaurant.fields.number_of_employees') }}</label>
                 <input class="form-control {{ $errors->has('number_of_employees') ? 'is-invalid' : '' }}" type="text" name="number_of_employees" id="number_of_employees" value="{{ old('number_of_employees', $restaurant->number_of_employees) }}">
@@ -165,42 +262,55 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.restaurant.fields.city_helper') }}</span>
             </div>
-{{--            <div class="form-group">--}}
-{{--                <label for="commercial_registration_image">{{ trans('cruds.restaurant.fields.commercial_registration_image') }}</label>--}}
-{{--                <div class="needsclick dropzone {{ $errors->has('commercial_registration_image') ? 'is-invalid' : '' }}" id="commercial_registration_image-dropzone">--}}
-{{--                </div>--}}
-{{--                @if($errors->has('commercial_registration_image'))--}}
-{{--                    <span class="text-danger">{{ $errors->first('commercial_registration_image') }}</span>--}}
-{{--                @endif--}}
-{{--                <span class="help-block">{{ trans('cruds.restaurant.fields.commercial_registration_image_helper') }}</span>--}}
-{{--            </div>--}}
-{{--            <div class="form-group">--}}
-{{--                <label for="identity_card_image">{{ trans('cruds.restaurant.fields.identity_card_image') }}</label>--}}
-{{--                <div class="needsclick dropzone {{ $errors->has('identity_card_image') ? 'is-invalid' : '' }}" id="identity_card_image-dropzone">--}}
-{{--                </div>--}}
-{{--                @if($errors->has('identity_card_image'))--}}
-{{--                    <span class="text-danger">{{ $errors->first('identity_card_image') }}</span>--}}
-{{--                @endif--}}
-{{--                <span class="help-block">{{ trans('cruds.restaurant.fields.identity_card_image_helper') }}</span>--}}
-{{--            </div>--}}
-{{--            <div class="form-group">--}}
-{{--                <label for="company_seal">{{ trans('cruds.restaurant.fields.company_seal') }}</label>--}}
-{{--                <div class="needsclick dropzone {{ $errors->has('company_seal') ? 'is-invalid' : '' }}" id="company_seal-dropzone">--}}
-{{--                </div>--}}
-{{--                @if($errors->has('company_seal'))--}}
-{{--                    <span class="text-danger">{{ $errors->first('company_seal') }}</span>--}}
-{{--                @endif--}}
-{{--                <span class="help-block">{{ trans('cruds.restaurant.fields.company_seal_helper') }}</span>--}}
-{{--            </div>--}}
-{{--            <div class="form-group">--}}
-{{--                <label for="other_image">{{ trans('cruds.restaurant.fields.other_image') }}</label>--}}
-{{--                <div class="needsclick dropzone {{ $errors->has('other_image') ? 'is-invalid' : '' }}" id="other_image-dropzone">--}}
-{{--                </div>--}}
-{{--                @if($errors->has('other_image'))--}}
-{{--                    <span class="text-danger">{{ $errors->first('other_image') }}</span>--}}
-{{--                @endif--}}
-{{--                <span class="help-block">{{ trans('cruds.restaurant.fields.other_image_helper') }}</span>--}}
-{{--            </div>--}}
+            <div class="form-group">
+                <label for="commercial_registration_image">{{ trans('cruds.restaurant.fields.commercial_registration_image') }}</label>
+                <br>
+                @if($restaurant->commercial_registration_image)
+                    <a href="{{ $restaurant->commercial_registration_image_url }}" target="_blank">
+                        <img src="{{ $restaurant->commercial_registration_image_url }}" width="50px" height="50px">
+                    </a>
+                @endif
+
+                <input type="file" name="commercial_registration_image" class="form-control {{ $errors->has('commercial_registration_image') ? 'is-invalid' : '' }}">
+
+            @if($errors->has('commercial_registration_image'))
+                    <span class="text-danger">{{ $errors->first('commercial_registration_image') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.restaurant.fields.commercial_registration_image_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="identity_card_image">{{ trans('cruds.restaurant.fields.identity_card_image') }}</label>
+                <br>
+                @if($restaurant->identity_card_image)
+                    <a href="{{ $restaurant->identity_card_image_url }}" target="_blank">
+                        <img src="{{ $restaurant->identity_card_image_url }}" width="50px" height="50px">
+                    </a>
+                @endif
+
+                <input type="file" name="identity_card_image" class="form-control {{ $errors->has('identity_card_image') ? 'is-invalid' : '' }}">
+
+            @if($errors->has('identity_card_image'))
+                    <span class="text-danger">{{ $errors->first('identity_card_image') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.restaurant.fields.identity_card_image_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="company_seal">{{ trans('cruds.restaurant.fields.company_seal') }}</label>
+               <br>
+                @if($restaurant->company_seal)
+                    <a href="{{ $restaurant->company_seal_url }}" target="_blank">
+                        <img src="{{ $restaurant->company_seal_url }}" width="50px" height="50px">
+                    </a>
+                @endif
+
+                <input type="file" name="company_seal" class="form-control {{ $errors->has('company_seal') ? 'is-invalid' : '' }}">
+
+            @if($errors->has('company_seal'))
+                    <span class="text-danger">{{ $errors->first('company_seal') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.restaurant.fields.company_seal_helper') }}</span>
+            </div>
+
             <div class="form-group">
                 <label for="open_time">{{ trans('cruds.restaurant.fields.open_time') }}</label>
                 <input class="form-control timepicker {{ $errors->has('open_time') ? 'is-invalid' : '' }}" type="text" name="open_time" id="open_time" value="{{ old('open_time', $restaurant->open_time) }}">
@@ -234,6 +344,14 @@
                 <span class="help-block">{{ trans('cruds.restaurant.fields.max_waiting_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="max_waiting">{{ trans('cruds.restaurant.fields.number_order_automatically') }}</label>
+                <input class="form-control {{ $errors->has('number_order_automatically') ? 'is-invalid' : '' }}" type="number" name="number_order_automatically" id="number_order_automatically" value="{{ old('number_order_automatically', $restaurant->number_order_automatically) }}">
+                @if($errors->has('number_order_automatically'))
+                    <span class="text-danger">{{ $errors->first('number_order_automatically') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.restaurant.fields.number_order_automatically_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
@@ -247,280 +365,5 @@
 @endsection
 
 @section('scripts')
-<script>
-    Dropzone.options.imageDropzone = {
-    url: '{{ route('admin.restaurants.storeMedia') }}',
-    maxFilesize: 2, // MB
-    acceptedFiles: '.jpeg,.jpg,.png,.gif',
-    maxFiles: 1,
-    addRemoveLinks: true,
-    headers: {
-      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-    },
-    params: {
-      size: 2,
-      width: 4096,
-      height: 4096
-    },
-    success: function (file, response) {
-      $('form').find('input[name="image"]').remove()
-      $('form').append('<input type="hidden" name="image" value="' + response.name + '">')
-    },
-    removedfile: function (file) {
-      file.previewElement.remove()
-      if (file.status !== 'error') {
-        $('form').find('input[name="image"]').remove()
-        this.options.maxFiles = this.options.maxFiles + 1
-      }
-    },
-    init: function () {
-@if(isset($restaurant) && $restaurant->image)
-      var file = {!! json_encode($restaurant->image) !!}
-          this.options.addedfile.call(this, file)
-      this.options.thumbnail.call(this, file, file.preview)
-      file.previewElement.classList.add('dz-complete')
-      $('form').append('<input type="hidden" name="image" value="' + file.file_name + '">')
-      this.options.maxFiles = this.options.maxFiles - 1
-@endif
-    },
-    error: function (file, response) {
-        if ($.type(response) === 'string') {
-            var message = response //dropzone sends it's own error messages in string
-        } else {
-            var message = response.errors.file
-        }
-        file.previewElement.classList.add('dz-error')
-        _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
-        _results = []
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            node = _ref[_i]
-            _results.push(node.textContent = message)
-        }
 
-        return _results
-    }
-}
-</script>
-<script>
-    Dropzone.options.commercialRegistrationImageDropzone = {
-    url: '{{ route('admin.restaurants.storeMedia') }}',
-    maxFilesize: 10, // MB
-    acceptedFiles: '.jpeg,.jpg,.png,.gif',
-    maxFiles: 1,
-    addRemoveLinks: true,
-    headers: {
-      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-    },
-    params: {
-      size: 10,
-      width: 4096,
-      height: 4096
-    },
-    success: function (file, response) {
-      $('form').find('input[name="commercial_registration_image"]').remove()
-      $('form').append('<input type="hidden" name="commercial_registration_image" value="' + response.name + '">')
-    },
-    removedfile: function (file) {
-      file.previewElement.remove()
-      if (file.status !== 'error') {
-        $('form').find('input[name="commercial_registration_image"]').remove()
-        this.options.maxFiles = this.options.maxFiles + 1
-      }
-    },
-    init: function () {
-@if(isset($restaurant) && $restaurant->commercial_registration_image)
-      var file = {!! json_encode($restaurant->commercial_registration_image) !!}
-          this.options.addedfile.call(this, file)
-      this.options.thumbnail.call(this, file, file.preview)
-      file.previewElement.classList.add('dz-complete')
-      $('form').append('<input type="hidden" name="commercial_registration_image" value="' + file.file_name + '">')
-      this.options.maxFiles = this.options.maxFiles - 1
-@endif
-    },
-    error: function (file, response) {
-        if ($.type(response) === 'string') {
-            var message = response //dropzone sends it's own error messages in string
-        } else {
-            var message = response.errors.file
-        }
-        file.previewElement.classList.add('dz-error')
-        _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
-        _results = []
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            node = _ref[_i]
-            _results.push(node.textContent = message)
-        }
-
-        return _results
-    }
-}
-</script>
-<script>
-    Dropzone.options.identityCardImageDropzone = {
-    url: '{{ route('admin.restaurants.storeMedia') }}',
-    maxFilesize: 10, // MB
-    acceptedFiles: '.jpeg,.jpg,.png,.gif',
-    maxFiles: 1,
-    addRemoveLinks: true,
-    headers: {
-      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-    },
-    params: {
-      size: 10,
-      width: 4096,
-      height: 4096
-    },
-    success: function (file, response) {
-      $('form').find('input[name="identity_card_image"]').remove()
-      $('form').append('<input type="hidden" name="identity_card_image" value="' + response.name + '">')
-    },
-    removedfile: function (file) {
-      file.previewElement.remove()
-      if (file.status !== 'error') {
-        $('form').find('input[name="identity_card_image"]').remove()
-        this.options.maxFiles = this.options.maxFiles + 1
-      }
-    },
-    init: function () {
-@if(isset($restaurant) && $restaurant->identity_card_image)
-      var file = {!! json_encode($restaurant->identity_card_image) !!}
-          this.options.addedfile.call(this, file)
-      this.options.thumbnail.call(this, file, file.preview)
-      file.previewElement.classList.add('dz-complete')
-      $('form').append('<input type="hidden" name="identity_card_image" value="' + file.file_name + '">')
-      this.options.maxFiles = this.options.maxFiles - 1
-@endif
-    },
-    error: function (file, response) {
-        if ($.type(response) === 'string') {
-            var message = response //dropzone sends it's own error messages in string
-        } else {
-            var message = response.errors.file
-        }
-        file.previewElement.classList.add('dz-error')
-        _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
-        _results = []
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            node = _ref[_i]
-            _results.push(node.textContent = message)
-        }
-
-        return _results
-    }
-}
-</script>
-<script>
-    Dropzone.options.companySealDropzone = {
-    url: '{{ route('admin.restaurants.storeMedia') }}',
-    maxFilesize: 20, // MB
-    acceptedFiles: '.jpeg,.jpg,.png,.gif',
-    maxFiles: 1,
-    addRemoveLinks: true,
-    headers: {
-      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-    },
-    params: {
-      size: 20,
-      width: 4096,
-      height: 4096
-    },
-    success: function (file, response) {
-      $('form').find('input[name="company_seal"]').remove()
-      $('form').append('<input type="hidden" name="company_seal" value="' + response.name + '">')
-    },
-    removedfile: function (file) {
-      file.previewElement.remove()
-      if (file.status !== 'error') {
-        $('form').find('input[name="company_seal"]').remove()
-        this.options.maxFiles = this.options.maxFiles + 1
-      }
-    },
-    init: function () {
-@if(isset($restaurant) && $restaurant->company_seal)
-      var file = {!! json_encode($restaurant->company_seal) !!}
-          this.options.addedfile.call(this, file)
-      this.options.thumbnail.call(this, file, file.preview)
-      file.previewElement.classList.add('dz-complete')
-      $('form').append('<input type="hidden" name="company_seal" value="' + file.file_name + '">')
-      this.options.maxFiles = this.options.maxFiles - 1
-@endif
-    },
-    error: function (file, response) {
-        if ($.type(response) === 'string') {
-            var message = response //dropzone sends it's own error messages in string
-        } else {
-            var message = response.errors.file
-        }
-        file.previewElement.classList.add('dz-error')
-        _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
-        _results = []
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            node = _ref[_i]
-            _results.push(node.textContent = message)
-        }
-
-        return _results
-    }
-}
-</script>
-<script>
-    var uploadedOtherImageMap = {}
-Dropzone.options.otherImageDropzone = {
-    url: '{{ route('admin.restaurants.storeMedia') }}',
-    maxFilesize: 10, // MB
-    acceptedFiles: '.jpeg,.jpg,.png,.gif',
-    addRemoveLinks: true,
-    headers: {
-      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-    },
-    params: {
-      size: 10,
-      width: 4096,
-      height: 4096
-    },
-    success: function (file, response) {
-      $('form').append('<input type="hidden" name="other_image[]" value="' + response.name + '">')
-      uploadedOtherImageMap[file.name] = response.name
-    },
-    removedfile: function (file) {
-      console.log(file)
-      file.previewElement.remove()
-      var name = ''
-      if (typeof file.file_name !== 'undefined') {
-        name = file.file_name
-      } else {
-        name = uploadedOtherImageMap[file.name]
-      }
-      $('form').find('input[name="other_image[]"][value="' + name + '"]').remove()
-    },
-    init: function () {
-@if(isset($restaurant) && $restaurant->other_image)
-      var files = {!! json_encode($restaurant->other_image) !!}
-          for (var i in files) {
-          var file = files[i]
-          this.options.addedfile.call(this, file)
-          this.options.thumbnail.call(this, file, file.preview)
-          file.previewElement.classList.add('dz-complete')
-          $('form').append('<input type="hidden" name="other_image[]" value="' + file.file_name + '">')
-        }
-@endif
-    },
-     error: function (file, response) {
-         if ($.type(response) === 'string') {
-             var message = response //dropzone sends it's own error messages in string
-         } else {
-             var message = response.errors.file
-         }
-         file.previewElement.classList.add('dz-error')
-         _ref = file.previewElement.querySelectorAll('[data-dz-errormessage]')
-         _results = []
-         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-             node = _ref[_i]
-             _results.push(node.textContent = message)
-         }
-
-         return _results
-     }
-}
-</script>
 @endsection

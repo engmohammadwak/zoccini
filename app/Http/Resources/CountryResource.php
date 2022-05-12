@@ -20,9 +20,9 @@ class CountryResource extends JsonResource
 
         return [
             'id'   => $this->id,
-            'name' => $name ?? '',
-            'currency' => $currency ?? '',
-            'code' => $this->short_code ?? '',
+            'name' => $name,
+            'currency' => $currency,
+            'code' => $this->short_code,
             'city' => CityResource::collection($this->city),
         ];
     }

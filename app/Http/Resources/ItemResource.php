@@ -11,7 +11,7 @@ class ItemResource extends JsonResource
     {
         $image = url('local/public/img/item/' . $this->photo);
         if ( App::getLocale() == 'ar') {
-            $name        = $this->name;
+            $name        = $this->name_ar;
             $description = $this->description_ar;
         }else {
             $name        = $this->name_en;
@@ -20,11 +20,12 @@ class ItemResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'name' => $name ?? '',
-            'price' => (double) $this->price ?? '',
-            'description' => $description ?? '',
-            'photo' => $image ?? '',
+            'name' => $name,
+            'price' => (double) $this->price,
+            'description' => $description,
+            'photo' => $image,
             'isFavority' => isFavority($this->id , 1),
+            'extra' => ExtraResource::collection($this->extra),
         ];
     }
 }

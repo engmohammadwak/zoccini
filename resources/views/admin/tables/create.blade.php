@@ -20,8 +20,8 @@
             <div class="form-group">
                 <label class="required" for="sitting_area_id">{{ trans('cruds.table.fields.sitting_area') }}</label>
                 <select class="form-control select2 {{ $errors->has('sitting_area') ? 'is-invalid' : '' }}" name="sitting_area_id" id="sitting_area_id" required>
-                    @foreach($sitting_areas as $id => $sitting_area)
-                        <option value="{{ $id }}" {{ old('sitting_area_id') == $id ? 'selected' : '' }}>{{ $sitting_area }}</option>
+                    @foreach($sitting_areas as  $sitting_area)
+                        <option value="{{$sitting_area->id }}" {{ old('sitting_area_id') == $sitting_area->id ? 'selected' : '' }}>{{ \Illuminate\Support\Facades\App::getLocale() == 'ar' ? $sitting_area->name_ar : $sitting_area->name_en}}</option>
                     @endforeach
                 </select>
                 @if($errors->has('sitting_area'))

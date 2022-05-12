@@ -19,8 +19,8 @@ class DeliveryCompanyResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'name' => $name ?? '',
-            'rate' => (int) $this->rate ?? '',
+            'name' => $name,
+            'rate' => (int) $this->rate,
         ];
     }
 }

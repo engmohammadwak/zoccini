@@ -28,7 +28,7 @@
                             {{ trans('cruds.subscriptionUser.fields.user') }}
                         </th>
                         <td>
-                            {{ $subscriptionUser->user->name ?? '' }}
+                            {{ $subscriptionUser->restaurant->restaurant->name.' '.$subscriptionUser->restaurant->restaurant->last_name ?? '' }}
                         </td>
                     </tr>
                     <tr>

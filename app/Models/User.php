@@ -56,7 +56,21 @@ class User extends Authenticatable
         'updated_at',
         'deleted_at',
         'image',
+        'restaurant_id',
+        'online',
+        'social_unique_id',
+        'social_type',
+        'country_id',
+        'city_id',
+        'currency_id',
+        'lang',
+        'payment_status',
     ];
+
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class, 'restaurant_id');
+    }
 
     protected function serializeDate(DateTimeInterface $date)
     {
@@ -66,6 +80,11 @@ class User extends Authenticatable
     public function getIsAdminAttribute()
     {
         return $this->roles()->where('id', 1)->exists();
+    }
+
+    public function getIsLoopAttribute()
+    {
+        return $this->roles()->where('id', 12)->exists();
     }
 
     public function userUserAlerts()
@@ -114,4 +133,22 @@ class User extends Authenticatable
     {
         $this->attributes['date_of_birth'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
+    }
+
+
+
 }

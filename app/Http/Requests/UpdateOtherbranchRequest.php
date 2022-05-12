@@ -17,10 +17,7 @@ class UpdateOtherbranchRequest extends FormRequest
     public function rules()
     {
         return [
-            'restaurants_id'    => [
-                'required',
-                'integer',
-            ],
+
             'branch_name_ar'    => [
                 'string',
                 'nullable',

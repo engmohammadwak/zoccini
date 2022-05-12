@@ -33,10 +33,26 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.subscriptionPackage.fields.name_en') }}
+                        </th>
+                        <td>
+                            {{ $subscriptionPackage->name_en }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.subscriptionPackage.fields.description') }}
                         </th>
                         <td>
                             {{ $subscriptionPackage->description }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.subscriptionPackage.fields.description_en') }}
+                        </th>
+                        <td>
+                            {{ $subscriptionPackage->description_en }}
                         </td>
                     </tr>
                     <tr>
@@ -65,10 +81,34 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.subscriptionPackage.fields.file_size') }}
+                            {{ trans('cruds.subscriptionPackage.fields.offer') }}
                         </th>
                         <td>
-                            {{ $subscriptionPackage->file_size }}
+                            {{ $subscriptionPackage->offer }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.subscriptionPackage.fields.have_map') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $subscriptionPackage->have_map ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.subscriptionPackage.fields.currency') }}
+                        </th>
+                        <td>
+                            {{ $subscriptionPackage->currency->name_ar ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.subscriptionPackage.fields.referral_price') }}
+                        </th>
+                        <td>
+                            {{ $subscriptionPackage->referral_price }}
                         </td>
                     </tr>
                 </tbody>

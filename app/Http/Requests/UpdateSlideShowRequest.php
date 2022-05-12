@@ -20,6 +20,9 @@ class UpdateSlideShowRequest extends FormRequest
             'video_url' => [
                 'string',
                 'nullable',
+            ],'product_restaurant_id' => [
+                'int',
+                'nullable',
             ],
         ];
     }

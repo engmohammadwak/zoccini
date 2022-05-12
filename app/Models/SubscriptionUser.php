@@ -33,6 +33,7 @@ class SubscriptionUser extends Model
         'end_day',
         'price',
         'status',
+        'payment_status',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -46,6 +47,12 @@ class SubscriptionUser extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class, 'user_id');
     }
 
     public function package()

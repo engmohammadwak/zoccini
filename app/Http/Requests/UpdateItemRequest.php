@@ -25,7 +25,7 @@ class UpdateItemRequest extends FormRequest
                 'string',
                 'required',
             ],
-            'description'    => [
+            'description_en'    => [
                 'required',
             ],
             'description_ar' => [

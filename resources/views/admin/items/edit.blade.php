@@ -69,18 +69,23 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.item.fields.price_helper') }}</span>
             </div>
-            <div class="form-group">
-                <label for="category_id">{{ trans('cruds.item.fields.category') }}</label>
-                <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
-                    @foreach($categories as $id => $category)
-                        <option value="{{ $id }}" {{ (old('category_id') ? old('category_id') : $item->category->id ?? '') == $id ? 'selected' : '' }}>{{ $category }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('category'))
-                    <span class="text-danger">{{ $errors->first('category') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.item.fields.category_helper') }}</span>
-            </div>
+            @if (\Illuminate\Support\Facades\Auth::id() != 3)
+                <input type="hidden" name="category_id" value="{{$item->category_id}}">
+            @else
+                <div class="form-group">
+                    <label for="category_id">{{ trans('cruds.item.fields.category') }}</label>
+                    <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id">
+                        @foreach($categories as $id => $category)
+                            <option value="{{ $id }}" {{ (old('category_id') ? old('category_id') : $item->category->id ?? '') == $id ? 'selected' : '' }}>{{ $category }}</option>
+                        @endforeach
+                    </select>
+                    @if($errors->has('category'))
+                        <span class="text-danger">{{ $errors->first('category') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.item.fields.category_helper') }}</span>
+                </div>
+            @endif
+
             <div class="form-group">
                 <label>{{ trans('cruds.currency.fields.status') }}</label>
                 @foreach(App\Models\Item::STATUS_RADIO as $key => $label)

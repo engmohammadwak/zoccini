@@ -51,10 +51,10 @@
                                 {{ $allAd->id ?? '' }}
                             </td>
                             <td>
-                                {{ $allAd->restaurant->name_ar ?? '' }}
+                                {{ optional($allAd->restaurant)->name_ar ?? '' }}
                             </td>
                             <td>
-                                {{ $allAd->category->name_ar ?? '' }}
+                                {{ optional($allAd->category)->name_ar ?? '' }}
                             </td>
                             <td>
                                 {{ App\Models\AllAd::STATUS_RADIO[$allAd->status] ?? '' }}

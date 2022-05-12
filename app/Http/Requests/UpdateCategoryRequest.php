@@ -20,16 +20,10 @@ class UpdateCategoryRequest extends FormRequest
             'name_en'       => [
                 'string',
                 'required',
-                'unique:categories,name_en,' . request()->route('category')->id,
             ],
             'name_ar'       => [
                 'string',
                 'required',
-                'unique:categories,name_ar,' . request()->route('category')->id,
-            ],
-            'restaurant_id' => [
-                'required',
-                'integer',
             ],
         ];
     }

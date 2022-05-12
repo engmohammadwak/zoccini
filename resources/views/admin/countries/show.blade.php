@@ -60,7 +60,7 @@
                             {{ trans('cruds.country.fields.currency') }}
                         </th>
                         <td>
-                            {{ $country->currency->name_ar ?? '' }}
+                            {{ optional($country->currency)->name_ar ?? '' }}
                         </td>
                     </tr>
                 </tbody>

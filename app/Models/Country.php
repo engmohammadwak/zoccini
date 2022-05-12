@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
+use Illuminate\Support\Facades\App;
 
 class Country extends Model
 {
@@ -12,6 +13,9 @@ class Country extends Model
 
     public $table = 'countries';
 
+    protected $appends = [
+        'names',
+    ];
     const STATUS_RADIO = [
         '0' => 'inactive',
         '1' => 'active',
@@ -47,5 +51,10 @@ class Country extends Model
     public function city()
     {
         return $this->hasMany(City::class, 'countries_id', 'id')->where('status', 1);
+    }
+
+    public function getNamesAttribute($value)
+    {
+        return App::getLocale() == 'ar' ? $this->name_ar : $this->name;
     }
 }

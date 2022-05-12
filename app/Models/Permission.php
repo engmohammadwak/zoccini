@@ -23,6 +23,7 @@ class Permission extends Model
         'title',
         'name_ar',
         'name_en',
+        'category',
         'created_at',
         'updated_at',
         'deleted_at',

@@ -45,7 +45,7 @@
 
                 <div class="form-group">
                     <label for="product_restaurant">{{ trans('cruds.slideShow.fields.product_restaurant') }}</label>
-                    <select onchange="select_type()"
+                    <select onchange="select_type()" required
                             class="form-control {{ $errors->has('product_restaurant') ? 'is-invalid' : '' }}"
                             name="product_restaurant" id="product_restaurant" required>
                         <option value="0" {{ old('product_restaurant') == '0' ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>

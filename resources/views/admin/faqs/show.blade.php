@@ -36,7 +36,7 @@
                             {{ trans('cruds.faq.fields.a_ar') }}
                         </th>
                         <td>
-                            {{ $faq->a_ar }}
+                            {{ $faq->a_ar ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -52,7 +52,7 @@
                             {{ trans('cruds.faq.fields.a_en') }}
                         </th>
                         <td>
-                            {{ $faq->a_en }}
+                            {{ $faq->a_en ?? '' }}
                         </td>
                     </tr>
                 </tbody>

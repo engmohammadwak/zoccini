@@ -7,8 +7,9 @@ use App\Http\Requests\MassDestroyOrderRequest;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\AllAd;
-use App\Models\CanselReason;
+use App\Models\CancelReason;
 use App\Models\CarList;
+use App\Models\Category;
 use App\Models\DeliveryCompany;
 use App\Models\Item;
 use App\Models\Order;
@@ -19,6 +20,7 @@ use App\Models\SittingArea;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends Controller
@@ -26,98 +28,19 @@ class OrderController extends Controller
     public function index()
     {
         abort_if(Gate::denies('order_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $restaurant = Restaurant::where('restaurant_id', Auth::id())->first();
+        if (Auth::user()['user_type'] == 3) {
+            $orders = Order::with(['restaurants', 'user', 'type', 'sitting_area', 'delivery_company', 'status', 'items', 'cansel_reason', 'winner', 'car_number'])->where('restaurants_id', $restaurant->id)->get();
+            $restaurants = null;
 
-        $orders = Order::with(['restaurants', 'user', 'type', 'sitting_area', 'delivery_company', 'status', 'items', 'cansel_reason', 'winner', 'car_number'])->get();
-
-        $restaurants = Restaurant::get();
-
+        } else {
+            $orders = Order::with(['restaurants', 'user', 'type', 'sitting_area', 'delivery_company', 'status', 'items', 'cansel_reason', 'winner', 'car_number'])->get();
+            $restaurants = Restaurant::get();
+        }
         $users = User::get();
-
-        $order_types = OrderType::get();
-
-        $sitting_areas = SittingArea::get();
-
-        $delivery_companies = DeliveryCompany::get();
-
         $order_statuses = OrderStatus::get();
 
-        $items = Item::get();
-
-        $cansel_reasons = CanselReason::get();
-
-        $all_ads = AllAd::get();
-
-        $car_lists = CarList::get();
-
-        return view('admin.orders.index', compact('orders', 'restaurants', 'users', 'order_types', 'sitting_areas', 'delivery_companies', 'order_statuses', 'items', 'cansel_reasons', 'all_ads', 'car_lists'));
-    }
-
-    public function create()
-    {
-        abort_if(Gate::denies('order_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $restaurants = Restaurant::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $types = OrderType::all()->pluck('name_ar', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $sitting_areas = SittingArea::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $delivery_companies = DeliveryCompany::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $statuses = OrderStatus::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $items = Item::all()->pluck('name', 'id');
-
-        $cansel_reasons = CanselReason::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $car_numbers = CarList::all()->pluck('pate_number', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.orders.create', compact('restaurants', 'users', 'types', 'sitting_areas', 'delivery_companies', 'statuses', 'items', 'cansel_reasons', 'car_numbers'));
-    }
-
-    public function store(StoreOrderRequest $request)
-    {
-        $order = Order::create($request->all());
-        $order->items()->sync($request->input('items', []));
-
-        return redirect()->route('admin.orders.index');
-    }
-
-    public function edit(Order $order)
-    {
-        abort_if(Gate::denies('order_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $restaurants = Restaurant::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $types = OrderType::all()->pluck('name_ar', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $sitting_areas = SittingArea::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $delivery_companies = DeliveryCompany::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $statuses = OrderStatus::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $items = Item::all()->pluck('name', 'id');
-
-        $cansel_reasons = CanselReason::all()->pluck('name_en', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $car_numbers = CarList::all()->pluck('pate_number', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $order->load('restaurants', 'user', 'type', 'sitting_area', 'delivery_company', 'status', 'items', 'cansel_reason', 'winner', 'car_number');
-
-        return view('admin.orders.edit', compact('restaurants', 'users', 'types', 'sitting_areas', 'delivery_companies', 'statuses', 'items', 'cansel_reasons', 'car_numbers', 'order'));
-    }
-
-    public function update(UpdateOrderRequest $request, Order $order)
-    {
-        $order->update($request->all());
-        $order->items()->sync($request->input('items', []));
-
-        return redirect()->route('admin.orders.index');
+        return view('admin.orders.index', compact('orders', 'restaurants', 'users', 'order_statuses'));
     }
 
     public function show(Order $order)
@@ -129,19 +52,4 @@ class OrderController extends Controller
         return view('admin.orders.show', compact('order'));
     }
 
-    public function destroy(Order $order)
-    {
-        abort_if(Gate::denies('order_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $order->delete();
-
-        return back();
-    }
-
-    public function massDestroy(MassDestroyOrderRequest $request)
-    {
-        Order::whereIn('id', request('ids'))->delete();
-
-        return response(null, Response::HTTP_NO_CONTENT);
-    }
 }

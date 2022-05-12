@@ -32,7 +32,7 @@
                             {{ trans('cruds.userAlert.fields.alert_link') }}
                         </th>
                         <th>
-                            {{ trans('cruds.userAlert.fields.user') }}
+                            {{ trans('cruds.userAlert.fields.alert_body') }}
                         </th>
                         <th>
                             {{ trans('cruds.userAlert.fields.created_at') }}
@@ -58,10 +58,9 @@
                                 {{ $userAlert->alert_link ?? '' }}
                             </td>
                             <td>
-                                @foreach($userAlert->users as $key => $item)
-                                    <span class="badge badge-info">{{ $item->name }}</span>
-                                @endforeach
+                                {{ $userAlert->alert_body ?? '' }}
                             </td>
+
                             <td>
                                 {{ $userAlert->created_at ?? '' }}
                             </td>
@@ -139,7 +138,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>

@@ -52,9 +52,19 @@ class Order extends Model
         'cancel_reason_message',
         'winner_id',
         'car_number_id',
+        'payment_method',
+        'address_id',
+        'price',
+        'vat',
+        'application_services',
+        'discount_Application_services',
+        'final_price',
+        'offer_id',
         'created_at',
         'updated_at',
         'deleted_at',
+        'table_id',
+        'cancel_reason_name',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
@@ -82,15 +92,20 @@ class Order extends Model
         return $this->belongsTo(SittingArea::class, 'sitting_area_id');
     }
 
-    public function getScheduleDateAttribute($value)
+    public function table_data()
     {
-        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
+        return $this->belongsTo(Table::class, 'table_id');
     }
 
-    public function setScheduleDateAttribute($value)
-    {
-        $this->attributes['schedule_date'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
-    }
+//    public function getScheduleDateAttribute($value)
+//    {
+//        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
+//    }
+//
+//    public function setScheduleDateAttribute($value)
+//    {
+//        $this->attributes['schedule_date'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
+//    }
 
     public function delivery_company()
     {
@@ -104,12 +119,12 @@ class Order extends Model
 
     public function items()
     {
-        return $this->belongsToMany(Item::class)->withPivot('count' , 'price');
+        return $this->belongsToMany(Item::class)->withPivot('count' , 'price', 'final_price', 'special_request');
     }
 
     public function cansel_reason()
     {
-        return $this->belongsTo(CanselReason::class, 'cansel_reason_id');
+        return $this->belongsTo(CancelReason::class, 'cansel_reason_id');
     }
 
     public function winner()
@@ -122,8 +137,28 @@ class Order extends Model
         return $this->belongsTo(CarList::class, 'car_number_id');
     }
 
+    public function address()
+    {
+        return $this->belongsTo(Address::class, 'address_id');
+    }
+
     public function extras()
     {
-        return $this->belongsToMany(Extra::class)->withPivot('item_id','count' , 'price');
+        return $this->belongsToMany(Extra::class)->withPivot('item_id','count' , 'price', 'final_price');
+    }
+
+    public function share()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function queue()
+    {
+        return $this->hasMany(Queue::class, 'order_id', 'id');
+    }
+
+    public function scopeSearch($query, $value)
+    {
+        $query->where('id', $value);
     }
 }

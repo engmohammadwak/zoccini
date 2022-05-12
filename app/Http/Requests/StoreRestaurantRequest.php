@@ -17,6 +17,26 @@ class StoreRestaurantRequest extends FormRequest
     public function rules()
     {
         return [
+            'name'               => [
+                'string',
+                'required',
+            ],
+            'last_name'          => [
+                'string',
+                'required',
+            ],
+            'phone'              => [
+                'string',
+                'required',
+                'unique:users',
+            ],
+            'email'              => [
+                'required',
+                'unique:users',
+            ],
+            'password'           => [
+                'required',
+            ],
             'name_ar'              => [
                 'string',
                 'required',

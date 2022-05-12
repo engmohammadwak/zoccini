@@ -14,54 +14,48 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ExtraController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         abort_if(Gate::denies('extra_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $extras = Extra::all();
+        $extras = Extra::where('item_id' , $id)->get();
 
-        return view('admin.extras.index', compact('extras'));
+        return view('admin.extras.index', compact('extras' , 'id'));
     }
 
-    public function create()
+    public function create($id)
     {
         abort_if(Gate::denies('extra_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $items = Item::all()->pluck('name_ar', 'id')->prepend(trans('global.pleaseSelect'), '');
+//        $items = Item::all()->pluck('name_ar', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.extras.create', compact('items'));
+        return view('admin.extras.create', compact('id'));
     }
 
     public function store(StoreExtraRequest $request)
     {
         $extra = Extra::create($request->all());
 
-        return redirect()->route('admin.extras.index');
+        return redirect()->route('admin.items.extra', $request->item_id);
     }
 
     public function edit(Extra $extra)
     {
         abort_if(Gate::denies('extra_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $items = Item::all()->pluck('name_ar', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $extra->load('item');
-
-        return view('admin.extras.edit', compact('items', 'extra'));
+        return view('admin.extras.edit', compact( 'extra'));
     }
 
     public function update(UpdateExtraRequest $request, Extra $extra)
     {
         $extra->update($request->all());
 
-        return redirect()->route('admin.extras.index');
+        return redirect()->route('admin.items.extra', $request->item_id);
     }
 
     public function show(Extra $extra)
     {
         abort_if(Gate::denies('extra_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $extra->load('item');
 
         return view('admin.extras.show', compact('extra'));
     }

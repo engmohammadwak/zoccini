@@ -20,17 +20,12 @@ class StoreCategoryRequest extends FormRequest
             'name_en'       => [
                 'string',
                 'required',
-                'unique:categories',
             ],
             'name_ar'       => [
                 'string',
                 'required',
-                'unique:categories',
             ],
-            'restaurant_id' => [
-                'required',
-                'integer',
-            ],
+
         ];
     }
 }

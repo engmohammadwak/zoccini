@@ -116,5 +116,8 @@ return [
     'dont_allow_first_letter_number' => 'The \":input\" field can\'t have first letter as a number',
     'exceeds_maximum_number'         => 'The :attribute exceeds maximum model length',
     'db_column'                      => 'The :attribute may only contain ISO basic Latin alphabet letters, numbers, dash and cannot start with number.',
-    'attributes'                     => [],
+    'attributes'                     => [
+        'coupon'                     => 'coupon',
+
+    ],
 ];

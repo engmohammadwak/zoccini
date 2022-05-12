@@ -89,46 +89,6 @@
                             @endif
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.user.fields.date_of_birth') }}
-                        </th>
-                        <td>
-                            {{ $user->date_of_birth }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.user.fields.gender') }}
-                        </th>
-                        <td>
-                            {{ $user->gender }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.user.fields.sms_subscription') }}
-                        </th>
-                        <td>
-                            {{ $user->sms_subscription }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.user.fields.email_subscription') }}
-                        </th>
-                        <td>
-                            {{ $user->email_subscription }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.user.fields.vip') }}
-                        </th>
-                        <td>
-                            {{ App\Models\User::VIP_RADIO[$user->vip] ?? '' }}
-                        </td>
-                    </tr>
                 </tbody>
             </table>
             <div class="form-group">
@@ -136,24 +96,6 @@
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.relatedData') }}
-    </div>
-    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#user_user_alerts" role="tab" data-toggle="tab">
-                {{ trans('cruds.userAlert.title') }}
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="user_user_alerts">
-            @includeIf('admin.users.relationships.userUserAlerts', ['userAlerts' => $user->userUserAlerts])
         </div>
     </div>
 </div>

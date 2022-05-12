@@ -50,6 +50,20 @@
                 <span class="help-block">{{ trans('cruds.onbordering.fields.description_en_helper') }}</span>
             </div>
             <div class="form-group">
+                <label>{{ trans('cruds.onbordering.fields.type') }}</label>
+                <select class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type" id="type">
+                    <option value disabled {{ old('status', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Models\Onbordering::TYPE_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('type', '0') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('type'))
+                    <span class="text-danger">{{ $errors->first('type') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.onbordering.fields.type_helper') }}</span>
+            </div>
+
+            <div class="form-group">
                 <label>{{ trans('cruds.onbordering.fields.status') }}</label>
                 <select class="form-control {{ $errors->has('status') ? 'is-invalid' : '' }}" name="status" id="status">
                     <option value disabled {{ old('status', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>

@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroySubscriptionPackageRequest;
 use App\Http\Requests\StoreSubscriptionPackageRequest;
 use App\Http\Requests\UpdateSubscriptionPackageRequest;
+use App\Models\Currency;
 use App\Models\SubscriptionPackage;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;
 
 class SubscriptionPackagesController extends Controller
@@ -17,7 +19,7 @@ class SubscriptionPackagesController extends Controller
     {
         abort_if(Gate::denies('subscription_package_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $subscriptionPackages = SubscriptionPackage::all();
+        $subscriptionPackages = SubscriptionPackage::with(['currency'])->get();
 
         return view('admin.subscriptionPackages.index', compact('subscriptionPackages'));
     }
@@ -26,7 +28,9 @@ class SubscriptionPackagesController extends Controller
     {
         abort_if(Gate::denies('subscription_package_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.subscriptionPackages.create');
+        $currencies = Currency::all()->pluck('name_'.App::getLocale(), 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.subscriptionPackages.create', compact('currencies'));
     }
 
     public function store(StoreSubscriptionPackageRequest $request)
@@ -40,7 +44,11 @@ class SubscriptionPackagesController extends Controller
     {
         abort_if(Gate::denies('subscription_package_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.subscriptionPackages.edit', compact('subscriptionPackage'));
+        $currencies = Currency::all()->pluck('name_'.App::getLocale(), 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $subscriptionPackage->load('currency');
+
+        return view('admin.subscriptionPackages.edit', compact('currencies', 'subscriptionPackage'));
     }
 
     public function update(UpdateSubscriptionPackageRequest $request, SubscriptionPackage $subscriptionPackage)
@@ -53,6 +61,8 @@ class SubscriptionPackagesController extends Controller
     public function show(SubscriptionPackage $subscriptionPackage)
     {
         abort_if(Gate::denies('subscription_package_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $subscriptionPackage->load('currency');
 
         return view('admin.subscriptionPackages.show', compact('subscriptionPackage'));
     }

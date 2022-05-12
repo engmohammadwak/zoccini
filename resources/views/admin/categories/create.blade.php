@@ -39,18 +39,6 @@
                 <span class="help-block">{{ trans('cruds.category.fields.status_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="restaurant_id">{{ trans('cruds.category.fields.restaurant') }}</label>
-                <select class="form-control select2 {{ $errors->has('restaurant') ? 'is-invalid' : '' }}" name="restaurant_id" id="restaurant_id" required>
-                    @foreach($restaurants as $id => $restaurant)
-                        <option value="{{ $id }}" {{ old('restaurant_id') == $id ? 'selected' : '' }}>{{ $restaurant }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('restaurant'))
-                    <span class="text-danger">{{ $errors->first('restaurant') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.category.fields.restaurant_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
@@ -58,7 +46,6 @@
         </form>
     </div>
 </div>
-
 
 
 @endsection

@@ -21,6 +21,12 @@ class Onbordering extends Model
         '1' => 'active',
     ];
 
+
+    const TYPE_SELECT = [
+        '1' => 'user',
+        '2' => 'restaurant',
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',
@@ -34,6 +40,7 @@ class Onbordering extends Model
         'description_en',
         'status',
         'image',
+        'type',
         'created_at',
         'updated_at',
         'deleted_at',

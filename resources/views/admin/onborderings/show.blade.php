@@ -69,6 +69,16 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.onbordering.fields.type') }}
+                        </th>
+                        <td>
+                            {{ App\Models\Onbordering::TYPE_SELECT[$onbordering->type] ?? '' }}
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th>
                             {{ trans('cruds.onbordering.fields.status') }}
                         </th>
                         <td>

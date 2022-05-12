@@ -29,7 +29,7 @@
                             {{ trans('cruds.allAd.fields.restaurant') }}
                         </th>
                         <td>
-                            {{ $allAd->restaurant->name_ar ?? '' }}
+                            {{ optional($allAd->restaurant)->name_ar ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -37,12 +37,12 @@
                             {{ trans('cruds.allAd.fields.category') }}
                         </th>
                         <td>
-                            {{ $allAd->category->name_ar ?? '' }}
+                            {{ optional($allAd->category)->name_ar ?? '' }}
                         </td>
                     </tr>
 
 
-                    @if ($allAd->category->id == 1)
+                    @if (optional($allAd->category)->id == 1)
                         <tr>
                             <th>
                                 {{ trans('cruds.allAd.fields.description_ar') }}
@@ -67,6 +67,15 @@
                                 {{ $allAd->number_requests }}
                             </td>
                         </tr>
+
+                        <tr>
+                            <th>
+                                {{ trans('cruds.coupon.fields.number_used') }}
+                            </th>
+                            <td>
+                                {{ $allAd->offer->count() }}
+                            </td>
+                        </tr>
                         <tr>
                             <th>
                                 {{ trans('cruds.allAd.fields.voucher_number') }}
@@ -80,7 +89,7 @@
                                 {{ trans('cruds.allAd.fields.winner') }}
                             </th>
                             <td>
-                                {{ $allAd->winner->name ?? '' }}
+                                {{ optional($allAd->winner)->name.' '.optional($allAd->winner)->last_name ?? '' }}
                             </td>
                         </tr>
                         <tr>
@@ -117,7 +126,7 @@
                                 {{ $allAd->discount }}
                             </td>
                         </tr>
-                        @elseif($allAd->category->id == 3 )
+                        @elseif(optional($allAd->category)->id == 3 )
 
                         <tr>
                             <th>

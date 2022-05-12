@@ -7,8 +7,10 @@ use App\Http\Requests\MassDestroyUserAlertRequest;
 use App\Http\Requests\StoreUserAlertRequest;
 use App\Models\User;
 use App\Models\UserAlert;
+use App\Notifications\SendMessageNotification;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserAlertsController extends Controller
@@ -26,7 +28,7 @@ class UserAlertsController extends Controller
     {
         abort_if(Gate::denies('user_alert_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = User::all()->pluck('name', 'id');
+        $users = User::whereNotIn('user_type', [3, 10])->get();
 
         return view('admin.userAlerts.create', compact('users'));
     }
@@ -34,7 +36,30 @@ class UserAlertsController extends Controller
     public function store(StoreUserAlertRequest $request)
     {
         $userAlert = UserAlert::create($request->all());
-        $userAlert->users()->sync($request->input('users', []));
+        $users = [];
+        if ($request->user_type == 'user') {
+            $users = User::where('user_type', 2)->get();
+        } elseif ($request->user_type == 'admin') {
+            $users = User::where('user_type', 1)->get();
+        } elseif ($request->user_type == 'restaurant') {
+            $users = User::where('user_type', 3)->get();
+        } else {
+            $users = User::whereIn('id', $request->input('users', []))->get();
+        }
+        $userAlert->users()->sync($users);
+
+
+        if ($request->user_type == 'user' || $request->user_type == 'one') {
+            foreach ($users as $user) {
+                if ($user->fcm_token) {
+                    // send notification //////////////////////////
+                    $notification = new SendMessageNotification($request->alert_text, $request->alert_body, null, null, 'admin');
+                    send_notification_fcm($user->fcm_token, $notification->toFCM());
+                    Notification::send($user, $notification);
+                    //////////////////////////////////////////////////
+                }
+            }
+        }
 
         return redirect()->route('admin.user-alerts.index');
     }
@@ -69,7 +94,7 @@ class UserAlertsController extends Controller
         $alerts = \Auth::user()->userUserAlerts()->where('read', false)->get();
 
         foreach ($alerts as $alert) {
-            $pivot       = $alert->pivot;
+            $pivot = $alert->pivot;
             $pivot->read = true;
             $pivot->save();
         }
