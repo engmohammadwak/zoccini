@@ -3,7 +3,7 @@
     <div class="container px-lg-0">
         <div class="d-flex align-items-center">
             <div class="logo mr-lg-4">
-                <a href="{{url('/')}}"><img src="{{url('local/public')}}/assets/images/logo.svg" alt=""/></a>
+                <a href="{{url('/')}}"><img src="{{asset('assets/images/logo.svg')}}" alt=""/></a>
             </div>
             <div class="menu--mobile mx-lg-auto">
                 <div class="menu-container d-lg-none">

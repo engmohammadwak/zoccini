@@ -46,7 +46,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-5">
                         <div class="image bg-primary mb-4 mb-lg-0 wow fadeInDown text-center rounded_lg pt-5"
-                             data-wow-delay="0.3s"><img src="{{url('local/public')}}/assets/images/iPhone.png" alt=""/>
+                             data-wow-delay="0.3s"><img src="{{asset('assets/images/iPhone.png')}}" alt=""/>
                         </div>
                     </div>
                     <div class="col-lg-6 ml-auto">
@@ -56,10 +56,10 @@
                         </div>
                         <div class="d-flex align-items-center wow fadeInDown" data-wow-delay="0.4s">
                             <a class="hover-scale" href="{{getSetting('google_paly')}}"><img
-                                        src="{{url('local/public')}}/assets/images/App-Store.png" alt=""/></a>
+                                        src="{{asset('assets/images/App-Store.png')}}" alt=""/></a>
                             <a
                                     class="mx-3 hover-scale" href="{{getSetting('app_store')}}"><img
-                                        src="{{url('local/public')}}/assets/images/Google-Play.png"
+                                        src="{{asset('assets/images/Google-Play.png')}}"
                                         alt=""/></a>
                         </div>
                         <h3 class="mt-4 wow fadeInDown" data-wow-delay="0.4s">
@@ -98,19 +98,19 @@
                         <div class="cascade-slider_container" id="cascade-slider">
                             <div class="cascade-slider_slides">
                                 <div class="cascade-slider_item">
-                                    <img src="{{url('local/public')}}/assets/images/phone/img_1.png" alt="">
+                                    <img src="{{asset('assets/images/phone/img_1.png')}}" alt="">
                                 </div>
                                 <div class="cascade-slider_item">
-                                    <img src="{{url('local/public')}}/assets/images/phone/img_2.png" alt="">
+                                    <img src="{{asset('assets/images/phone/img_2.png')}}" alt="">
                                 </div>
                                 <div class="cascade-slider_item">
-                                    <img src="{{url('local/public')}}/assets/images/phone/img_3.png" alt="">
+                                    <img src="{{asset('assets/images/phone/img_3.png')}}" alt="">
                                 </div>
                                 <div class="cascade-slider_item">
-                                    <img src="{{url('local/public')}}/assets/images/phone/img_1.png" alt="">
+                                    <img src="{{asset('assets/images/phone/img_1.png')}}" alt="">
                                 </div>
                                 <div class="cascade-slider_item">
-                                    <img src="{{url('local/public')}}/assets/images/phone/img_2.png" alt="">
+                                    <img src="{{asset('assets/images/phone/img_2.png')}}" alt="">
                                 </div>
                             </div>
                             <span class="cascade-slider_arrow cascade-slider_arrow-left" data-action="prev">
@@ -216,14 +216,14 @@
                             <div class="mt-2 wow fadeInDown" data-wow-delay="0.4s">
                                 <p class="text-dark"{{web('>Get the App')}}</p>
                                 <a class="hover-scale d-inline-block" href="{{getSetting('google_paly_company')}}"><img
-                                            src="{{url('local/public')}}/assets/images/Google-Play.png"
+                                            src="{{asset('assets/images/Google-Play.png')}}"
                                             alt=""/></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-5 ml-auto">
                         <div class="text-center wow fadeInDown" data-wow-delay="0.3s"><img
-                                    src="{{url('local/public')}}/assets/images/dashboard.png" alt=""/></div>
+                                    src="{{asset('assets/images/dashboard.png')}}" alt=""/></div>
                     </div>
                 </div>
             </div>

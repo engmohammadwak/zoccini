@@ -30,20 +30,21 @@
     26 => 'Intervention\\Image\\ImageServiceProvider',
     27 => 'Laravel\\Dusk\\DuskServiceProvider',
     28 => 'Laravel\\Passport\\PassportServiceProvider',
-    29 => 'Laravel\\Telescope\\TelescopeServiceProvider',
-    30 => 'Laravel\\Tinker\\TinkerServiceProvider',
-    31 => 'Laravel\\Ui\\UiServiceProvider',
-    32 => 'LaravelDaily\\LaravelCharts\\LaravelChartsServiceProvider',
-    33 => 'Carbon\\Laravel\\ServiceProvider',
-    34 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    35 => 'Spatie\\MediaLibrary\\MediaLibraryServiceProvider',
-    36 => 'Yajra\\DataTables\\DataTablesServiceProvider',
-    37 => 'LaravelFCM\\FCMServiceProvider',
-    38 => 'App\\Providers\\AppServiceProvider',
-    39 => 'App\\Providers\\AuthServiceProvider',
-    40 => 'App\\Providers\\EventServiceProvider',
-    41 => 'App\\Providers\\RouteServiceProvider',
-    42 => 'App\\Providers\\TelescopeServiceProvider',
+    29 => 'Laravel\\Socialite\\SocialiteServiceProvider',
+    30 => 'Laravel\\Telescope\\TelescopeServiceProvider',
+    31 => 'Laravel\\Tinker\\TinkerServiceProvider',
+    32 => 'Laravel\\Ui\\UiServiceProvider',
+    33 => 'LaravelDaily\\LaravelCharts\\LaravelChartsServiceProvider',
+    34 => 'Carbon\\Laravel\\ServiceProvider',
+    35 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    36 => 'Spatie\\MediaLibrary\\MediaLibraryServiceProvider',
+    37 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+    38 => 'LaravelFCM\\FCMServiceProvider',
+    39 => 'App\\Providers\\AppServiceProvider',
+    40 => 'App\\Providers\\AuthServiceProvider',
+    41 => 'App\\Providers\\EventServiceProvider',
+    42 => 'App\\Providers\\RouteServiceProvider',
+    43 => 'App\\Providers\\TelescopeServiceProvider',
   ),
   'eager' => 
   array (
@@ -185,6 +186,7 @@
     'translation.loader' => 'Illuminate\\Translation\\TranslationServiceProvider',
     'validator' => 'Illuminate\\Validation\\ValidationServiceProvider',
     'validation.presence' => 'Illuminate\\Validation\\ValidationServiceProvider',
+    'Laravel\\Socialite\\Contracts\\Factory' => 'Laravel\\Socialite\\SocialiteServiceProvider',
     'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',
   ),
   'when' => 
@@ -223,6 +225,9 @@
     array (
     ),
     'Illuminate\\Validation\\ValidationServiceProvider' => 
+    array (
+    ),
+    'Laravel\\Socialite\\SocialiteServiceProvider' => 
     array (
     ),
     'Laravel\\Tinker\\TinkerServiceProvider' => 

@@ -10,12 +10,12 @@ use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
 use LaravelFCM\Facades\FCM;
-use SendsPasswordResetEmails;
+//use SendsPasswordResetEmails;
 
 const EN = 'en';
 const AR = 'ar';
 
-define('DIR_UPLOAD', 'local/public/img');
+define('DIR_UPLOAD', 'img');
 
 function assetUpload($dir)
 {
@@ -224,13 +224,13 @@ function chk_balance()
     return $response;
 }
 
-function get_nearest_sql($table = "restaurants", $lat, $lng)
+function get_nearest_sql($table = "restaurants", $lat="", $lng="")
 {
     $sql = DB::raw("1.609344 * 3956 * acos( cos( radians('$lat') ) * cos( radians($table.lat) ) * cos( radians($table.lang) - radians('$lng') ) + sin( radians('$lat') ) * sin( radians($table.lat) ) ) as distance");
     return $sql;
 }
 
-function get_nearest_sql_n($table = "restaurants", $lat, $lng)
+function get_nearest_sql_n($table = "restaurants", $lat="=", $lng="")
 {
     $sql = DB::raw("1.609344 * 3956 * acos( cos( radians('$lat') ) * cos( radians($table.lat) ) * cos( radians($table.lang) - radians('$lng') ) + sin( radians('$lat') ) * sin( radians($table.lat) ) )");
     return $sql;

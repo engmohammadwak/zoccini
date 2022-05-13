@@ -2,204 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="550c50db-cc39-47f4-b448-5c2c6fc94a3d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ImagesController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ReportController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/SliderController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/TopRestaurantsController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/ContactApiController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/CouponApiController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/NotificationApiController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/PointApiController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/TableApiController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/TicketApiController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/MassDestroySliderRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/MassDestroyTopRestaurantRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/StoreSliderRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/StoreTopRestaurantRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateSliderRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateTopRestaurantRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/AllAdWinnerResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/CategoryFullResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/ContactResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/CountryWithoutCity.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/ExtraOrderResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/ExtraResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/NotificationResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/OrderItemResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/OrderRestaurantDetailsResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/OrderRestaurantResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/RatingResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/RestaurantRateResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/SimpleOrderResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/TableResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/TicketMessageResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Resources/TicketResource.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/Contact.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/Image.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/OfferUser.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/Slider.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/TicketMessage.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Models/TopRestaurant.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Notifications/SendMessageNotification.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/ea1___2_3x_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/ea8___70_3x_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/ea8___72_3x_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/ehome___1_2x_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/eiphone_x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/emap_view___3_3x_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/erectangle_592.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/css/bootstrap.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/css/fontawesome.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/css/owl.carousel.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/css/owl.theme.default.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/css/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/css/variables.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/images/requeue-user-slider1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/images/requeue-user-slider2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/images/requeue-user-slider3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/js/bootstrap.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/js/cascade-slider.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/js/jquery.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/js/myscript.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/js/owl.carousel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/static/js/slick.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/reports/index.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/reports/product.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/settings/index.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/sliders/create.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/sliders/edit.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/sliders/index.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/sliders/show.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/topRestaurants/create.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/topRestaurants/edit.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/topRestaurants/index.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/topRestaurants/show.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/users/user_order.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/webServers.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webServers.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shop.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shop.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/AllAdsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/AllAdsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/CategoryController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ExtraController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ExtraController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/HomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ItemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ItemController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/OtherbranchController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/OtherbranchController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/RestaurantsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/RestaurantsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/RolesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/RolesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/SettingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/SettingController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/SystemCalendarController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/SystemCalendarController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/TablesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/TablesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/TicketController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/TicketController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/UsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/UsersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/AllAdsApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/AllAdsApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/AuthController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/CartApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/CartApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/CategoryApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/CategoryApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/HomeApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/HomeApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/ItemApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/ItemApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/OrderApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/OrderApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/RestaurantsApiController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/RestaurantsApiController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreCategoryRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreCouponRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreCouponRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreItemRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreItemRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreOtherbranchRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreOtherbranchRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreRestaurantRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreRestaurantRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreSubscriptionPackageRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreSubscriptionPackageRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/StoreUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/StoreUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateCategoryRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateCategoryRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateCouponRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateCouponRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateItemRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateItemRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateOtherbranchRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateOtherbranchRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateSubscriptionPackageRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateSubscriptionPackageRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateUserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateUserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/AddressResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/AddressResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/AllAdResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/AllAdResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/BranchResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/BranchResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/CancelReasonResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/CancelReasonResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/CategoryResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/CategoryResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/CityResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/CityResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/CountryResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/CountryResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/CurrencyResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/CurrencyResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/DeliveryCompanyResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/DeliveryCompanyResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/DeliveryResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/DeliveryResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/FaqResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/FaqResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/FavoriteResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/FavoriteResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/ItemResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/ItemResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/OnboadingResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/OnboadingResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/OrderResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/OrderResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/PaymentMethodResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/PaymentMethodResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/RestaurantResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/RestaurantResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/RestaurantSimpleResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/RestaurantSimpleResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/SittingAreasResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/SittingAreasResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/SlideShowResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/SlideShowResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Resources/UserResource.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Resources/UserResource.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/AllAd.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/AllAd.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Extra.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Extra.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Item.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Item.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Notification.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Notification.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Order.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Restaurant.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Restaurant.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/SubscriptionPackage.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/SubscriptionPackage.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Table.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Ticket.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Ticket.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/help/helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/help/helper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/fcm.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/fcm.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/ar/cruds.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ar/cruds.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/ar/global.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ar/global.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/ar/validation.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ar/validation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/cruds.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/cruds.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/global.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/global.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/validation.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/validation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/allAds/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/allAds/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/allAds/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/allAds/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/categories/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/categories/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/categories/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/categories/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/categories/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/categories/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/categories/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/categories/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/coupons/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/coupons/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/coupons/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/coupons/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/coupons/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/coupons/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/coupons/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/coupons/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/extras/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/extras/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/extras/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/extras/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/extras/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/extras/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/extras/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/extras/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/items/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/items/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/onborderings/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/onborderings/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/orders/create.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/orders/edit.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/orders/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/orders/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/orders/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/orders/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/otherbranches/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/otherbranches/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/otherbranches/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/otherbranches/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/reportings/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/reportings/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/restaurants/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/restaurants/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/restaurants/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/restaurants/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/restaurants/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/restaurants/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/restaurants/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/restaurants/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/roles/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/roles/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/roles/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/roles/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/roles/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/roles/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/subscriptionPackages/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/subscriptionPackages/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/subscriptionPackages/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/subscriptionPackages/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/subscriptionPackages/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/subscriptionPackages/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/subscriptionPackages/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/subscriptionPackages/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/tables/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/tables/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/tables/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/tables/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/tickets/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/tickets/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/tickets/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/tickets/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/users/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/users/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/users/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/users/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/users/relationships/userUserAlerts.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/users/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/users/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/home.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootstrap/cache/packages.php" beforeDir="false" afterPath="$PROJECT_DIR$/bootstrap/cache/packages.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bootstrap/cache/services.php" beforeDir="false" afterPath="$PROJECT_DIR$/bootstrap/cache/services.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/layouts/admin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/admin.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/partials/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/website.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/website.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/partials/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/footer.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/partials/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/partials/header.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -211,91 +27,12 @@
       <executable />
     </execution>
   </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/web.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/views/welcome.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="52" column="2" selection-start-line="52" selection-start-column="2" selection-end-line="52" selection-end-column="2" />
-              <folding>
-                <element signature="n#style#2;n#head#0;n#html#0;n#!!top" />
-                <element signature="n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#div#6;n#div#0;n#body#0;n#html#0;n#!!top" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/HomeController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="888" column="23" selection-start-line="888" selection-start-column="8" selection-end-line="888" selection-end-column="23" />
-              <folding>
-                <element signature="e#190#39092#0#PHP" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
       </list>
     </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>??</find>
-      <find>user</find>
-      <find>categ</find>
-      <find>sitting_area</find>
-      <find>catego</find>
-      <find>desc</find>
-      <find>mins</find>
-      <find>winn</find>
-      <find>win</find>
-      <find>w</find>
-      <find>all</find>
-      <find>ite</find>
-      <find>sitting_areas</find>
-      <find>sitting_areasdd</find>
-      <find>order</find>
-      <find>extra</find>
-      <find>su</find>
-      <find>file_size</find>
-      <find>subs</find>
-      <find>file</find>
-      <find>tic</find>
-      <find>.media</find>
-      <find>settings14</find>
-      <find>cond</find>
-      <find>eip</find>
-      <find>partner</find>
-      <find>Our</find>
-      <find>repo</find>
-      <find>image</find>
-      <find>carousel-inner</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>$restaurant_details</replace>
-      <replace>$restaurant</replace>
-    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -304,63 +41,6 @@
     <option name="CREATE_PULL_REQUEST_DEFAULT_BRANCH" value="master" />
     <option name="CREATE_PULL_REQUEST_DEFAULT_REPO_USER" value="ashqsmile" />
     <option name="CREATE_PULL_REQUEST_DEFAULT_REPO_NAME" value="restaurant-system" />
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/SystemCalendarController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Resources/AllAdResource.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/tickets/index.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/tickets/show.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/TicketController.php" />
-        <option value="$PROJECT_DIR$/resources/views/home.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/reports/index.blade.php" />
-        <option value="$PROJECT_DIR$/app/Models/Item.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/ReportController.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/reports/product.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/users/user_order.blade.php" />
-        <option value="$PROJECT_DIR$/resources/lang/ar/global.php" />
-        <option value="$PROJECT_DIR$/resources/lang/en/global.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/users/index.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/UsersController.php" />
-        <option value="$PROJECT_DIR$/config/fcm.php" />
-        <option value="$PROJECT_DIR$/.env" />
-        <option value="$PROJECT_DIR$/app/Notifications/SendMessageNotification.php" />
-        <option value="$PROJECT_DIR$/app/Http/Resources/NotificationResource.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/V1/AuthController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Resources/TableResource.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/V1/CartApiController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Resources/OrderResource.php" />
-        <option value="$PROJECT_DIR$/app/Http/Resources/OrderItemResource.php" />
-        <option value="$PROJECT_DIR$/app/Http/Resources/OrderRestaurantResource.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/V1/RestaurantsApiController.php" />
-        <option value="$PROJECT_DIR$/app/Models/User.php" />
-        <option value="$PROJECT_DIR$/app/Models/Order.php" />
-        <option value="$PROJECT_DIR$/app/Http/Resources/CountryWithoutCity.php" />
-        <option value="$PROJECT_DIR$/app/help/helper.php" />
-        <option value="$PROJECT_DIR$/routes/api.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/V1/OrderApiController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/V1/TableApiController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Resources/OrderRestaurantDetailsResource.php" />
-        <option value="$PROJECT_DIR$/app/Models/Restaurant.php" />
-        <option value="$PROJECT_DIR$/app/Http/Resources/UserResource.php" />
-        <option value="$PROJECT_DIR$/resources/views/partials/menu.blade.php" />
-        <option value="$PROJECT_DIR$/resources/lang/en/cruds.php" />
-        <option value="$PROJECT_DIR$/resources/lang/ar/cruds.php" />
-        <option value="$PROJECT_DIR$/app/Models/Slider.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/SliderController.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/sliders/create.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Requests/StoreSliderRequest.php" />
-        <option value="$PROJECT_DIR$/app/Http/Requests/UpdateSliderRequest.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/sliders/index.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/sliders/show.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/sliders/edit.blade.php" />
-        <option value="$PROJECT_DIR$/public/static/js/slick.js" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/HomeController.php" />
-        <option value="$PROJECT_DIR$/routes/web.php" />
-        <option value="$PROJECT_DIR$/resources/views/welcome.blade.php" />
-      </list>
-    </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -373,7 +53,6 @@
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
       <path value="$PROJECT_DIR$/vendor/league/flysystem" />
       <path value="$PROJECT_DIR$/vendor/league/oauth2-server" />
-      <path value="$PROJECT_DIR$/vendor/dnoegel/php-xdg-base-dir" />
       <path value="$PROJECT_DIR$/vendor/league/glide" />
       <path value="$PROJECT_DIR$/vendor/league/commonmark" />
       <path value="$PROJECT_DIR$/vendor/league/event" />
@@ -503,121 +182,20 @@
       <path value="$PROJECT_DIR$/vendor/phpseclib/bcmath_compat" />
       <path value="$PROJECT_DIR$/vendor/laravel/helpers" />
       <path value="$PROJECT_DIR$/vendor/code-lts/laravel-fcm" />
+      <path value="$PROJECT_DIR$/vendor/laravel/socialite" />
+      <path value="$PROJECT_DIR$/vendor/league/oauth1-client" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/deprecations" />
     </include_path>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="86" />
-    <option name="y" value="-19" />
-    <option name="width" value="1040" />
-    <option name="height" value="784" />
   </component>
   <component name="ProjectId" id="295DINymtr5zBtbtfdcpKPIYlMl" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="Admin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="admin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="partials" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="routes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="local" type="b2602c69:ProjectViewProjectNode" />
-              <item name="local" type="462c0819:PsiDirectoryNode" />
-              <item name="storage" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -631,7 +209,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="settings.editor.selected.configurable" value="web.server" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -647,18 +225,6 @@
       <recent name="C:\Users\justaman\Desktop\shop\app\Http\Resources" />
       <recent name="C:\Users\justaman\Desktop\shop\app\Http\Controllers\Api\V1" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -718,56 +284,39 @@
       <workItem from="1615066339108" duration="13066000" />
       <workItem from="1615195660209" duration="517000" />
       <workItem from="1615323058911" duration="6892000" />
+      <workItem from="1652393986447" duration="1901000" />
+      <workItem from="1652439635903" duration="810000" />
     </task>
     <servers />
-  </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="333203000" />
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info id="npm" order="1" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.031013615" />
-      <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="CSS-X-Fire" order="0" />
-      <window_info anchor="bottom" id="Terminal" order="1" />
-      <window_info anchor="bottom" id="Database Changes" order="2" />
-      <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.50075644" side_tool="true" weight="0.32872504" />
-      <window_info anchor="bottom" id="Version Control" order="4" sideWeight="0.49924356" weight="0.32872504" />
-      <window_info anchor="bottom" id="Docker" order="5" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Message" order="6" />
-      <window_info anchor="bottom" id="Find" order="7" />
-      <window_info anchor="bottom" id="Run" order="8" />
-      <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="12" />
-      <window_info anchor="bottom" id="SVN Repositories" order="13" weight="0.32872504" />
-      <window_info anchor="bottom" id="File Transfer" order="14" visible="true" weight="0.15668203" />
-      <window_info anchor="bottom" id="GitHub Pull Requests" order="15" sideWeight="0.49924356" weight="0.32872504" />
-      <window_info anchor="right" id="Database" order="0" />
-      <window_info anchor="right" id="Nativescript Palette" order="1" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="2" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
-      <window_info anchor="right" id="Remote Host" order="5" weight="0.3290469" />
-    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="593" y="350" key="publish.login" timestamp="1652394035031">
+    <state x="229" y="100" key="SettingsEditor" timestamp="1652396396293">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="593" y="350" key="publish.login/0.0.1440.900@0.0.1440.900" timestamp="1652394035031" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1652394007736">
+    <state x="229" y="100" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1652396396293" />
+    <state x="450" y="189" width="540" height="524" key="StructurePopup" timestamp="1652395535442">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1652394007736" />
+    <state x="450" y="189" width="540" height="524" key="StructurePopup/0.0.1440.900@0.0.1440.900" timestamp="1652395535442" />
+    <state width="500" height="445" key="SwitcherDM" timestamp="1652440551790">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="500" height="445" key="SwitcherDM/0.0.1440.900@0.0.1440.900" timestamp="1652440551790" />
+    <state x="386" y="207" width="667" height="486" key="find.popup" timestamp="1652395953264">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="386" y="207" width="667" height="486" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1652395953264" />
+    <state x="593" y="350" key="publish.login" timestamp="1652396285606">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="593" y="350" key="publish.login/0.0.1440.900@0.0.1440.900" timestamp="1652396285606" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1652440711199">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1652440711199" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -779,388 +328,5 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Models/Item.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/V1/CartApiController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1845">
-          <caret line="112" column="14" selection-start-line="112" selection-start-column="14" selection-end-line="112" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Resources/ItemResource.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Resources/OrderItemResource.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Resources/RatingResource.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-288">
-          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/static/images/dashbord-image.png" />
-    <entry file="file://$PROJECT_DIR$/public/static/images/mobile3.png" />
-    <entry file="file://$PROJECT_DIR$/composer.lock">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Resources/CountryResource.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="7" column="10" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Resources/CountryWithoutCity.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Order.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3192">
-          <caret line="136" column="62" selection-start-line="136" selection-start-column="49" selection-end-line="136" selection-end-column="62" />
-          <folding>
-            <element signature="e#30#48#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3336">
-          <caret line="139" column="88" selection-start-line="139" selection-start-column="88" selection-end-line="139" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/V1/OrderApiController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9984">
-          <caret line="443" column="10" selection-start-line="443" selection-start-column="10" selection-end-line="443" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/V1/CarListApiController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/V1/RestaurantsApiController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3696">
-          <caret line="166" column="54" selection-start-line="166" selection-start-column="54" selection-end-line="166" selection-end-column="54" />
-          <folding>
-            <element signature="e#5812#6899#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Resources/OrderResource.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="36" column="10" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Resources/CarListResource.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/help/helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1056">
-          <caret line="152" column="58" selection-start-line="152" selection-start-column="58" selection-end-line="152" selection-end-column="58" />
-          <folding>
-            <element signature="n#assetUpload#0;n#!!top" />
-            <element signature="n#getSetting#0;n#!!top" />
-            <element signature="n#checkIfImageIsExist#0;n#!!top" />
-            <element signature="n#uploadImage#0;n#!!top" />
-            <element signature="n#deleteImage#0;n#!!top" />
-            <element signature="n#uploadFile#0;n#!!top" />
-            <element signature="n#saveOriginalImage#0;n#!!top" />
-            <element signature="n#myPublic#0;n#!!top" />
-            <element signature="n#setLang#0;n#!!top" />
-            <element signature="n#successResponse#0;n#!!top" />
-            <element signature="n#errorResponse#0;n#!!top" />
-            <element signature="n#send_pin#0;n#!!top" />
-            <element signature="n#get_nearest_sql#0;n#!!top" />
-            <element signature="n#min_price#0;n#!!top" />
-            <element signature="n#isFavority#0;n#!!top" />
-            <element signature="n#number_reservation#0;n#!!block;n#isFavority#0;n#!!top" />
-            <element signature="n#number_offer_join#0;n#!!block;n#isFavority#0;n#!!top" />
-            <element signature="e#5994#6478#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/V1/TableApiController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="16" column="21" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
-          <folding>
-            <element signature="e#47#83#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Resources/OrderRestaurantResource.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="22" column="16" selection-start-line="22" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Resources/OrderRestaurantDetailsResource.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="53" column="22" selection-start-line="53" selection-start-column="22" selection-end-line="53" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Resources/UserResource.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="36" column="152" selection-start-line="36" selection-start-column="152" selection-end-line="36" selection-end-column="152" />
-          <folding>
-            <element signature="e#38#64#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/TopRestaurantsController.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/UpdateTopRestaurantRequest.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/lang/en/cruds.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="1316" column="6" selection-start-line="1316" selection-start-column="6" selection-end-line="1316" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/lang/ar/cruds.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="1282" column="40" selection-start-line="1282" selection-start-column="40" selection-end-line="1282" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-116">
-          <caret line="59" selection-start-line="59" selection-end-line="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/AdsCategory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Restaurant.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="18" column="13" lean-forward="true" selection-start-line="18" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/RestaurantsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="91">
-          <caret line="90" column="24" selection-start-line="90" selection-start-column="24" selection-end-line="90" selection-end-column="24" />
-          <folding>
-            <element signature="e#722#1288#0#PHP" />
-            <element signature="e#1294#2244#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/admin/topRestaurants/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="11" column="4" lean-forward="true" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/admin/restaurants/create.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/admin/restaurants/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="80" lean-forward="true" selection-start-line="69" selection-start-column="16" selection-end-line="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/partials/menu.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
-          <caret line="765" column="55" selection-start-line="765" selection-start-column="34" selection-end-line="765" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/TopRestaurant.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="12" column="36" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/StoreSliderRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/SliderController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="50" column="33" selection-start-line="50" selection-start-column="33" selection-end-line="50" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Requests/UpdateSliderRequest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/admin/sliders/create.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="13" column="102" selection-start-line="13" selection-start-column="102" selection-end-line="13" selection-end-column="102" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/admin/sliders/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="51" column="36" selection-start-line="51" selection-end-line="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/admin/sliders/show.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="30" column="56" selection-start-line="30" selection-start-column="56" selection-end-line="30" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Slider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="14" column="37" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/admin/sliders/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="16" column="57" selection-start-line="16" selection-start-column="57" selection-end-line="16" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/static/js/slick.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="2891" column="4" selection-start-line="2891" selection-start-column="4" selection-end-line="2891" selection-end-column="4" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/static/js/cascade-slider.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/static/js/bootstrap.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="6" column="7" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/HomeController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="888" column="23" selection-start-line="888" selection-start-column="8" selection-end-line="888" selection-end-column="23" />
-          <folding>
-            <element signature="e#190#39092#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/welcome.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="52" column="2" selection-start-line="52" selection-start-column="2" selection-end-line="52" selection-end-column="2" />
-          <folding>
-            <element signature="n#style#2;n#head#0;n#html#0;n#!!top" />
-            <element signature="n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#div#6;n#div#0;n#body#0;n#html#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
   </component>
 </project>

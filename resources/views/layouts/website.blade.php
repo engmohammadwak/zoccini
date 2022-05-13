@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>{{\Illuminate\Support\Facades\App::getLocale() == 'ar' ? getSetting('sitename') : getSetting('sitename_en')}}</title>
-    <link rel="icon" href="{{asset(url('/local/public/img/setting/'.getSetting('website_icon')))}}">
+    <link rel="icon" href="{{asset('img/setting/'.getSetting('website_icon'))}}">
     <meta property="og:type" content="{{web('og:type')}}"/>
     <meta property="og:title" content="{{web('og:title')}}"/>
     <meta property="og:description" content="{{web('og:description')}}"/>
@@ -28,19 +28,19 @@
     <meta name="author" content="{{getSetting('author')}}"/>
     <meta name="copyright" content="{{getSetting('copyright')}}"/>
     <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.15.2/css/pro.min.css"/>
-    <link rel="stylesheet" href="{{url('local/public')}}/assets/css/animate.min.css"/>
-    <link rel="stylesheet" href="{{url('local/public')}}/assets/css/swiper.min.css"/>
-    <link rel="stylesheet" href="{{url('local/public')}}/assets/css/bootstrap-select.min.css"/>
-    <link rel="stylesheet" href="{{url('local/public')}}/assets/css/jquery.steps.css"/>
-    @if (\Illuminate\Support\Facades\App::getLocale() =='ar')
-        <link rel="stylesheet" href="{{url('local/public')}}/assets/css/bootstrap.rtl.min.css"/>
+    <link rel="stylesheet" href="{{asset('assets/css/animate.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/css/swiper.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/css/bootstrap-select.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/css/jquery.steps.css')}}"/>
+    @if (App::getLocale() =='ar')
+        <link rel="stylesheet" href="{{asset('assets/css/bootstrap.rtl.min.css')}}"/>
     @endif
-    <link rel="stylesheet" href="{{url('local/public')}}/assets/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="{{url('local/public')}}/assets/css/main.css"/>
-    @if (\Illuminate\Support\Facades\App::getLocale() =='ar')
-        <link rel="stylesheet" href="{{url('local/public')}}/assets/css/main.rtl.css"/>
+    <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/css/main.css')}}"/>
+    @if (App::getLocale() =='ar')
+        <link rel="stylesheet" href="{{asset('assets/css/main.rtl.css')}}"/>
     @endif
-    <link rel="stylesheet" href="{{url('local/public')}}/assets/css/perfect-scrollbar.min.css"/>
+    <link rel="stylesheet" href="{{asset('assets/css/perfect-scrollbar.min.css')}}"/>
 
 
     <link
@@ -86,17 +86,17 @@
 @yield('content')
 
 
-<script src="{{url('local/public')}}/assets/js/jquery.min.js"></script>
-<script src="{{url('local/public')}}/assets/js/bootstrap.bundle.min.js"></script>
-<script src="{{url('local/public')}}/assets/js/wow.min.js"></script>
-<script src="{{url('local/public')}}/assets/js/swiper.min.js"></script>
-<script src="{{url('local/public')}}/assets/js/bootstrap-select.min.js"></script>
-<script src="{{url('local/public')}}/assets/js/cascade-slider.js"></script>
-<script src="{{url('local/public')}}/assets/js/jquery.validate.min.js"></script>
-<script src="{{url('local/public')}}/assets/js/jquery.steps.min.js"></script>
+<script src="{{asset('assets/js/jquery.min.js')}}"></script>
+<script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('assets/js/wow.min.js')}}"></script>
+<script src="{{asset('assets/js/swiper.min.js')}}"></script>
+<script src="{{asset('assets/js/bootstrap-select.min.js')}}"></script>
+<script src="{{asset('assets/js/cascade-slider.js')}}"></script>
+<script src="{{asset('assets/js/jquery.validate.min.js')}}"></script>
+<script src="{{asset('assets/js/jquery.steps.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 @yield('scripts')
-<script src="{{url('local/public')}}/assets/js/function.js"></script>
+<script src="{{asset('assets/js/function.js')}}"></script>
 <script>
 
 
@@ -351,7 +351,7 @@
     input.addEventListener('keyup', reset);
 </script>
 @yield('scripts_new')
-<script src="{{url('local/public')}}/assets/js/perfect-scrollbar.min.js"></script>
+<script src="{{asset('assets/js/perfect-scrollbar.min.js')}}"></script>
 <script>
     $('.scroll').each(function(){ const ps = new PerfectScrollbar($(this)[0]); });
 </script>

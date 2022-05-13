@@ -894,7 +894,7 @@ class HomeController
         $settings24['total_number'] = 0;
 
         if (class_exists($settings24['model'])) {
-            $settings24['total_number'] = $settings24['model']::find($auth)['visits'];
+            $settings24['total_number'] = $settings24['model']::find($auth) ? $settings24['model']::find($auth)['visits'] : 0;
         }
         if (Auth::user()['user_type'] == 3) {
             $restaurant = Restaurant::where('restaurant_id', Auth::id())->first();

@@ -45,10 +45,10 @@
                     <h3 class="title-footer font-bold">{{web('Install App')}}</h3>
                     <div class="d-flex flex-lg-column flex-row">
                         <a class="mb-lg-3 mr-lg-0 mr-3 hover-scale" href="{{getSetting('app_store')}}"><img
-                                src="{{url('local/public')}}/assets/images/App-Store.png" alt=""/></a><a
+                                src="{{asset('assets/images/App-Store.png')}}" alt=""/></a><a
                             class="hover-scale"
                             href="{{getSetting('google_paly')}}"><img
-                                src="{{url('local/public')}}/assets/images/Google-Play.png" alt=""/></a>
+                                src="{{asset('assets/images/Google-Play.png')}}" alt=""/></a>
                     </div>
                 </div>
             </div>
