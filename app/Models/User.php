@@ -52,6 +52,7 @@ class User extends Authenticatable
         'sms_subscription',
         'email_subscription',
         'vip',
+        'delete_request_at',
         'created_at',
         'updated_at',
         'deleted_at',

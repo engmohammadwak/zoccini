@@ -61,6 +61,8 @@ class OrderApiController extends Controller
         $request->request->add(['status_id' => '3', 'user_id' => Auth::id(), 'sitting_area_id' => $request->sitting_area, 'car_number_id' => $request->car_id]);
         $order = Order::create($request->all());
         $order->vat = getSetting('vat');
+
+        //Application_services
         $order->Application_services = getSetting('application_services');
         $order->Discount_Application_services = getSetting('discount_application_services');
         if ($request->offer_id) {

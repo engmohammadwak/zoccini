@@ -64,6 +64,7 @@ class AuthController extends Controller
         $credentials = $request->only(['phone', 'password']);
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            $user->fill(['delete_request_at' => null])->save();
             if ($user->status_id == 2) {
                 $data = [
                     'name' => $request->first_name . ' ' . $request->last_name,
@@ -524,6 +525,24 @@ class AuthController extends Controller
     }
 
 
+    public function deleteAccount(Request $request)
+    {
+        $lang = $request->header('lang');
+        setLang($lang);
+
+        $user = Auth::user();
+
+        $user->fill(
+            [
+                'fcm_token'         => '',
+                'online'            => 0,
+                'delete_request_at' => Carbon::now()->toDateTimeString(),
+            ])->save();
+
+        $request->user()->token()->revoke();
+
+        return successResponse(trans('cruds.api.account_will_be_deleted' , ['time' => getSetting('delete_period')]), null);
+    }
 
 
 }

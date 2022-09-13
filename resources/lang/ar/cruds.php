@@ -1676,6 +1676,7 @@ return [
         'role_title' => 'مرحبا :name',
         'role_message' => 'رقمك في طابور انتظار :name الان هو :number',
         'confirm_order_message' => 'تم تاكيد الطلب',
+        'account_will_be_deleted' => 'سيتم حذف حسابك بعد :time ايام',
     ],
 
 

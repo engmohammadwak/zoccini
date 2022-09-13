@@ -82,6 +82,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1', 'middle
     Route::post('/updateEmail', 'AuthController@update_email');
     Route::post('/updatePhone', 'AuthController@update_phone');
 
+    // Delete account
+    Route::post('/delete-account', 'AuthController@deleteAccount');
+
     // Orders
     Route::apiResource('orders', 'OrderApiController');
     Route::post('orders/{id}/cancel', 'OrderApiController@cancel');

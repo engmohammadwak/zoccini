@@ -1675,6 +1675,7 @@ return [
         'share_order_message' => 'An order has been shared with you',
         'role_title' => 'hi :name',
         'role_message' => 'Your number is in the queue :name now is :number',
+        'account_will_be_deleted' => 'Your account will be deleted after :time days',
     ],
     'Yes' => 'Yes',
     'No' => 'No',

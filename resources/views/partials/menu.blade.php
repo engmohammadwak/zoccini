@@ -4,7 +4,7 @@
 if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 3)
     {
          $restaurant = \App\Models\Restaurant::where('restaurant_id' , $user)->first();
-    if ($restaurant['plan']){
+    if ($restaurant && $restaurant->plan){
         if ($restaurant->plan->have_map == 1)
             {
                $status = false;
