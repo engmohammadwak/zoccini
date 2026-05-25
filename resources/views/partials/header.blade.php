@@ -1,4 +1,52 @@
 <!-- begin:: Header -->
+<style>
+.dropdown-user > a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.dropdown-user .username {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #27BA4D;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+.dropdown-user > a i {
+    font-size: 12px;
+    color: #444;
+    margin-top: 1px;
+}
+.dropdown-user .dropdown-menu {
+    min-width: 160px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+    padding: 6px 0;
+    margin-top: 8px !important;
+}
+.dropdown-user .dropdown-menu .dropdown-item {
+    padding: 9px 18px;
+    font-size: 14px;
+    color: #18191F;
+    border-radius: 0;
+    transition: background .15s ease;
+}
+.dropdown-user .dropdown-menu .dropdown-item:hover {
+    background-color: #f0fdf4;
+    color: #27BA4D;
+}
+</style>
 <header class="main-header">
     <div class="container px-lg-0">
         <div class="d-flex align-items-center">
