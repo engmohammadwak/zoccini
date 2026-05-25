@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
+<div style="min-height:100vh;padding:24px;">
     <x-admin-page-header title="Order Statuses" icon="fas fa-tasks" color="blue"
         :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Order Statuses']]" />
     @php $total=$orderStatuses->count(); @endphp
@@ -10,7 +10,7 @@
             <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Statuses</div></div>
         </div>
     </div>
-    <x-admin-table title="Order Statuses" icon="fas fa-tasks" color="blue" datatableClass="datatable-OrderStatus" :count="$orderStatuses->count()" :createRoute="can('order_status_create') ? route('admin.order-statuses.create') : null" :createLabel="trans('global.add').' Status'">
+    <x-admin-table title="Order Statuses" icon="fas fa-tasks" color="blue" datatableClass="datatable-OrderStatus" :count="$orderStatuses->count()" createPermission="order_status_create" :createRoute="route('admin.order-statuses.create')" :createLabel="trans('global.add').' Status'">
         <x-slot name="thead"><tr><th width="10"></th><th>Name EN</th><th>Name AR</th><th>Color</th><th>&nbsp;</th></tr></x-slot>
         <x-slot name="tbody">
             @foreach($orderStatuses as $status)
