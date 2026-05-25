@@ -29,13 +29,21 @@ class RolesController extends Controller
     public function create()
     {
         abort_if(Gate::denies('role_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $roles = Permission::where('category' , '!=' , 0)->groupBy('category')->get();
-        $result = [];
 
-        foreach ($roles as $key => $role)
-        {
-            $result[$key]['link_name'] = App::getLocale() == 'ar' ? $role->name_ar : $role->name_en;
-            $result[$key]['permissions'] = $role->toArray();
+        // جلب الـ categories المميزة مع اسمها
+        $categories = Permission::where('category', '!=', 0)
+            ->orderBy('category')
+            ->get()
+            ->groupBy('category');
+
+        $result = [];
+        foreach ($categories as $catId => $perms) {
+            $first = $perms->first();
+            $result[] = [
+                'category_id'  => $catId,
+                'link_name'    => App::getLocale() == 'ar' ? $first->name_ar : $first->name_en,
+                'permissions'  => $perms,
+            ];
         }
 
         return view('admin.roles.create', compact('result'));
@@ -44,11 +52,9 @@ class RolesController extends Controller
     public function store(StoreRoleRequest $request)
     {
         $perm = [];
-        if ($request->perm)
-        {
-            foreach ($request->perm as $value)
-            {
-                array_push($perm , $value);
+        if ($request->perm) {
+            foreach ($request->perm as $value) {
+                array_push($perm, $value);
             }
         }
 
@@ -62,16 +68,22 @@ class RolesController extends Controller
     {
         abort_if(Gate::denies('role_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-//        $permissions = Permission::all()->pluck('title', 'id');
-//
         $role->load('permissions');
-        $all_role = Permission::where('category' , '!=' , 0)->groupBy('category')->get();
-        $result = [];
 
-        foreach ($all_role as $key => $roles)
-        {
-            $result[$key]['link_name'] = App::getLocale() == 'ar' ? $role->name_ar : $role->name_en;
-            $result[$key]['permissions'] = $roles->toArray();
+        // جلب الـ categories مع كل الصلاحيات مجمعة
+        $categories = Permission::where('category', '!=', 0)
+            ->orderBy('category')
+            ->get()
+            ->groupBy('category');
+
+        $result = [];
+        foreach ($categories as $catId => $perms) {
+            $first = $perms->first();
+            $result[] = [
+                'category_id' => $catId,
+                'link_name'   => App::getLocale() == 'ar' ? $first->name_ar : $first->name_en,
+                'permissions' => $perms,
+            ];
         }
 
         return view('admin.roles.edit', compact('result', 'role'));
@@ -79,25 +91,17 @@ class RolesController extends Controller
 
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        if ($request->perm)
-        {
-            $perm = [];
-            foreach ($request->perm as $value)
-            {
-                array_push($perm , $value);
+        $perm = [];
+        if ($request->perm) {
+            foreach ($request->perm as $value) {
+                array_push($perm, $value);
             }
-            $role->update($request->all());
-            $role->permissions()->sync($perm);
         }
-       else{
-           $role->update($request->all());
-       }
-
-
+        $role->update($request->all());
+        $role->permissions()->sync($perm);
 
         return redirect()->route('admin.roles.index');
     }
-
 
     public function destroy(Role $role)
     {
@@ -114,6 +118,4 @@ class RolesController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
-
-
 }
