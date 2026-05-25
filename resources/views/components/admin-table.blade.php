@@ -1,7 +1,6 @@
 {{--
   ╔════════════════════════════════════════════════════════════╗
   ║  SHARED ADMIN TABLE COMPONENT                              ║
-  ║  Props:                                                    ║
   ║    title, icon, color, datatableClass, count, countLabel  ║
   ║    createPermission (optional - gate key e.g. order_create)║
   ║    createRoute, createLabel, extraButtons                  ║
@@ -261,6 +260,14 @@ if ($createRoute) {
     var tblSel = '#' + uid;
     var wrapSel= '#' + uid + '_wrapper';
 
+    function fixScrollHead() {
+        /* إجبار scrollHeadInner على عرض 100% وإزالة الـ padding بعد كل draw */
+        var $inner = $(wrapSel + ' .dataTables_scrollHeadInner');
+        $inner.css({ width: '100%', padding: '0', boxSizing: 'border-box' });
+        $inner.find('> table').css({ width: '100%', margin: '0' });
+        $(wrapSel + ' .dataTables_scrollBody > table').css({ width: '100%', margin: '0' });
+    }
+
     function fixDT() {
         /* إلغاء scroll fixed height */
         $(wrapSel + ' .dataTables_scrollBody').css({
@@ -268,8 +275,7 @@ if ($createRoute) {
             overflowY: 'visible', overflowX: 'auto'
         });
         $(wrapSel + ' .dataTables_scrollHead').css({ overflow: 'visible' });
-        $(wrapSel + ' .dataTables_scrollHeadInner').css({ width: '100%', padding: '0' });
-        $(wrapSel + ' .dataTables_scrollHeadInner > table').css({ width: '100%', margin: '0' });
+        fixScrollHead();
         if ($.fn.DataTable && $.fn.DataTable.isDataTable(tblSel)) {
             $(tblSel).DataTable().columns.adjust();
         }
@@ -300,8 +306,16 @@ if ($createRoute) {
             $footer.empty();
             if ($info.length) $footer.append($info.css({ margin:'0', padding:'0' }));
             if ($page.length) $footer.append($page.css({ margin:'0', padding:'0' }));
-            /* إزالة العناصر الفارغة */
             $(wrapSel + ' > .actions').remove();
+        }
+    }
+
+    function hookDrawEvent() {
+        if ($.fn.DataTable && $.fn.DataTable.isDataTable(tblSel)) {
+            /* بعد كل draw يعيد DataTables ضبط scrollHeadInner — نعيد إصلاحه */
+            $(tblSel).on('draw.dt column-sizing.dt', function() {
+                setTimeout(fixScrollHead, 0);
+            });
         }
     }
 
@@ -309,8 +323,11 @@ if ($createRoute) {
         if (!$(tblSel).length) return;
         fixDT();
         moveControls();
-        setTimeout(fixDT, 150);
-        setTimeout(moveControls, 150);
+        hookDrawEvent();
+        setTimeout(function(){
+            fixDT();
+            hookDrawEvent();
+        }, 300);
     }
 
     if (document.readyState === 'loading') {
