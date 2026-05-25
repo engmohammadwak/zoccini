@@ -168,7 +168,8 @@
 </div>
 @endif
 
-@can('home')
+{{-- Admin (user_type=1) always sees everything; others need the 'home' gate --}}
+@if($isAdmin || \Illuminate\Support\Facades\Auth::user()->can('home'))
 
 {{-- ══════════════════════════════════════════════════════
      1. ORDERS OVERVIEW
@@ -330,7 +331,7 @@
                 <td>{{ $o->id }}</td>
                 <td>{{ optional($o->user)->name ?? '—' }}</td>
                 @if($isAdmin)<td>{{ optional($o->restaurants)->name_ar ?? optional($o->restaurants)->name_en ?? '—' }}</td>@endif
-                <td style="font-weight:700;color:var(--d-text);">{{ number_format($o->final_price, 2) }}</td>
+                <td style="font-weight:700;color:var(--d-text);">{{ number_format($o->final_price ?? 0, 2) }}</td>
                 <td>
                     @php $sid = $o->status_id; @endphp
                     <span class="s-pill {{ $sid==2?'green':($sid==1?'amber':($sid==4?'red':'purple')) }}">
@@ -389,7 +390,6 @@
     </div>
 </div>
 
-{{-- Top Restaurants by Orders --}}
 @if($topRestaurantsByOrders->count())
 <div class="t-card">
     <div class="t-card-head">
@@ -534,7 +534,7 @@
 </div>
 
 {{-- ══════════════════════════════════════════════════════
-     6. ITEMS, COUPONS, FAVORITES, ADS  (admin or rest)
+     6. ITEMS, COUPONS, FAVORITES, ADS
 ══════════════════════════════════════════════════════ --}}
 <div class="dash-section-label">
     <span class="label-icon"><i class="fas fa-th"></i></span>
@@ -711,7 +711,7 @@
 </div>
 @endif
 
-@endcan
+@endif {{-- end admin bypass / @can('home') --}}
 </div>
 @endsection
 
@@ -732,10 +732,8 @@
         cornerRadius: 8
     };
 
-    // Orders line chart
     const labels = {!! json_encode($ordersChartLabels) !!};
     const ordersData = {!! json_encode($ordersChartData) !!};
-    const revData    = {!! json_encode($revenueChartData) !!};
 
     new Chart(document.getElementById('ordersLineChart'), {
         type: 'bar',
@@ -760,7 +758,6 @@
         }
     });
 
-    // Orders status donut chart
     new Chart(document.getElementById('ordersStatusChart'), {
         type: 'doughnut',
         data: {
