@@ -41,8 +41,6 @@
         <link rel="stylesheet" href="{{asset('assets/css/main.rtl.css')}}"/>
     @endif
     <link rel="stylesheet" href="{{asset('assets/css/perfect-scrollbar.min.css')}}"/>
-    {{-- Glassmorphism layer - website frontend only --}}
-    <link rel="stylesheet" href="{{asset('assets/css/glass.css')}}"/>
 
 
     <link
@@ -172,17 +170,6 @@
             agree: {
                 required: true,
             },
-            // branchName: {
-            //   required: true,
-            // },
-            // branchAddress: {
-            //   required: true,
-            // },
-            // branchMobile: {
-            //   required: true,
-            //   number: true,
-            // },
-
         },
         messages: {
             first_name: {
@@ -228,13 +215,11 @@
             },
             phone_company: {
                 required: "{{web('This field is required.')}}",
-                // number: "Please enter a valid number",
             },
         },
     });
 
     form.steps({
-        // saveState: true,
         headerTag: "h3",
         labels: {
             next: "{{web('Next')}}",
@@ -245,7 +230,6 @@
         bodyTag: "section",
         transitionEffect: "slideLeft",
         onStepChanging: function (event, previousIndex, newIndex , currentIndex) {
-
             form.validate().settings.ignore = ":disabled,:hidden";
             return form.valid();
         },
@@ -262,26 +246,20 @@
                 $('.progress-bar').css("width","60%")
                 $(".actions ul li:first-child").fadeIn(1);
             }
-
             if (newIndex === 3) {
                 $('.progress-bar').css("width","80%")
                 $(".actions ul li:first-child").fadeIn(1);
             }
-
             if (newIndex === 4) {
                 $('.progress-bar').css("width","100%")
             }
-
-
         },
         onFinishing: function (event, currentIndex) {
             form.validate().settings.ignore = ":disabled";
             return form.valid();
         },
         onFinished: function (event, currentIndex) {
-            // alert("Submitted!");
             document.getElementById("my_form").submit();
-
         },
     });
 
@@ -291,32 +269,24 @@
       </svg>
     <span>{{web('Back')}}</span>`);
 
-
     $(".selectpicker").selectpicker();
 
-    //
     $(".uploadeImage").change(function () {
         $(this).closest(".form-group").find(".name-image").text(this.files[0].name);
         $(this).closest(".form-group").removeClass("error");
         $(this).closest(".form-group").find("label.error").remove();
     });
 
-
-
     var input = document.querySelector("#phone"),
         errorMsg = document.querySelector("#error-msg"),
         validMsg = document.querySelector("#valid-msg");
 
-    // here, the index maps to the error code returned from getValidationError - see readme
     var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
 
-    // initialise plugin
     var iti = window.intlTelInput(input, {
         initialCountry: "auto",
         autoHideDialCode:false,
         nationalMode:false,
-
-
         geoIpLookup: function(callback) {
             $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
                 var countryCode = (resp && resp.country) ? resp.country : "us";
@@ -333,7 +303,6 @@
         validMsg.classList.add("hide");
     };
 
-    // on blur: validate
     input.addEventListener('blur', function() {
         reset();
         if (input.value.trim()) {
@@ -348,7 +317,6 @@
         }
     });
 
-    // on keyup / change flag: reset
     input.addEventListener('change', reset);
     input.addEventListener('keyup', reset);
 </script>
