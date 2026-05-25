@@ -1,26 +1,31 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
-    <x-admin-page-header title="Currencies" icon="fas fa-coins" color="gold"
+<div style="padding:24px;">
+    <x-admin-page-header title="Currencies" icon="fas fa-coins" color="yellow"
         :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Currencies']]" />
-    @php $total=$currencies->count(); $default=$currencies->where('is_default',1)->count(); @endphp
+    @php $total=$currencies->count(); $active=$currencies->where('status',1)->count(); @endphp
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:22px;">
         <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
-            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#d97706,#fbbf24);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-coins"></i></div>
+            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#eab308,#facc15);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;"><i class="fas fa-coins"></i></div>
             <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Currencies</div></div>
         </div>
+        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#10b981,#34d399);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;"><i class="fas fa-check"></i></div>
+            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $active }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Active</div></div>
+        </div>
     </div>
-    <x-admin-table title="Currencies" icon="fas fa-coins" color="gold" datatableClass="datatable-Currency" :count="$currencies->count()" :createRoute="can('currency_create') ? route('admin.currencies.create') : null" :createLabel="trans('global.add').' Currency'">
-        <x-slot name="thead"><tr><th width="10"></th><th>Name</th><th>Code</th><th>Symbol</th><th>Rate</th><th>Default</th><th>&nbsp;</th></tr></x-slot>
+    <x-admin-table title="Currencies" icon="fas fa-coins" color="yellow" datatableClass="datatable-Currency" :count="$currencies->count()" createPermission="currency_create" :createRoute="route('admin.currencies.create')" :createLabel="trans('global.add').' Currency'">
+        <x-slot name="thead"><tr><th width="10"></th><th>Name EN</th><th>Name AR</th><th>Code</th><th>Symbol</th><th>Rate</th><th>Status</th><th>&nbsp;</th></tr></x-slot>
         <x-slot name="tbody">
             @foreach($currencies as $currency)
             <tr data-entry-id="{{ $currency->id }}">
                 <td></td>
-                <td style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $currency->name ?? $currency->name_en ?? '—' }}</td>
-                <td><span style="background:#fef9c3;color:#854d0e;padding:3px 9px;border-radius:7px;font-weight:700;font-size:0.82rem;font-family:monospace;">{{ $currency->code ?? '—' }}</span></td>
-                <td style="font-weight:700;color:#d97706;font-size:0.9rem;">{{ $currency->symbol ?? '—' }}</td>
-                <td style="font-size:0.82rem;color:#475569;">{{ $currency->exchange_rate ?? $currency->rate ?? '—' }}</td>
-                <td>@if($currency->is_default ?? false)<span style="background:#dcfce7;color:#166534;padding:3px 9px;border-radius:7px;font-size:0.78rem;font-weight:600;">Default</span>@endif</td>
+                <td style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $currency->name_en ?? $currency->name ?? '—' }}</td>
+                <td style="font-size:0.83rem;color:#475569;">{{ $currency->name_ar ?? '—' }}</td>
+                <td style="font-family:monospace;font-size:0.83rem;color:#0f766e;">{{ $currency->code ?? '—' }}</td>
+                <td style="font-size:0.85rem;font-weight:700;color:#1e293b;">{{ $currency->symbol ?? '—' }}</td>
+                <td style="font-size:0.82rem;color:#475569;">{{ $currency->rate ?? '—' }}</td>
+                <td>@if(($currency->status??1)==1)<span style="background:rgba(16,185,129,.12);color:#065f46;padding:4px 11px;border-radius:999px;font-weight:600;font-size:0.75rem;">Active</span>@else<span style="background:rgba(148,163,184,.12);color:#475569;padding:4px 11px;border-radius:999px;font-weight:600;font-size:0.75rem;">Inactive</span>@endif</td>
                 <td style="display:flex;gap:5px;">
                     @can('currency_show')<x-admin-action-btn href="{{ route('admin.currencies.show',$currency->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
                     @can('currency_edit')<x-admin-action-btn href="{{ route('admin.currencies.edit',$currency->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
