@@ -1,16 +1,23 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="min-height:100vh;padding:24px;">
+<div style="padding:24px;">
 
-    <x-admin-page-header
-        :title="trans('cruds.category.title')"
-        icon="fas fa-layer-group"
-        color="violet"
-        :breadcrumbs="[
-            ['label' => trans('global.dashboard'), 'url' => route('admin.home')],
-            ['label' => trans('cruds.category.title')],
-        ]"
-    />
+    {{-- Page Header --}}
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#a78bfa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:19px;box-shadow:0 4px 14px rgba(124,58,237,.3);">
+                <i class="fas fa-layer-group"></i>
+            </div>
+            <div>
+                <h1 style="font-size:1.2rem;font-weight:800;color:var(--z-text);margin:0;line-height:1.2;">{{ trans('cruds.category.title') }}</h1>
+                <nav style="font-size:0.75rem;color:var(--z-text-faint);margin-top:3px;">
+                    <a href="{{ route('admin.home') }}" style="color:var(--z-primary);text-decoration:none;">{{ trans('global.dashboard') }}</a>
+                    <span style="margin:0 5px;">&rsaquo;</span>
+                    <span>{{ trans('cruds.category.title') }}</span>
+                </nav>
+            </div>
+        </div>
+    </div>
 
     @php
         $total    = $categories->count();
@@ -40,10 +47,8 @@
     </div>
 
     {{-- DataTable Card --}}
-    {{-- overflow:visible بدل hidden حتى DataTables dropdowns ما تتقطع --}}
-    <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:16px;box-shadow:var(--z-card-shadow);overflow:visible;">
-
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--z-border);background:var(--z-surface-2);border-radius:16px 16px 0 0;">
+    <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:16px;box-shadow:var(--z-card-shadow);overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--z-border);background:var(--z-surface-2);">
             <div style="display:flex;align-items:center;gap:10px;">
                 <div style="width:36px;height:36px;border-radius:10px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;color:#7c3aed;font-size:15px;"><i class="fas fa-layer-group"></i></div>
                 <div>
@@ -59,7 +64,6 @@
             </a>
             @endcan
         </div>
-
         <div style="padding:16px 22px;overflow-x:auto;">
             <table class="table datatable-Category" style="width:100%;">
                 <thead>
@@ -111,18 +115,18 @@
                         <div style="display:flex;gap:5px;">
                             @can('category_show')
                             <a href="{{ route('admin.categories.show',$category->id) }}" title="{{ trans('global.view') }}"
-                               style="width:32px;height:32px;border-radius:8px;background:rgba(59,130,246,.1);color:#3b82f6;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;text-decoration:none;"
+                               style="width:32px;height:32px;border-radius:8px;background:rgba(59,130,246,.1);color:#3b82f6;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;text-decoration:none;transition:background .15s;"
                                onmouseover="this.style.background='rgba(59,130,246,.22)'" onmouseout="this.style.background='rgba(59,130,246,.1)'"><i class="fas fa-eye"></i></a>
                             @endcan
                             @can('category_edit')
                             <a href="{{ route('admin.categories.edit',$category->id) }}" title="{{ trans('global.edit') }}"
-                               style="width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,.1);color:#b45309;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;text-decoration:none;"
+                               style="width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,.1);color:#b45309;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;text-decoration:none;transition:background .15s;"
                                onmouseover="this.style.background='rgba(245,158,11,.22)'" onmouseout="this.style.background='rgba(245,158,11,.1)'"><i class="fas fa-edit"></i></a>
                             @endcan
                             @can('category_delete')
                             <form action="{{ route('admin.categories.destroy',$category->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('{{ trans('global.areYouSure') }}')">@csrf @method('DELETE')
                                 <button type="submit" title="{{ trans('global.delete') }}"
-                                   style="width:32px;height:32px;border-radius:8px;background:rgba(239,68,68,.1);color:#dc2626;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;"
+                                   style="width:32px;height:32px;border-radius:8px;background:rgba(239,68,68,.1);color:#dc2626;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;transition:background .15s;"
                                    onmouseover="this.style.background='rgba(239,68,68,.22)'" onmouseout="this.style.background='rgba(239,68,68,.1)'"><i class="fas fa-trash"></i></button>
                             </form>
                             @endcan
@@ -156,11 +160,9 @@ $(function(){
         }
     });
     @endcan
-
+    $.extend(true, $.fn.dataTable.defaults, { orderCellsTop:true, pageLength:25 });
     $('.datatable-Category:not(.ajaxTable)').DataTable({
         buttons: dtButtons,
-        orderCellsTop: true,
-        pageLength: 25,
         order: [[1, 'asc']],
         columnDefs: [
             { orderable: false, targets: [0, 5] }
