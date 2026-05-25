@@ -3,7 +3,7 @@
 .dropdown-user > a {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     cursor: pointer;
     text-decoration: none;
 }
@@ -27,6 +27,7 @@
     font-size: 12px;
     color: #444;
     margin-top: 1px;
+    margin-left: 0 !important;
 }
 .dropdown-user .dropdown-menu {
     min-width: 160px;
@@ -78,7 +79,7 @@
                         <ul class="main-menu d-lg-flex align-items-lg-center">
                             <li class="menu_item dropdown dropdown-user pl-4 pl-lg-0">
                                 <a class="d-flex align-items-center" data-toggle="dropdown" href="">
-                                    <span class="username font-medium">{{substr(\Illuminate\Support\Facades\Auth::user()['name'], 0, 2)}}</span><i class="far fa-chevron-down fa-md text-dark ml-2"></i>
+                                    <span class="username font-medium">{{substr(\Illuminate\Support\Facades\Auth::user()['name'], 0, 2)}}</span><i class="far fa-chevron-down fa-md text-dark"></i>
                                 </a>
                                 <div class="dropdown-menu mt-3 border-0" aria-labelledby="dropdownMenuButton">
 
