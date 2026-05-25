@@ -46,8 +46,6 @@ if ($createRoute) {
 
 <style>
 /* ===== admin-table component (dark-mode-aware) ===== */
-
-/* Card */
 .adm-tbl-card {
     background: var(--z-card-bg, #fff);
     border: 1px solid var(--z-card-border, #e8ecf4);
@@ -56,8 +54,6 @@ if ($createRoute) {
     overflow: hidden;
     width: 100%;
 }
-
-/* Header */
 .adm-tbl-header {
     border-bottom: 1px solid var(--z-border, #e8ecf4);
     padding: 14px 18px;
@@ -78,8 +74,6 @@ if ($createRoute) {
 }
 .adm-tbl-header-title i { color: {{ $a['text'] }}; }
 .adm-tbl-header-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-
-/* Icon badge */
 .adm-title-icon {
     width:34px; height:34px;
     border-radius:9px;
@@ -89,17 +83,20 @@ if ($createRoute) {
     box-shadow:0 3px 8px {{ $a['shadow'] }};
     flex-shrink:0;
 }
-
-/* Body */
-.adm-tbl-body { padding: 0; }
-
-/* Table wrap */
-.adm-tbl-wrap { width:100%; overflow-x:auto; }
-
+/* DataTables top bar (length + filter) */
+.adm-tbl-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--z-border, #eef0f8);
+}
 /* Table */
+.adm-tbl-wrap { width:100%; overflow-x:auto; padding: 0 0 4px; }
 .adm-tbl-table {
     width:100% !important;
-    min-width:100%;
     border-collapse:collapse;
     font-size:.84rem;
     table-layout:auto;
@@ -126,8 +123,6 @@ if ($createRoute) {
     color:var(--z-text, #2d3250);
     vertical-align:middle;
 }
-
-/* Create button */
 .adm-btn-create {
     display:inline-flex; align-items:center; gap:6px;
     padding:7px 15px;
@@ -141,7 +136,6 @@ if ($createRoute) {
     white-space:nowrap;
 }
 .adm-btn-create:hover { opacity:.87; transform:translateY(-1px); color:#fff !important; text-decoration:none; }
-
 /* DataTables overrides */
 #{{ $uid }}_wrapper { width:100% !important; }
 #{{ $uid }}_wrapper .dataTables_filter input {
@@ -168,7 +162,7 @@ if ($createRoute) {
 #{{ $uid }}_wrapper .dataTables_info,
 #{{ $uid }}_wrapper .dataTables_paginate {
     font-size:.81rem !important;
-    margin-top:12px !important;
+    padding: 10px 18px !important;
     color:var(--z-text-muted,#7a80a0) !important;
 }
 #{{ $uid }}_wrapper .paginate_button { border-radius:6px !important; font-size:.79rem !important; }
@@ -180,25 +174,15 @@ if ($createRoute) {
 }
 #{{ $uid }}_wrapper .dt-buttons {
     float:none !important;
-    display:flex !important; flex-wrap:wrap !important;
-    gap:5px !important; margin-bottom:8px !important;
-}
-#{{ $uid }}_wrapper .dataTables_length,
-#{{ $uid }}_wrapper .dataTables_filter {
-    display:inline-flex !important;
-    align-items:center !important; gap:6px !important;
+    display:flex !important; flex-wrap:wrap !important; gap:5px !important;
 }
 #{{ $uid }}_wrapper > .row,
 #{{ $uid }}_wrapper > div { width:100% !important; }
-
-/* DataTables toolbar area inside body */
-.adm-tbl-toolbar {
-    padding:14px 18px 10px;
-    border-bottom:1px solid var(--z-border,#eef0f8);
-}
+/* hide default DT top/bottom bar spacing */
+#{{ $uid }}_wrapper .dataTables_filter,
+#{{ $uid }}_wrapper .dataTables_length { margin:0 !important; }
 </style>
 
-{{-- Card --}}
 <div class="adm-tbl-card">
 
     {{-- Header --}}
@@ -221,50 +205,56 @@ if ($createRoute) {
         </div>
     </div>
 
-    {{-- Body --}}
-    <div class="adm-tbl-body">
-        <div id="{{ $uid }}-toolbar" class="adm-tbl-toolbar" style="display:none;"></div>
-        <div class="adm-tbl-wrap" style="padding:0 18px 16px;">
-            <table id="{{ $uid }}" class="adm-tbl-table table datatable {{ $datatableClass }}">
-                <thead>{{ $thead }}</thead>
-                <tbody>{{ $tbody }}</tbody>
-            </table>
-        </div>
+    {{-- DataTables topbar (length + filter + export buttons) injected here by JS --}}
+    <div id="{{ $uid }}-topbar" class="adm-tbl-topbar" style="display:none;"></div>
+
+    {{-- Table --}}
+    <div class="adm-tbl-wrap">
+        <table id="{{ $uid }}" class="adm-tbl-table table datatable {{ $datatableClass }}">
+            <thead>{{ $thead }}</thead>
+            <tbody>{{ $tbody }}</tbody>
+        </table>
     </div>
 
 </div>
 
 <script>
 (function(){
-    function fixTbl(){
-        var tbl = $('#{{ $uid }}');
-        if(!tbl.length) return;
-        if($.fn.DataTable && $.fn.DataTable.isDataTable('#{{ $uid }}')){
-            var dt = tbl.DataTable();
-            dt.columns.adjust();
+    function initTbl(){
+        var $tbl = $('#{{ $uid }}');
+        if (!$tbl.length) return;
+
+        // Adjust columns if DataTable already initialised
+        if ($.fn.DataTable && $.fn.DataTable.isDataTable('#{{ $uid }}')) {
+            $tbl.DataTable().columns.adjust();
         }
         $('#{{ $uid }}_wrapper').css('width','100%');
-        tbl.css('width','100%');
-        // Move DataTables toolbar into our styled area
-        var toolbarEl = $('#{{ $uid }}-toolbar');
-        var dtFilter  = $('#{{ $uid }}_wrapper .dataTables_filter');
-        var dtLength  = $('#{{ $uid }}_wrapper .dataTables_length');
-        var dtBtns    = $('#{{ $uid }}_wrapper .dt-buttons');
-        if(dtFilter.length || dtLength.length || dtBtns.length){
-            toolbarEl.show().css({'display':'flex','align-items':'center','gap':'10px','flex-wrap':'wrap','justify-content':'space-between'});
-            if(dtBtns.length) dtBtns.appendTo(toolbarEl);
-            var right = $('<div>').css({'display':'flex','align-items':'center','gap':'8px'});
-            if(dtLength.length) right.append(dtLength);
-            if(dtFilter.length) right.append(dtFilter);
-            right.appendTo(toolbarEl);
+        $tbl.css('width','100%');
+
+        // Pull DT controls into our topbar
+        var $topbar  = $('#{{ $uid }}-topbar');
+        var $filter  = $('#{{ $uid }}_wrapper .dataTables_filter');
+        var $length  = $('#{{ $uid }}_wrapper .dataTables_length');
+        var $btns    = $('#{{ $uid }}_wrapper .dt-buttons');
+
+        var hasControls = $filter.length || $length.length || $btns.length;
+        if (hasControls) {
+            $topbar.show();
+            var $left  = $('<div>').css({'display':'flex','align-items':'center','gap':'6px'});
+            var $right = $('<div>').css({'display':'flex','align-items':'center','gap':'8px'});
+            if ($btns.length)   $left.append($btns);
+            if ($length.length) $right.append($length);
+            if ($filter.length) $right.append($filter);
+            $topbar.empty().append($left).append($right);
         }
     }
-    if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', function(){setTimeout(fixTbl,350);});
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(initTbl, 400); });
     } else {
-        setTimeout(fixTbl,350);
+        setTimeout(initTbl, 400);
     }
 })();
 </script>
 
-{{ $scripts ?? '' }}
+{{ $slots['scripts'] ?? '' }}
