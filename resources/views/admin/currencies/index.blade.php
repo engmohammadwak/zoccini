@@ -1,18 +1,26 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="background:#f4f6fb;min-height:100vh;padding:24px;">
-    <x-admin-page-header :title="trans('cruds.currency.title')" icon="fas fa-dollar-sign" color="green" :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>trans('cruds.currency.title')]]" />
-    <x-admin-table :title="trans('cruds.currency.title_singular').' '.trans('global.list')" icon="fas fa-dollar-sign" color="green" datatableClass="datatable-Currency" :count="$currencies->count()" :createRoute="route('admin.currencies.create')" :createLabel="trans('global.add').' '.trans('cruds.currency.title_singular')">
-        <x-slot name="thead"><tr><th width="10"></th><th>Name EN</th><th>Name AR</th><th>Code</th><th>Symbol</th><th>Status</th><th>&nbsp;</th></tr></x-slot>
+<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
+    <x-admin-page-header title="Currencies" icon="fas fa-coins" color="gold"
+        :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Currencies']]" />
+    @php $total=$currencies->count(); $default=$currencies->where('is_default',1)->count(); @endphp
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:22px;">
+        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#d97706,#fbbf24);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-coins"></i></div>
+            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Currencies</div></div>
+        </div>
+    </div>
+    <x-admin-table title="Currencies" icon="fas fa-coins" color="gold" datatableClass="datatable-Currency" :count="$currencies->count()" :createRoute="can('currency_create') ? route('admin.currencies.create') : null" :createLabel="trans('global.add').' Currency'">
+        <x-slot name="thead"><tr><th width="10"></th><th>Name</th><th>Code</th><th>Symbol</th><th>Rate</th><th>Default</th><th>&nbsp;</th></tr></x-slot>
         <x-slot name="tbody">
             @foreach($currencies as $currency)
             <tr data-entry-id="{{ $currency->id }}">
                 <td></td>
-                <td>{{ $currency->name_en ?? '' }}</td>
-                <td>{{ $currency->name_ar ?? '' }}</td>
-                <td><code style="background:#f0fdf4;padding:3px 8px;border-radius:5px;">{{ $currency->code ?? '' }}</code></td>
-                <td><strong>{{ $currency->symbol ?? '' }}</strong></td>
-                <td><x-admin-status-badge :label="$currency->status==1?'Active':'Inactive'" :type="$currency->status==1?'success':'danger'" /></td>
+                <td style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $currency->name ?? $currency->name_en ?? '—' }}</td>
+                <td><span style="background:#fef9c3;color:#854d0e;padding:3px 9px;border-radius:7px;font-weight:700;font-size:0.82rem;font-family:monospace;">{{ $currency->code ?? '—' }}</span></td>
+                <td style="font-weight:700;color:#d97706;font-size:0.9rem;">{{ $currency->symbol ?? '—' }}</td>
+                <td style="font-size:0.82rem;color:#475569;">{{ $currency->exchange_rate ?? $currency->rate ?? '—' }}</td>
+                <td>@if($currency->is_default ?? false)<span style="background:#dcfce7;color:#166534;padding:3px 9px;border-radius:7px;font-size:0.78rem;font-weight:600;">Default</span>@endif</td>
                 <td style="display:flex;gap:5px;">
                     @can('currency_show')<x-admin-action-btn href="{{ route('admin.currencies.show',$currency->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
                     @can('currency_edit')<x-admin-action-btn href="{{ route('admin.currencies.edit',$currency->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
@@ -26,5 +34,5 @@
 @endsection
 @section('scripts')
 @parent
-<script>$(function(){$.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'desc']],pageLength:100});$('.datatable-Currency:not(.ajaxTable)').DataTable({buttons:[]});});</script>
+<script>$(function(){ $.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'asc']],pageLength:25}); $('.datatable-Currency:not(.ajaxTable)').DataTable({buttons:$.extend(true,[],$.fn.dataTable.defaults.buttons)}); });</script>
 @endsection

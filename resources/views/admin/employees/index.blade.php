@@ -1,82 +1,41 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="background:#f4f6fb;min-height:100vh;padding:24px;">
-
-    <x-admin-page-header
-        :title="trans('cruds.employee.title')"
-        icon="fas fa-user-tie"
-        color="indigo"
-        :breadcrumbs="[
-            ['label' => trans('global.dashboard'), 'url' => route('admin.home')],
-            ['label' => trans('cruds.employee.title')],
-        ]"
-    />
-
-    <x-admin-table
-        :title="trans('cruds.employee.title_singular').' '.trans('global.list')"
-        icon="fas fa-user-tie"
-        color="indigo"
-        datatableClass="datatable-Employee"
-        :count="$employees->count()"
-        :createRoute="route('admin.employees.create')"
-        :createLabel="trans('global.add').' '.trans('cruds.employee.title_singular')"
-    >
-        <x-slot name="thead">
-            <tr>
-                <th width="10"></th>
-                <th>{{ trans('cruds.employee.fields.name') }}</th>
-                <th>{{ trans('cruds.employee.fields.phone') }}</th>
-                <th>{{ trans('cruds.employee.fields.email') }}</th>
-                <th>{{ trans('cruds.employee.fields.status') }}</th>
-                <th>&nbsp;</th>
-            </tr>
-        </x-slot>
+<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
+    <x-admin-page-header title="Employees" icon="fas fa-user-tie" color="slate"
+        :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Employees']]" />
+    @php $total=$employees->count(); $active=$employees->where('status',1)->count(); @endphp
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:22px;">
+        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#475569,#64748b);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-user-tie"></i></div>
+            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Total</div></div>
+        </div>
+        <div style="background:linear-gradient(135deg,#475569,#334155);border-radius:14px;padding:16px 18px;box-shadow:0 4px 14px rgba(71,85,105,0.3);display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-check-circle"></i></div>
+            <div><div style="font-size:1.4rem;font-weight:800;color:#fff;line-height:1;">{{ $active }}</div><div style="font-size:0.72rem;color:rgba(255,255,255,0.75);margin-top:2px;">Active</div></div>
+        </div>
+    </div>
+    <x-admin-table title="Employees" icon="fas fa-user-tie" color="slate" datatableClass="datatable-Employee" :count="$employees->count()" :createRoute="can('employee_create') ? route('admin.employees.create') : null" :createLabel="trans('global.add').' Employee'">
+        <x-slot name="thead"><tr><th width="10"></th><th>Name</th><th>Phone</th><th>Role</th><th>Status</th><th>&nbsp;</th></tr></x-slot>
         <x-slot name="tbody">
             @foreach($employees as $employee)
             <tr data-entry-id="{{ $employee->id }}">
                 <td></td>
-                <td>
-                    <span style="display:flex;align-items:center;gap:8px;">
-                        <x-admin-avatar :name="$employee->name" color="indigo" />
-                        {{ $employee->name ?? '' }}
-                    </span>
-                </td>
-                <td>{{ $employee->phone ?? '' }}</td>
-                <td>{{ $employee->email ?? '' }}</td>
-                <td>
-                    <x-admin-status-badge
-                        :label="$employee->status == 1 ? (trans('global.active') ?? 'Active') : (trans('global.inactive') ?? 'Inactive')"
-                        :type="$employee->status == 1 ? 'success' : 'danger'"
-                    />
-                </td>
-                <td style="display:flex;gap:5px;flex-wrap:wrap;">
-                    @can('employee_show')
-                    <x-admin-action-btn href="{{ route('admin.employees.show',$employee->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />
-                    @endcan
-                    @can('employee_edit')
-                    <x-admin-action-btn href="{{ route('admin.employees.edit',$employee->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />
-                    @endcan
-                    @can('employee_delete')
-                    <x-admin-action-btn href="{{ route('admin.employees.destroy',$employee->id) }}" icon="fas fa-trash" color="red" method="DELETE" />
-                    @endcan
+                <td><span style="display:flex;align-items:center;gap:8px;"><x-admin-avatar :name="$employee->name ?? 'E'" color="slate" /><span style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $employee->name ?? '—' }}</span></span></td>
+                <td style="font-size:0.82rem;color:#64748b;">{{ $employee->phone ?? '—' }}</td>
+                <td style="font-size:0.82rem;color:#475569;">{{ optional($employee->role)->title ?? $employee->position ?? '—' }}</td>
+                <td>@if($employee->status ?? 1)<span style="background:#dcfce7;color:#166534;padding:3px 9px;border-radius:7px;font-size:0.78rem;font-weight:600;">Active</span>@else<span style="background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:7px;font-size:0.78rem;">Inactive</span>@endif</td>
+                <td style="display:flex;gap:5px;">
+                    @can('employee_show')<x-admin-action-btn href="{{ route('admin.employees.show',$employee->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
+                    @can('employee_edit')<x-admin-action-btn href="{{ route('admin.employees.edit',$employee->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
+                    @can('employee_delete')<x-admin-action-btn href="{{ route('admin.employees.destroy',$employee->id) }}" icon="fas fa-trash" color="red" method="DELETE" />@endcan
                 </td>
             </tr>
             @endforeach
         </x-slot>
     </x-admin-table>
-
 </div>
 @endsection
 @section('scripts')
 @parent
-<script>
-$(function(){
-    let dtButtons=$.extend(true,[],$.fn.dataTable.defaults.buttons);
-    @can('employee_delete')
-    dtButtons.push({text:'{{ trans('global.datatables.delete') }}',url:"{{ route('admin.employees.massDestroy') }}",className:'btn-danger',action:function(e,dt,node,config){var ids=$.map(dt.rows({selected:true}).nodes(),function(entry){return $(entry).data('entry-id')});if(ids.length===0){alert('{{ trans('global.datatables.zero_selected') }}');return}if(confirm('{{ trans('global.areYouSure') }}')){$.ajax({headers:{'x-csrf-token':_token},method:'POST',url:config.url,data:{ids:ids,_method:'DELETE'}}).done(function(){location.reload()})}}});
-    @endcan
-    $.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'desc']],pageLength:100});
-    $('.datatable-Employee:not(.ajaxTable)').DataTable({buttons:dtButtons});
-});
-</script>
+<script>$(function(){ $.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'asc']],pageLength:25}); $('.datatable-Employee:not(.ajaxTable)').DataTable({buttons:$.extend(true,[],$.fn.dataTable.defaults.buttons)}); });</script>
 @endsection
