@@ -27,16 +27,32 @@ use Illuminate\Support\Facades\Schema;
 class HomeController
 {
     /**
-     * Return the best available price column in the orders table.
-     * Tries final_price first, falls back to price.
+     * Find the best available price column in the orders table.
+     * Returns null if no price column exists at all.
      */
-    private function priceCol(): string
+    private function priceCol(): ?string
     {
-        static $col;
-        if (!$col) {
-            $col = Schema::hasColumn('orders', 'final_price') ? 'final_price' : 'price';
+        static $col = false;
+        if ($col === false) {
+            $candidates = ['final_price', 'total_price', 'total', 'price', 'amount', 'order_total'];
+            $col = null;
+            foreach ($candidates as $c) {
+                if (Schema::hasColumn('orders', $c)) {
+                    $col = $c;
+                    break;
+                }
+            }
         }
         return $col;
+    }
+
+    /**
+     * Safe sum — returns 0 if price column doesn't exist.
+     */
+    private function safeSum($query, ?string $col): float
+    {
+        if (!$col) return 0;
+        return (float) $query->sum($col);
     }
 
     public function index()
@@ -45,11 +61,11 @@ class HomeController
             return redirect()->to(url('lhome'));
         }
 
-        $user      = Auth::user();
-        $userType  = $user->user_type;
-        $isAdmin   = $userType == 1;
+        $user         = Auth::user();
+        $userType     = $user->user_type;
+        $isAdmin      = $userType == 1;
         $isRestaurant = $userType == 3;
-        $priceCol  = $this->priceCol();
+        $priceCol     = $this->priceCol();
 
         // Resolve restaurant id for restaurant users
         $restId = null;
@@ -93,7 +109,7 @@ class HomeController
             $dq = Order::whereDate('created_at', $day);
             if ($isRestaurant) $dq->where('restaurants_id', $restId);
             $ordersChartData[]  = $dq->count();
-            $revenueChartData[] = (float)$dq->sum($priceCol);
+            $revenueChartData[] = $this->safeSum(clone $dq, $priceCol);
         }
 
         // Top restaurants by orders (admin)
@@ -111,9 +127,9 @@ class HomeController
         $revQ = Order::where('status_id', 2);
         if ($isRestaurant) $revQ->where('restaurants_id', $restId);
 
-        $revenueTotal  = (clone $revQ)->sum($priceCol);
-        $revenueToday  = (clone $revQ)->whereDate('created_at', Carbon::today())->sum($priceCol);
-        $revenueMonth  = (clone $revQ)->where('created_at', '>=', Carbon::now()->startOfMonth())->sum($priceCol);
+        $revenueTotal  = $this->safeSum(clone $revQ, $priceCol);
+        $revenueToday  = $this->safeSum((clone $revQ)->whereDate('created_at', Carbon::today()), $priceCol);
+        $revenueMonth  = $this->safeSum((clone $revQ)->where('created_at', '>=', Carbon::now()->startOfMonth()), $priceCol);
         $avgOrderValue = $totalOrders > 0 ? $revenueTotal / $totalOrders : 0;
 
         // ═══════════════════ USERS & RESTAURANTS ═══════════════════
