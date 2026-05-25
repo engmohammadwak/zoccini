@@ -15,7 +15,6 @@
 
     {{-- KPI Row --}}
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:22px;">
-        {{-- Total --}}
         <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:14px;padding:16px 18px;box-shadow:var(--z-card-shadow);display:flex;align-items:center;gap:12px;">
             <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#4f7cff,#7c4fff);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-envelope"></i></div>
             <div>
@@ -23,7 +22,6 @@
                 <div style="font-size:0.72rem;color:var(--z-text-faint);margin-top:2px;">{{ trans('global.total') ?? 'Total' }}</div>
             </div>
         </div>
-        {{-- Inbox Unread --}}
         <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:14px;padding:16px 18px;box-shadow:var(--z-card-shadow);display:flex;align-items:center;gap:12px;">
             <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#f59e0b,#fbbf24);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-inbox"></i></div>
             <div>
@@ -31,7 +29,6 @@
                 <div style="font-size:0.72rem;color:var(--z-text-faint);margin-top:2px;">{{ trans('global.inbox') ?? 'Inbox Unread' }}</div>
             </div>
         </div>
-        {{-- Outbox Unread --}}
         <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:14px;padding:16px 18px;box-shadow:var(--z-card-shadow);display:flex;align-items:center;gap:12px;">
             <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#10b981,#34d399);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-paper-plane"></i></div>
             <div>
@@ -42,24 +39,24 @@
     </div>
 
     {{-- Nav Tabs --}}
-    <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;">
+    <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center;">
         <a href="{{ route('admin.messenger.index') }}"
            style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:9px;font-size:0.82rem;font-weight:600;text-decoration:none;
                   background:{{ request()->routeIs('admin.messenger.index') ? 'var(--z-primary)' : 'var(--z-surface-2)' }};
                   color:{{ request()->routeIs('admin.messenger.index') ? '#fff' : 'var(--z-text-muted)' }};">
             <i class="fas fa-list"></i> {{ trans('global.all_messages') ?? 'All' }}
         </a>
-        <a href="{{ route('admin.messenger.inbox') }}"
+        <a href="{{ route('admin.messenger.showInbox') }}"
            style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:9px;font-size:0.82rem;font-weight:600;text-decoration:none;
-                  background:{{ request()->routeIs('admin.messenger.inbox') ? 'var(--z-primary)' : 'var(--z-surface-2)' }};
-                  color:{{ request()->routeIs('admin.messenger.inbox') ? '#fff' : 'var(--z-text-muted)' }};">
+                  background:{{ request()->routeIs('admin.messenger.showInbox') ? 'var(--z-primary)' : 'var(--z-surface-2)' }};
+                  color:{{ request()->routeIs('admin.messenger.showInbox') ? '#fff' : 'var(--z-text-muted)' }};">
             <i class="fas fa-inbox"></i> {{ trans('global.inbox') ?? 'Inbox' }}
             @if(($unreads['inbox'] ?? 0) > 0)<span style="background:#ef4444;color:#fff;border-radius:999px;padding:1px 7px;font-size:0.7rem;margin-inline-start:4px;">{{ $unreads['inbox'] }}</span>@endif
         </a>
-        <a href="{{ route('admin.messenger.outbox') }}"
+        <a href="{{ route('admin.messenger.showOutbox') }}"
            style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:9px;font-size:0.82rem;font-weight:600;text-decoration:none;
-                  background:{{ request()->routeIs('admin.messenger.outbox') ? 'var(--z-primary)' : 'var(--z-surface-2)' }};
-                  color:{{ request()->routeIs('admin.messenger.outbox') ? '#fff' : 'var(--z-text-muted)' }};">
+                  background:{{ request()->routeIs('admin.messenger.showOutbox') ? 'var(--z-primary)' : 'var(--z-surface-2)' }};
+                  color:{{ request()->routeIs('admin.messenger.showOutbox') ? '#fff' : 'var(--z-text-muted)' }};">
             <i class="fas fa-paper-plane"></i> {{ trans('global.outbox') ?? 'Outbox' }}
         </a>
         <a href="{{ route('admin.messenger.createTopic') }}"
@@ -91,11 +88,9 @@
                     @forelse($topics as $topic)
                     <tr data-entry-id="{{ $topic->id }}">
                         <td></td>
-                        <td style="font-weight:{{ $topic->messages->where('sender_id','!=',$topic->creator_id)->whereNull('read_at')->count() ? '700' : '400' }};">
-                            {{ $topic->subject ?? '—' }}
-                        </td>
-                        <td style="font-size:.83rem;color:var(--z-text-muted);">{{ $topic->creator->name ?? '—' }}</td>
-                        <td style="font-size:.83rem;color:var(--z-text-muted);">{{ $topic->receiver->name ?? '—' }}</td>
+                        <td style="font-weight:600;color:var(--z-text);font-size:.85rem;">{{ $topic->subject ?? '—' }}</td>
+                        <td style="font-size:.83rem;color:var(--z-text-muted);">{{ optional($topic->creator)->name ?? '—' }}</td>
+                        <td style="font-size:.83rem;color:var(--z-text-muted);">{{ optional($topic->receiver)->name ?? '—' }}</td>
                         <td style="font-size:.82rem;color:var(--z-text-faint);">{{ $topic->created_at ? $topic->created_at->diffForHumans() : '—' }}</td>
                         <td style="display:flex;gap:5px;">
                             <x-admin-action-btn href="{{ route('admin.messenger.showMessages', $topic->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />
