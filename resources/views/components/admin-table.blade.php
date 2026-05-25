@@ -107,9 +107,10 @@ if ($createRoute) {
 .adm-tbl-wrap { width: 100%; overflow-x: auto; }
 .adm-tbl-table {
     width: 100% !important;
+    min-width: 100% !important;
     border-collapse: collapse;
     font-size: .84rem;
-    table-layout: auto;
+    table-layout: fixed;
 }
 .adm-tbl-table thead tr:first-child th {
     background: var(--z-surface-2, #f5f7ff);
@@ -121,6 +122,8 @@ if ($createRoute) {
     padding: 11px 14px;
     border-bottom: 2px solid var(--z-border, #e2e7f4);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .adm-tbl-table tbody tr {
     border-bottom: 1px solid var(--z-border, #f0f2fa);
@@ -132,6 +135,8 @@ if ($createRoute) {
     padding: 12px 14px;
     color: var(--z-text, #2d3250);
     vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .adm-btn-create {
     display: inline-flex; align-items: center; gap: 6px;
@@ -147,23 +152,25 @@ if ($createRoute) {
 }
 .adm-btn-create:hover { opacity: .87; transform: translateY(-1px); color: #fff !important; text-decoration: none; }
 
-/* DataTables overrides */
+/* DataTables overrides — full width, no empty half */
 #{{ $uid }}_wrapper { width: 100% !important; }
+#{{ $uid }}_wrapper table.dataTable { width: 100% !important; min-width: 100% !important; }
 #{{ $uid }}_wrapper .dataTables_scroll { width: 100% !important; }
 #{{ $uid }}_wrapper .dataTables_scrollBody {
     height: auto !important;
     max-height: none !important;
     overflow-y: visible !important;
     overflow-x: auto !important;
+    width: 100% !important;
 }
-#{{ $uid }}_wrapper .dataTables_scrollHead { overflow: visible !important; }
+#{{ $uid }}_wrapper .dataTables_scrollHead { overflow: visible !important; width: 100% !important; }
 #{{ $uid }}_wrapper .dataTables_scrollHeadInner {
     width: 100% !important;
     padding: 0 !important;
     box-sizing: border-box !important;
 }
 #{{ $uid }}_wrapper .dataTables_scrollHeadInner > table,
-#{{ $uid }}_wrapper .dataTables_scrollBody > table { width: 100% !important; margin: 0 !important; }
+#{{ $uid }}_wrapper .dataTables_scrollBody > table { width: 100% !important; min-width: 100% !important; margin: 0 !important; }
 /* إخفاء info/paginate من مكانهم الأصلي — سيُنقلان جوا الـ card */
 #{{ $uid }}_wrapper > .dataTables_info,
 #{{ $uid }}_wrapper > .dataTables_paginate,
@@ -243,7 +250,7 @@ if ($createRoute) {
 
     {{-- Table --}}
     <div class="adm-tbl-wrap">
-        <table id="{{ $uid }}" class="adm-tbl-table table datatable {{ $datatableClass }}">
+        <table id="{{ $uid }}" class="adm-tbl-table table datatable {{ $datatableClass }}" style="width:100%!important;">
             <thead>{{ $thead }}</thead>
             <tbody>{{ $tbody }}</tbody>
         </table>
@@ -260,22 +267,20 @@ if ($createRoute) {
     var tblSel = '#' + uid;
     var wrapSel= '#' + uid + '_wrapper';
 
-    function fixScrollHead() {
-        /* إجبار scrollHeadInner على عرض 100% وإزالة الـ padding بعد كل draw */
-        var $inner = $(wrapSel + ' .dataTables_scrollHeadInner');
-        $inner.css({ width: '100%', padding: '0', boxSizing: 'border-box' });
-        $inner.find('> table').css({ width: '100%', margin: '0' });
-        $(wrapSel + ' .dataTables_scrollBody > table').css({ width: '100%', margin: '0' });
-    }
-
-    function fixDT() {
-        /* إلغاء scroll fixed height */
+    function forceFullWidth() {
+        /* إجبار الجدول وكل wrappers على عرض 100% */
+        $(wrapSel).css('width', '100%');
+        $(wrapSel + ' table.dataTable').css({ 'width': '100%', 'min-width': '100%' });
         $(wrapSel + ' .dataTables_scrollBody').css({
-            height: 'auto', maxHeight: 'none',
+            'width': '100%', height: 'auto', maxHeight: 'none',
             overflowY: 'visible', overflowX: 'auto'
         });
-        $(wrapSel + ' .dataTables_scrollHead').css({ overflow: 'visible' });
-        fixScrollHead();
+        $(wrapSel + ' .dataTables_scrollHead').css({ overflow: 'visible', width: '100%' });
+        var $inner = $(wrapSel + ' .dataTables_scrollHeadInner');
+        $inner.css({ width: '100%', padding: '0', boxSizing: 'border-box' });
+        $inner.find('> table').css({ width: '100%', 'min-width': '100%', margin: '0' });
+        $(wrapSel + ' .dataTables_scrollBody > table').css({ width: '100%', 'min-width': '100%', margin: '0' });
+        /* إعادة حساب أعمدة DataTables */
         if ($.fn.DataTable && $.fn.DataTable.isDataTable(tblSel)) {
             $(tblSel).DataTable().columns.adjust();
         }
@@ -312,22 +317,25 @@ if ($createRoute) {
 
     function hookDrawEvent() {
         if ($.fn.DataTable && $.fn.DataTable.isDataTable(tblSel)) {
-            /* بعد كل draw يعيد DataTables ضبط scrollHeadInner — نعيد إصلاحه */
-            $(tblSel).on('draw.dt column-sizing.dt', function() {
-                setTimeout(fixScrollHead, 0);
+            $(tblSel).off('draw.dt-fullwidth column-sizing.dt-fullwidth')
+                     .on('draw.dt-fullwidth column-sizing.dt-fullwidth', function() {
+                setTimeout(forceFullWidth, 0);
             });
         }
     }
 
     function init() {
         if (!$(tblSel).length) return;
-        fixDT();
+        forceFullWidth();
         moveControls();
         hookDrawEvent();
+        /* retry بعد render */
         setTimeout(function(){
-            fixDT();
+            forceFullWidth();
             hookDrawEvent();
-        }, 300);
+        }, 400);
+        /* retry ثاني بعد أي animation */
+        setTimeout(forceFullWidth, 900);
     }
 
     if (document.readyState === 'loading') {
