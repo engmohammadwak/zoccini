@@ -274,7 +274,7 @@ class HomeController
                 'entries_number' => '5',
             ];
 
-            $settings18 = [
+            $settings22 = [
                 'chart_title' => web('order day price'),
                 'chart_type' => 'line',
                 'report_type' => 'group_by_date',
@@ -290,7 +290,7 @@ class HomeController
             ];
 
 
-            $settings19 = [
+            $settings23a = [
                 'chart_title' => web('order month avg'),
                 'chart_type' => 'line',
                 'report_type' => 'group_by_date',
@@ -306,7 +306,7 @@ class HomeController
             ];
 
 
-            $settings20 = [
+            $settings23b = [
                 'chart_title' => web('order day avg'),
                 'chart_type' => 'line',
                 'report_type' => 'group_by_date',
@@ -357,7 +357,7 @@ class HomeController
                 ],
             ];
 
-            $settings18 = [
+            $settings22 = [
                 'chart_title' => web('order day price'),
                 'chart_type' => 'line',
                 'report_type' => 'group_by_date',
@@ -374,7 +374,7 @@ class HomeController
                     ['name' => web('restaurant'), 'condition' => 'restaurants_id = ' . $auth, 'color' => 'black'],
                 ],
             ];
-            $settings19 = [
+            $settings23a = [
                 'chart_title' => web('order month avg'),
                 'chart_type' => 'line',
                 'report_type' => 'group_by_date',
@@ -392,7 +392,7 @@ class HomeController
                 ],
             ];
 
-            $settings20 = [
+            $settings23b = [
                 'chart_title' => web('order day avg'),
                 'chart_type' => 'line',
                 'report_type' => 'group_by_date',
@@ -411,7 +411,7 @@ class HomeController
             ];
         }
 
-        $chart5 = new LaravelChart($settings5);
+        $chart5  = new LaravelChart($settings5);
 
         if (Auth::user()['user_type'] != 3) {
             $chart6 = new LaravelChart($settings6);
@@ -420,10 +420,13 @@ class HomeController
             $chart7 = null;
             $chart6 = null;
         }
-        $chart18 = new LaravelChart($settings18);
-        $chart19 = new LaravelChart($settings19);
-        $chart20 = new LaravelChart($settings20);
+
+        // Charts built from renamed settings (no conflict)
         $chart17 = new LaravelChart($settings21);
+        $chart18 = new LaravelChart($settings22);
+        $chart19 = new LaravelChart($settings23a);
+        $chart20 = new LaravelChart($settings23b);
+
         $settings8 = [
             'chart_title' => web('last user'),
             'chart_type' => 'latest_entries',
@@ -896,6 +899,7 @@ class HomeController
         if (class_exists($settings24['model'])) {
             $settings24['total_number'] = $settings24['model']::find($auth) ? $settings24['model']::find($auth)['visits'] : 0;
         }
+
         if (Auth::user()['user_type'] == 3) {
             $restaurant = Restaurant::where('restaurant_id', Auth::id())->first();
             if ($restaurant)
@@ -910,6 +914,7 @@ class HomeController
             $order_day = Order::whereDate('created_at', Carbon::today())->count();
         }
 
+        // settings18 = today's orders (number block for view)
         $settings18 = [
             'chart_title' => web('order today'),
             'chart_type' => 'number_block',
@@ -917,12 +922,22 @@ class HomeController
             'total_number' => $order_day,
         ];
 
+        // settings19 = active ads (number block for view)
         $settings19 = [
             'chart_title' => web('all ads active'),
             'chart_type' => 'number_block',
             'column_class' => 'col-md-3',
             'total_number' => AllAd::where('status' , 1)->count(),
         ];
-        return view('home', compact('settings1', 'settings2', 'settings3', 'settings4', 'chart5', 'chart6', 'chart7', 'settings8', 'settings9', 'settings10', 'settings11', 'settings12', 'settings13', 'settings14', 'settings15', 'settings16', 'settings17', 'chart17', 'chart18', 'chart19', 'chart20', 'settings24', 'settings18', 'settings19'));
+
+        return view('home', compact(
+            'settings1', 'settings2', 'settings3', 'settings4',
+            'chart5', 'chart6', 'chart7',
+            'settings8', 'settings9',
+            'settings10', 'settings11', 'settings12', 'settings13', 'settings14', 'settings15',
+            'settings16', 'settings17',
+            'chart17', 'chart18', 'chart19', 'chart20',
+            'settings24', 'settings18', 'settings19'
+        ));
     }
 }
