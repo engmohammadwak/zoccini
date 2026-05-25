@@ -10,15 +10,15 @@
             <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Branches</div></div>
         </div>
     </div>
-    <x-admin-table title="Other Branches" icon="fas fa-code-branch" color="violet" datatableClass="datatable-Otherbranch" :count="$otherbranches->count()" :createRoute="can('otherbranch_create') ? route('admin.otherbranches.create') : null" :createLabel="trans('global.add').' Branch'">
+    <x-admin-table title="Other Branches" icon="fas fa-code-branch" color="violet" datatableClass="datatable-Otherbranch" :count="$otherbranches->count()" :createRoute="\Illuminate\Support\Facades\Gate::allows('otherbranch_create') ? route('admin.otherbranches.create') : null" :createLabel="trans('global.add').' Branch'">
         <x-slot name="thead"><tr><th width="10"></th><th>Name EN</th><th>Name AR</th><th>Restaurant</th><th>City</th><th>&nbsp;</th></tr></x-slot>
         <x-slot name="tbody">
             @foreach($otherbranches as $branch)
             <tr data-entry-id="{{ $branch->id }}">
                 <td></td>
-                <td style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $branch->name_en ?? $branch->name ?? '—' }}</td>
-                <td style="font-size:0.83rem;color:#475569;">{{ $branch->name_ar ?? '—' }}</td>
-                <td style="font-size:0.82rem;color:#64748b;">{{ optional($branch->restaurant)->name_en ?? '—' }}</td>
+                <td style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $branch->branch_name_en ?? $branch->name_en ?? $branch->name ?? '—' }}</td>
+                <td style="font-size:0.83rem;color:#475569;">{{ $branch->branch_name_ar ?? $branch->name_ar ?? '—' }}</td>
+                <td style="font-size:0.82rem;color:#64748b;">{{ optional($branch->restaurants)->name_en ?? optional($branch->restaurants)->name ?? '—' }}</td>
                 <td style="font-size:0.82rem;color:#64748b;">{{ optional($branch->city)->name_en ?? '—' }}</td>
                 <td style="display:flex;gap:5px;">
                     @can('otherbranch_show')<x-admin-action-btn href="{{ route('admin.otherbranches.show',$branch->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
