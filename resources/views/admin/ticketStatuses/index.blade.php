@@ -1,137 +1,27 @@
 @extends('layouts.admin')
 @section('content')
-@can('ticket_status_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.ticket-statuses.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.ticketStatus.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.ticketStatus.title_singular') }} {{ trans('global.list') }}
-    </div>
-
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-TicketStatus">
-                <thead>
-                    <tr>
-                        <th width="10">
-
-                        </th>
-                        <th>
-                            {{ trans('cruds.ticketStatus.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.ticketStatus.fields.name_ar') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.ticketStatus.fields.name_en') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($ticketStatuses as $key => $ticketStatus)
-                        <tr data-entry-id="{{ $ticketStatus->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $ticketStatus->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $ticketStatus->name_ar ?? '' }}
-                            </td>
-                            <td>
-                                {{ $ticketStatus->name_en ?? '' }}
-                            </td>
-                            <td>
-                                @can('ticket_status_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.ticket-statuses.show', $ticketStatus->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('ticket_status_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.ticket-statuses.edit', $ticketStatus->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('ticket_status_delete')
-                                    <form action="{{ route('admin.ticket-statuses.destroy', $ticketStatus->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="content-wrapper" style="background:#f4f6fb;min-height:100vh;padding:24px;">
+    <x-admin-page-header title="Ticket Statuses" icon="fas fa-tag" color="indigo" :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Ticket Statuses']]" />
+    <x-admin-table title="Ticket Statuses List" icon="fas fa-tag" color="indigo" datatableClass="datatable-TicketStatus" :count="$ticketStatuses->count()" :createRoute="route('admin.ticket-statuses.create')" createLabel="Add Status">
+        <x-slot name="thead"><tr><th width="10"></th><th>Name</th><th>Color</th><th>&nbsp;</th></tr></x-slot>
+        <x-slot name="tbody">
+            @foreach($ticketStatuses as $status)
+            <tr data-entry-id="{{ $status->id }}">
+                <td></td>
+                <td>{{ $status->name ?? '' }}</td>
+                <td>@if($status->color)<span style="display:inline-block;width:18px;height:18px;border-radius:50%;background:{{ $status->color }};vertical-align:middle;margin-left:5px;"></span> {{ $status->color }}@endif</td>
+                <td style="display:flex;gap:5px;">
+                    @can('ticket_status_show')<x-admin-action-btn href="{{ route('admin.ticket-statuses.show',$status->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
+                    @can('ticket_status_edit')<x-admin-action-btn href="{{ route('admin.ticket-statuses.edit',$status->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
+                    @can('ticket_status_delete')<x-admin-action-btn href="{{ route('admin.ticket-statuses.destroy',$status->id) }}" icon="fas fa-trash" color="red" method="DELETE" />@endcan
+                </td>
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-admin-table>
 </div>
-
-
-
 @endsection
 @section('scripts')
 @parent
-<script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('ticket_status_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.ticket-statuses.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-TicketStatus:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
-})
-
-</script>
+<script>$(function(){$.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'desc']],pageLength:100});$('.datatable-TicketStatus:not(.ajaxTable)').DataTable({buttons:[]});});</script>
 @endsection

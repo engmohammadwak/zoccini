@@ -1,137 +1,28 @@
 @extends('layouts.admin')
 @section('content')
-@can('cansel_reason_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.cansel-reasons.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.canselReason.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.canselReason.title_singular') }} {{ trans('global.list') }}
-    </div>
-
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-CanselReason">
-                <thead>
-                    <tr>
-                        <th width="10">
-
-                        </th>
-                        <th>
-                            {{ trans('cruds.canselReason.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.canselReason.fields.name_ar') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.canselReason.fields.name_en') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($canselReasons as $key => $canselReason)
-                        <tr data-entry-id="{{ $canselReason->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $canselReason->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $canselReason->name_ar ?? '' }}
-                            </td>
-                            <td>
-                                {{ $canselReason->name_en ?? '' }}
-                            </td>
-                            <td>
-                                @can('cansel_reason_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.cansel-reasons.show', $canselReason->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('cansel_reason_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.cansel-reasons.edit', $canselReason->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('cansel_reason_delete')
-                                    <form action="{{ route('admin.cansel-reasons.destroy', $canselReason->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="content-wrapper" style="background:#f4f6fb;min-height:100vh;padding:24px;">
+    <x-admin-page-header title="Cancel Reasons" icon="fas fa-ban" color="red" :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Cancel Reasons']]" />
+    <x-admin-table title="Cancel Reasons List" icon="fas fa-ban" color="red" datatableClass="datatable-CancelReason" :count="$canselReasons->count()" :createRoute="route('admin.cansel-reasons.create')" createLabel="Add Cancel Reason">
+        <x-slot name="thead"><tr><th width="10"></th><th>Reason EN</th><th>Reason AR</th><th>Status</th><th>&nbsp;</th></tr></x-slot>
+        <x-slot name="tbody">
+            @foreach($canselReasons as $reason)
+            <tr data-entry-id="{{ $reason->id }}">
+                <td></td>
+                <td>{{ $reason->reason_en ?? '' }}</td>
+                <td>{{ $reason->reason_ar ?? '' }}</td>
+                <td><x-admin-status-badge :label="$reason->status==1?'Active':'Inactive'" :type="$reason->status==1?'success':'danger'" /></td>
+                <td style="display:flex;gap:5px;">
+                    @can('cansel_reason_show')<x-admin-action-btn href="{{ route('admin.cansel-reasons.show',$reason->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
+                    @can('cansel_reason_edit')<x-admin-action-btn href="{{ route('admin.cansel-reasons.edit',$reason->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
+                    @can('cansel_reason_delete')<x-admin-action-btn href="{{ route('admin.cansel-reasons.destroy',$reason->id) }}" icon="fas fa-trash" color="red" method="DELETE" />@endcan
+                </td>
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-admin-table>
 </div>
-
-
-
 @endsection
 @section('scripts')
 @parent
-<script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('cansel_reason_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.cansel-reasons.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-CanselReason:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
-})
-
-</script>
+<script>$(function(){$.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'desc']],pageLength:100});$('.datatable-CancelReason:not(.ajaxTable)').DataTable({buttons:[]});});</script>
 @endsection

@@ -1,143 +1,30 @@
 @extends('layouts.admin')
 @section('content')
-@can('currency_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.currencies.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.currency.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.currency.title_singular') }} {{ trans('global.list') }}
-    </div>
-
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Currency">
-                <thead>
-                    <tr>
-                        <th width="10">
-
-                        </th>
-                        <th>
-                            {{ trans('cruds.currency.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.currency.fields.name_ar') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.currency.fields.name_en') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.currency.fields.status') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($currencies as $key => $currency)
-                        <tr data-entry-id="{{ $currency->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $currency->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $currency->name_ar ?? '' }}
-                            </td>
-                            <td>
-                                {{ $currency->name_en ?? '' }}
-                            </td>
-                            <td>
-                                {{ App\Models\Currency::STATUS_RADIO[$currency->status] ?? '' }}
-                            </td>
-                            <td>
-                                @can('currency_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.currencies.show', $currency->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('currency_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.currencies.edit', $currency->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('currency_delete')
-                                    <form action="{{ route('admin.currencies.destroy', $currency->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="content-wrapper" style="background:#f4f6fb;min-height:100vh;padding:24px;">
+    <x-admin-page-header :title="trans('cruds.currency.title')" icon="fas fa-dollar-sign" color="green" :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>trans('cruds.currency.title')]]" />
+    <x-admin-table :title="trans('cruds.currency.title_singular').' '.trans('global.list')" icon="fas fa-dollar-sign" color="green" datatableClass="datatable-Currency" :count="$currencies->count()" :createRoute="route('admin.currencies.create')" :createLabel="trans('global.add').' '.trans('cruds.currency.title_singular')">
+        <x-slot name="thead"><tr><th width="10"></th><th>Name EN</th><th>Name AR</th><th>Code</th><th>Symbol</th><th>Status</th><th>&nbsp;</th></tr></x-slot>
+        <x-slot name="tbody">
+            @foreach($currencies as $currency)
+            <tr data-entry-id="{{ $currency->id }}">
+                <td></td>
+                <td>{{ $currency->name_en ?? '' }}</td>
+                <td>{{ $currency->name_ar ?? '' }}</td>
+                <td><code style="background:#f0fdf4;padding:3px 8px;border-radius:5px;">{{ $currency->code ?? '' }}</code></td>
+                <td><strong>{{ $currency->symbol ?? '' }}</strong></td>
+                <td><x-admin-status-badge :label="$currency->status==1?'Active':'Inactive'" :type="$currency->status==1?'success':'danger'" /></td>
+                <td style="display:flex;gap:5px;">
+                    @can('currency_show')<x-admin-action-btn href="{{ route('admin.currencies.show',$currency->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
+                    @can('currency_edit')<x-admin-action-btn href="{{ route('admin.currencies.edit',$currency->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
+                    @can('currency_delete')<x-admin-action-btn href="{{ route('admin.currencies.destroy',$currency->id) }}" icon="fas fa-trash" color="red" method="DELETE" />@endcan
+                </td>
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-admin-table>
 </div>
-
-
-
 @endsection
 @section('scripts')
 @parent
-<script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('currency_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.currencies.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-Currency:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
-})
-
-</script>
+<script>$(function(){$.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'desc']],pageLength:100});$('.datatable-Currency:not(.ajaxTable)').DataTable({buttons:[]});});</script>
 @endsection

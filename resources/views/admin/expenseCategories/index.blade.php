@@ -1,134 +1,27 @@
 @extends('layouts.admin')
 @section('content')
-@can('expense_management_access')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.expense-categories.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.expenseCategory.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.expenseCategory.title_singular') }} {{ trans('global.list') }}
-    </div>
-
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-ExpenseCategory">
-                <thead>
-                    <tr>
-                        <th width="10">
-
-                        </th>
-                        <th>
-                            {{ trans('cruds.expenseCategory.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.expenseCategory.fields.name') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($expenseCategories as $key => $expenseCategory)
-                        <tr data-entry-id="{{ $expenseCategory->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $expenseCategory->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $expenseCategory->name ?? '' }}
-                            </td>
-                            <td>
-                                @can('expense_management_access')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.expense-categories.show', $expenseCategory->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('expense_management_access')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.expense-categories.edit', $expenseCategory->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('expense_management_access')
-                                        @if ($expenseCategory->id != 1 )
-                                            <form action="{{ route('admin.expense-categories.destroy', $expenseCategory->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                            </form>
-                                        @endif
-
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="content-wrapper" style="background:#f4f6fb;min-height:100vh;padding:24px;">
+    <x-admin-page-header title="Expense Categories" icon="fas fa-folder-minus" color="red" :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Expense Categories']]" />
+    <x-admin-table title="Expense Categories List" icon="fas fa-folder-minus" color="red" datatableClass="datatable-ExpenseCategory" :count="$expenseCategories->count()" :createRoute="route('admin.expense-categories.create')" createLabel="Add Category">
+        <x-slot name="thead"><tr><th width="10"></th><th>Name</th><th>Description</th><th>&nbsp;</th></tr></x-slot>
+        <x-slot name="tbody">
+            @foreach($expenseCategories as $cat)
+            <tr data-entry-id="{{ $cat->id }}">
+                <td></td>
+                <td>{{ $cat->name ?? '' }}</td>
+                <td>{{ $cat->description ?? '' }}</td>
+                <td style="display:flex;gap:5px;">
+                    @can('expense_category_show')<x-admin-action-btn href="{{ route('admin.expense-categories.show',$cat->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
+                    @can('expense_category_edit')<x-admin-action-btn href="{{ route('admin.expense-categories.edit',$cat->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
+                    @can('expense_category_delete')<x-admin-action-btn href="{{ route('admin.expense-categories.destroy',$cat->id) }}" icon="fas fa-trash" color="red" method="DELETE" />@endcan
+                </td>
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-admin-table>
 </div>
-
-
-
 @endsection
 @section('scripts')
 @parent
-<script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('expense_management_access')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.expense-categories.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-ExpenseCategory:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-
-})
-
-</script>
+<script>$(function(){$.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'desc']],pageLength:100});$('.datatable-ExpenseCategory:not(.ajaxTable)').DataTable({buttons:[]});});</script>
 @endsection

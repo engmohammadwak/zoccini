@@ -1,173 +1,34 @@
 @extends('layouts.admin')
 @section('content')
-@can('rate_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.rates.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.rate.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.rate.title_singular') }} {{ trans('global.list') }}
-    </div>
-
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Rate">
-                <thead>
-                    <tr>
-                        <th width="10">
-
-                        </th>
-                        <th>
-                            {{ trans('cruds.rate.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.rate.fields.user') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.rate.fields.restaurant') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.rate.fields.rating') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.rate.fields.rate_1') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.rate.fields.rate_2') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.rate.fields.rate_3') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.rate.fields.rate_4') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.rate.fields.comment') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($rates as $key => $rate)
-                        <tr data-entry-id="{{ $rate->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $rate->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $rate->user->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $rate->restaurant->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $rate->rating ?? '' }}
-                            </td>
-                            <td>
-                                {{ $rate->rate_1 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $rate->rate_2 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $rate->rate_3 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $rate->rate_4 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $rate->comment ?? '' }}
-                            </td>
-                            <td>
-                                @can('rate_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.rates.show', $rate->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('rate_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.rates.edit', $rate->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('rate_delete')
-                                    <form action="{{ route('admin.rates.destroy', $rate->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="content-wrapper" style="background:#f4f6fb;min-height:100vh;padding:24px;">
+    <x-admin-page-header title="{{ trans('cruds.rate.title') }}" icon="fas fa-star" color="gold" :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>trans('cruds.rate.title')]]" />
+    <x-admin-table :title="trans('cruds.rate.title_singular').' '.trans('global.list')" icon="fas fa-star" color="gold" datatableClass="datatable-Rate" :count="$rates->count()">
+        <x-slot name="thead"><tr><th width="10"></th><th>User</th><th>Restaurant</th><th>Rate</th><th>Comment</th><th>Date</th><th>&nbsp;</th></tr></x-slot>
+        <x-slot name="tbody">
+            @foreach($rates as $rate)
+            <tr data-entry-id="{{ $rate->id }}">
+                <td></td>
+                <td>{{ optional($rate->user)->name ?? '' }}</td>
+                <td>{{ optional($rate->restaurant)->name_en ?? '' }}</td>
+                <td>
+                    @for($i=1;$i<=5;$i++)
+                        <i class="fas fa-star" style="color:{{ $i<=$rate->rate ? '#f59e0b' : '#d1d5db' }};font-size:0.75rem;"></i>
+                    @endfor
+                    <strong style="margin-right:4px;">{{ $rate->rate }}/5</strong>
+                </td>
+                <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $rate->comment ?? '' }}</td>
+                <td style="color:#7a80a0;font-size:0.82rem;">{{ optional($rate->created_at)->format('d/m/Y') ?? '' }}</td>
+                <td style="display:flex;gap:5px;">
+                    @can('rate_show')<x-admin-action-btn href="{{ route('admin.rates.show',$rate->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
+                    @can('rate_delete')<x-admin-action-btn href="{{ route('admin.rates.destroy',$rate->id) }}" icon="fas fa-trash" color="red" method="DELETE" />@endcan
+                </td>
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-admin-table>
 </div>
-
-
-
 @endsection
 @section('scripts')
 @parent
-<script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('rate_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.rates.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-Rate:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
-})
-
-</script>
+<script>$(function(){$.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'desc']],pageLength:100});$('.datatable-Rate:not(.ajaxTable)').DataTable({buttons:[]});});</script>
 @endsection
