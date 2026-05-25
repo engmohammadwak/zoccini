@@ -10,7 +10,7 @@
             <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Slides</div></div>
         </div>
     </div>
-    <x-admin-table title="Slide Shows" icon="fas fa-film" color="purple" datatableClass="datatable-SlideShow" :count="$slideShows->count()" :createRoute="can('slide_show_create') ? route('admin.slide-shows.create') : null" :createLabel="trans('global.add').' Slide'">
+    <x-admin-table title="Slide Shows" icon="fas fa-film" color="purple" datatableClass="datatable-SlideShow" :count="$slideShows->count()" createPermission="slide_show_create" :createRoute="route('admin.slide-shows.create')" :createLabel="trans('global.add').' Slide'">
         <x-slot name="thead"><tr><th width="10"></th><th>Image</th><th>Title EN</th><th>Title AR</th><th>Sort</th><th>Status</th><th>&nbsp;</th></tr></x-slot>
         <x-slot name="tbody">
             @foreach($slideShows as $slide)

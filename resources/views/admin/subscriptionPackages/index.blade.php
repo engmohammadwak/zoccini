@@ -10,7 +10,7 @@
             <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Packages</div></div>
         </div>
     </div>
-    <x-admin-table title="Subscription Packages" icon="fas fa-box-open" color="purple" datatableClass="datatable-SubscriptionPackage" :count="$subscriptionPackages->count()" :createRoute="can('subscription_package_create') ? route('admin.subscription-packages.create') : null" :createLabel="trans('global.add').' Package'">
+    <x-admin-table title="Subscription Packages" icon="fas fa-box-open" color="purple" datatableClass="datatable-SubscriptionPackage" :count="$subscriptionPackages->count()" createPermission="subscription_package_create" :createRoute="route('admin.subscription-packages.create')" :createLabel="trans('global.add').' Package'">
         <x-slot name="thead"><tr><th width="10"></th><th>Name EN</th><th>Name AR</th><th>Price</th><th>Duration</th><th>Status</th><th>&nbsp;</th></tr></x-slot>
         <x-slot name="tbody">
             @foreach($subscriptionPackages as $pkg)
