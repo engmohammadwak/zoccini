@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
+<div style="min-height:100vh;padding:24px;">
 
     <x-admin-page-header title="Type Of Cars" icon="fas fa-car-side" color="indigo"
         :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Type Of Cars']]" />
