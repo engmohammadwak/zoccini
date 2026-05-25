@@ -1,137 +1,75 @@
 @extends('layouts.admin')
 @section('content')
-@can('payment_method_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.payment-methods.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.paymentMethod.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.paymentMethod.title_singular') }} {{ trans('global.list') }}
-    </div>
+<div class="content-wrapper" style="background:#f4f6fb;min-height:100vh;padding:24px;">
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-PaymentMethod">
-                <thead>
-                    <tr>
-                        <th width="10">
+    <x-admin-page-header
+        :title="trans('cruds.paymentMethod.title')"
+        icon="fas fa-credit-card"
+        color="green"
+        :breadcrumbs="[
+            ['label' => trans('global.dashboard'), 'url' => route('admin.home')],
+            ['label' => trans('cruds.paymentMethod.title')],
+        ]"
+    />
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.paymentMethod.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.paymentMethod.fields.name_ar') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.paymentMethod.fields.name_en') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($paymentMethods as $key => $paymentMethod)
-                        <tr data-entry-id="{{ $paymentMethod->id }}">
-                            <td>
+    <x-admin-table
+        :title="trans('cruds.paymentMethod.title_singular').' '.trans('global.list')"
+        icon="fas fa-credit-card"
+        color="green"
+        datatableClass="datatable-PaymentMethod"
+        :count="$paymentMethods->count()"
+        :createRoute="route('admin.payment-methods.create')"
+        :createLabel="trans('global.add').' '.trans('cruds.paymentMethod.title_singular')"
+    >
+        <x-slot name="thead">
+            <tr>
+                <th width="10"></th>
+                <th>{{ trans('cruds.paymentMethod.fields.name_en') }}</th>
+                <th>{{ trans('cruds.paymentMethod.fields.name_ar') }}</th>
+                <th>{{ trans('cruds.paymentMethod.fields.status') }}</th>
+                <th>&nbsp;</th>
+            </tr>
+        </x-slot>
+        <x-slot name="tbody">
+            @foreach($paymentMethods as $pm)
+            <tr data-entry-id="{{ $pm->id }}">
+                <td></td>
+                <td>{{ $pm->name_en ?? '' }}</td>
+                <td>{{ $pm->name_ar ?? '' }}</td>
+                <td>
+                    <x-admin-status-badge
+                        :label="$pm->status == 1 ? (trans('global.active') ?? 'Active') : (trans('global.inactive') ?? 'Inactive')"
+                        :type="$pm->status == 1 ? 'success' : 'danger'"
+                    />
+                </td>
+                <td style="display:flex;gap:5px;flex-wrap:wrap;">
+                    @can('payment_method_show')
+                    <x-admin-action-btn href="{{ route('admin.payment-methods.show',$pm->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />
+                    @endcan
+                    @can('payment_method_edit')
+                    <x-admin-action-btn href="{{ route('admin.payment-methods.edit',$pm->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />
+                    @endcan
+                    @can('payment_method_delete')
+                    <x-admin-action-btn href="{{ route('admin.payment-methods.destroy',$pm->id) }}" icon="fas fa-trash" color="red" method="DELETE" />
+                    @endcan
+                </td>
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-admin-table>
 
-                            </td>
-                            <td>
-                                {{ $paymentMethod->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $paymentMethod->name_ar ?? '' }}
-                            </td>
-                            <td>
-                                {{ $paymentMethod->name_en ?? '' }}
-                            </td>
-                            <td>
-                                @can('payment_method_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.payment-methods.show', $paymentMethod->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('payment_method_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.payment-methods.edit', $paymentMethod->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('payment_method_delete')
-                                    <form action="{{ route('admin.payment-methods.destroy', $paymentMethod->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
 </div>
-
-
-
 @endsection
 @section('scripts')
 @parent
 <script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('payment_method_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.payment-methods.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-PaymentMethod:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
-})
-
+$(function(){
+    let dtButtons=$.extend(true,[],$.fn.dataTable.defaults.buttons);
+    @can('payment_method_delete')
+    dtButtons.push({text:'{{ trans('global.datatables.delete') }}',url:"{{ route('admin.payment-methods.massDestroy') }}",className:'btn-danger',action:function(e,dt,node,config){var ids=$.map(dt.rows({selected:true}).nodes(),function(entry){return $(entry).data('entry-id')});if(ids.length===0){alert('{{ trans('global.datatables.zero_selected') }}');return}if(confirm('{{ trans('global.areYouSure') }}')){$.ajax({headers:{'x-csrf-token':_token},method:'POST',url:config.url,data:{ids:ids,_method:'DELETE'}}).done(function(){location.reload()})}}});
+    @endcan
+    $.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'desc']],pageLength:100});
+    $('.datatable-PaymentMethod:not(.ajaxTable)').DataTable({buttons:dtButtons});
+});
 </script>
 @endsection
