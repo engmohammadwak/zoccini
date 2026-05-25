@@ -1,48 +1,16 @@
 @extends('layouts.admin')
-
 @section('content')
-<div class="content">
-    <div class="row">
-        <p class="col-lg-12">
-            @yield('title')
-        </p>
-    </div>
-    <div class="row">
-        <div class="col-lg-3">
-            <p>
-                <a href="{{ route('admin.messenger.createTopic') }}" class="btn btn-primary btn-block">
-                    {{ trans('global.new_message') }}
-                </a>
-            </p>
-            <div class="list-group">
-                <a href="{{ route('admin.messenger.index') }}" class="list-group-item">
-                    {{ trans('global.all_messages') }}
-                </a>
-                <a href="{{ route('admin.messenger.showInbox') }}" class="list-group-item">
-                    @if($unreads['inbox'] > 0)
-                        <strong>
-                            {{ trans('global.inbox') }}
-                            ({{ $unreads['inbox'] }})
-                        </strong>
-                    @else
-                        {{ trans('global.inbox') }}
-                    @endif
-                </a>
-                <a href="{{ route('admin.messenger.showOutbox') }}" class="list-group-item">
-                    @if($unreads['outbox'] > 0)
-                        <strong>
-                            {{ trans('global.outbox') }}
-                            ({{ $unreads['outbox'] }})
-                        </strong>
-                    @else
-                        {{ trans('global.outbox') }}
-                    @endif
-                </a>
-            </div>
+
+<div class="container-fluid py-4">
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-header bg-white border-bottom py-3 fw-semibold">
+            <i class="fas fa-file-alt me-2 text-secondary"></i>
+            {{ trans('global.template') ?? 'Template' }}
         </div>
-        <div class="col-lg-9">
-            @yield('messenger-content')
+        <div class="card-body p-4">
+            @yield('messenger_content')
         </div>
     </div>
 </div>
-@stop
+
+@endsection
