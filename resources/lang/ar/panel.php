@@ -25,7 +25,7 @@ return [
   'Venture companies' => 'شركات المغامرة',
   'Partner with us to have a elite business on our platform.' => 'شراكة معنا للحصول على أعمال النخبة على منصتنا.',
   'A world of customers now within your reach' => 'عالم من العملاء الآن في متناول يديك',
-  'zoccini’s platform gives you the flexibility, visibility and
+  'zoccini\'s platform gives you the flexibility, visibility and
                                     customer insights you need to connect with more customers. Partner with us
                                     today.' => 'تمنحك منصة zoccini المرونة والرؤية و
                                      رؤى العملاء التي تحتاجها للتواصل مع المزيد من العملاء. شريك معنا
@@ -229,4 +229,104 @@ return [
   'twitter:title' => 'twitter:title',
   'twitter:url' => 'twitter:url',  
   'About Me' => 'About Me',
+
+  // ═══════════════════════════════════════
+  // Dashboard keys
+  // ═══════════════════════════════════════
+  'dashboard'              => 'لوحة التحكم',
+  'welcome_back'           => 'مرحباً بك،',
+
+  // Orders
+  'orders'                 => 'الطلبات',
+  'total_orders'           => 'إجمالي الطلبات',
+  'today'                  => 'اليوم',
+  'this_week'              => 'هذا الأسبوع',
+  'this_month'             => 'هذا الشهر',
+  'this_year'              => 'هذا العام',
+  'completed'              => 'مكتملة',
+  'pending'                => 'قيد الانتظار',
+  'reserved'               => 'محجوزة',
+  'cancelled'              => 'ملغاة',
+  'all_time'               => 'كل الوقت',
+  'days'                   => 'أيام',
+  'orders_last_14_days'    => 'الطلبات - آخر 14 يوم',
+  'orders_status'          => 'الطلبات حسب الحالة',
+  'latest_orders'          => 'آخر الطلبات',
+
+  // Revenue
+  'revenue'                => 'الإيرادات',
+  'total_revenue'          => 'إجمالي الإيرادات',
+  'avg_order'              => 'متوسط الطلب',
+
+  // Users & Restaurants
+  'users_restaurants'      => 'المستخدمون والمطاعم',
+  'total_users'            => 'إجمالي المستخدمين',
+  'new_today'              => 'جديد اليوم',
+  'new_this_week'          => 'جديد هذا الأسبوع',
+  'total_restaurants'      => 'إجمالي المطاعم',
+  'active_restaurants'     => 'مطاعم نشطة',
+  'new_rest_week'          => 'مطاعم جديدة هذا الأسبوع',
+  'top_restaurants_orders' => 'أعلى المطاعم طلباً',
+  'restaurant_col'         => 'المطعم',
+
+  // Restaurant
+  'my_restaurant'          => 'مطعمي',
+  'favorites'              => 'المفضلة',
+  'active_carts'           => 'سلات نشطة',
+  'items'                  => 'الأصناف',
+  'active'                 => 'نشط',
+
+  // Ratings
+  'ratings'                => 'التقييمات',
+  'avg_rating'             => 'متوسط التقييم',
+  'total'                  => 'الإجمالي',
+  'below_3'                => 'أقل من 3',
+  'rating_distribution'    => 'توزيع التقييمات',
+  'top_rated'              => 'الأعلى تقييماً',
+  'your_avg_rating'        => 'تقييمك العام',
+  'avg'                    => 'المتوسط',
+  'count'                  => 'عدد',
+
+  // Catalog & Marketing
+  'catalog_marketing'      => 'الكتالوج والتسويق',
+  'total_items'            => 'إجمالي الأصناف',
+  'coupons'                => 'الكوبونات',
+  'ads'                    => 'الإعلانات',
+
+  // Finance
+  'finance'                => 'المالية',
+  'total_income'           => 'إجمالي الإيرادات',
+  'total_expense'          => 'إجمالي المصروفات',
+  'net_profit'             => 'صافي الربح',
+
+  // Subscriptions
+  'subscriptions'          => 'الاشتراكات',
+  'active_subs'            => 'اشتراكات نشطة',
+  'expired_subs'           => 'اشتراكات منتهية',
+  'subs_this_month'        => 'هذا الشهر',
+
+  // Support
+  'support'                => 'الدعم الفني',
+  'total_tickets'          => 'إجمالي التذاكر',
+  'open_tickets'           => 'مفتوحة',
+  'closed_tickets'         => 'مغلقة',
+  'latest_tickets'         => 'آخر التذاكر',
+
+  // Table columns
+  'user'                   => 'المستخدم',
+  'restaurant'             => 'المطعم',
+  'price'                  => 'السعر',
+  'status'                 => 'الحالة',
+  'date'                   => 'التاريخ',
+  'title'                  => 'العنوان',
+  'no_data'                => 'لا يوجد بيانات',
+
+  // Misc / Other stats
+  'other_stats'            => 'إحصائيات أخرى',
+  'contacts'               => 'رسائل التواصل',
+  'partners_requests'      => 'طلبات الشراكة',
+  'reports'                => 'البلاغات',
+  'qa_topics'              => 'تذاكر Q&A',
+  'open'                   => 'مفتوح',
+  'total_points'           => 'إجمالي النقاط',
 ];

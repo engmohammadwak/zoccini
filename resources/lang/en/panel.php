@@ -25,9 +25,9 @@ return [
   'Venture companies' => 'Venture companies',
   'Partner with us to have a elite business on our platform.' => 'Partner with us to have a elite business on our platform.',
   'A world of customers now within your reach' => 'A world of customers now within your reach',
-  'zoccini’s platform gives you the flexibility, visibility and
+  'zoccini\'s platform gives you the flexibility, visibility and
                                     customer insights you need to connect with more customers. Partner with us
-                                    today.' => 'zoccini’s platform gives you the flexibility, visibility and
+                                    today.' => 'zoccini\'s platform gives you the flexibility, visibility and
                                     customer insights you need to connect with more customers. Partner with us
                                     today.',
   'Get Started' => 'Get Started',
@@ -228,4 +228,104 @@ return [
   'twitter:title' => 'twitter:title',
   'twitter:url' => 'twitter:url',  
   'About Me' => 'About Me',
+
+  // ═══════════════════════════════════════
+  // Dashboard keys
+  // ═══════════════════════════════════════
+  'dashboard'              => 'Dashboard',
+  'welcome_back'           => 'Welcome back,',
+
+  // Orders
+  'orders'                 => 'Orders',
+  'total_orders'           => 'Total Orders',
+  'today'                  => 'Today',
+  'this_week'              => 'This Week',
+  'this_month'             => 'This Month',
+  'this_year'              => 'This Year',
+  'completed'              => 'Completed',
+  'pending'                => 'Pending',
+  'reserved'               => 'Reserved',
+  'cancelled'              => 'Cancelled',
+  'all_time'               => 'All Time',
+  'days'                   => 'Days',
+  'orders_last_14_days'    => 'Orders – Last 14 Days',
+  'orders_status'          => 'Orders by Status',
+  'latest_orders'          => 'Latest Orders',
+
+  // Revenue
+  'revenue'                => 'Revenue',
+  'total_revenue'          => 'Total Revenue',
+  'avg_order'              => 'Avg. Order Value',
+
+  // Users & Restaurants
+  'users_restaurants'      => 'Users & Restaurants',
+  'total_users'            => 'Total Users',
+  'new_today'              => 'New Today',
+  'new_this_week'          => 'New This Week',
+  'total_restaurants'      => 'Total Restaurants',
+  'active_restaurants'     => 'Active Restaurants',
+  'new_rest_week'          => 'New Restaurants This Week',
+  'top_restaurants_orders' => 'Top Restaurants by Orders',
+  'restaurant_col'         => 'Restaurant',
+
+  // Restaurant
+  'my_restaurant'          => 'My Restaurant',
+  'favorites'              => 'Favorites',
+  'active_carts'           => 'Active Carts',
+  'items'                  => 'Items',
+  'active'                 => 'Active',
+
+  // Ratings
+  'ratings'                => 'Ratings',
+  'avg_rating'             => 'Average Rating',
+  'total'                  => 'Total',
+  'below_3'                => 'Below 3',
+  'rating_distribution'    => 'Rating Distribution',
+  'top_rated'              => 'Top Rated',
+  'your_avg_rating'        => 'Your Average Rating',
+  'avg'                    => 'Avg',
+  'count'                  => 'Count',
+
+  // Catalog & Marketing
+  'catalog_marketing'      => 'Catalog & Marketing',
+  'total_items'            => 'Total Items',
+  'coupons'                => 'Coupons',
+  'ads'                    => 'Ads',
+
+  // Finance
+  'finance'                => 'Finance',
+  'total_income'           => 'Total Income',
+  'total_expense'          => 'Total Expenses',
+  'net_profit'             => 'Net Profit',
+
+  // Subscriptions
+  'subscriptions'          => 'Subscriptions',
+  'active_subs'            => 'Active Subscriptions',
+  'expired_subs'           => 'Expired Subscriptions',
+  'subs_this_month'        => 'This Month',
+
+  // Support
+  'support'                => 'Support',
+  'total_tickets'          => 'Total Tickets',
+  'open_tickets'           => 'Open',
+  'closed_tickets'         => 'Closed',
+  'latest_tickets'         => 'Latest Tickets',
+
+  // Table columns
+  'user'                   => 'User',
+  'restaurant'             => 'Restaurant',
+  'price'                  => 'Price',
+  'status'                 => 'Status',
+  'date'                   => 'Date',
+  'title'                  => 'Title',
+  'no_data'                => 'No data available',
+
+  // Misc / Other stats
+  'other_stats'            => 'Other Stats',
+  'contacts'               => 'Contact Messages',
+  'partners_requests'      => 'Partner Requests',
+  'reports'                => 'Reports',
+  'qa_topics'              => 'Q&A Topics',
+  'open'                   => 'Open',
+  'total_points'           => 'Total Points',
 ];
