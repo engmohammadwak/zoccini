@@ -1,16 +1,23 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="background:#f4f6fb;min-height:100vh;padding:24px;">
-    <x-admin-page-header :title="trans('cruds.orderType.title')" icon="fas fa-list-alt" color="cyan" :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>trans('cruds.orderType.title')]]" />
-    <x-admin-table :title="trans('cruds.orderType.title_singular').' '.trans('global.list')" icon="fas fa-list-alt" color="cyan" datatableClass="datatable-OrderType" :count="$orderTypes->count()" :createRoute="route('admin.order-types.create')" :createLabel="trans('global.add').' '.trans('cruds.orderType.title_singular')">
-        <x-slot name="thead"><tr><th width="10"></th><th>Name EN</th><th>Name AR</th><th>Status</th><th>&nbsp;</th></tr></x-slot>
+<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
+    <x-admin-page-header title="Order Types" icon="fas fa-list-alt" color="indigo"
+        :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Order Types']]" />
+    @php $total=$orderTypes->count(); @endphp
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:22px;">
+        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#6366f1,#818cf8);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-list-alt"></i></div>
+            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Types</div></div>
+        </div>
+    </div>
+    <x-admin-table title="Order Types" icon="fas fa-list-alt" color="indigo" datatableClass="datatable-OrderType" :count="$orderTypes->count()" :createRoute="can('order_type_create') ? route('admin.order-types.create') : null" :createLabel="trans('global.add').' Type'">
+        <x-slot name="thead"><tr><th width="10"></th><th>Name EN</th><th>Name AR</th><th>&nbsp;</th></tr></x-slot>
         <x-slot name="tbody">
             @foreach($orderTypes as $type)
             <tr data-entry-id="{{ $type->id }}">
                 <td></td>
-                <td>{{ $type->name_en ?? '' }}</td>
-                <td>{{ $type->name_ar ?? '' }}</td>
-                <td><x-admin-status-badge :label="$type->status==1?'Active':'Inactive'" :type="$type->status==1?'success':'danger'" /></td>
+                <td style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $type->name_en ?? $type->name ?? '—' }}</td>
+                <td style="font-size:0.83rem;color:#475569;">{{ $type->name_ar ?? '—' }}</td>
                 <td style="display:flex;gap:5px;">
                     @can('order_type_show')<x-admin-action-btn href="{{ route('admin.order-types.show',$type->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
                     @can('order_type_edit')<x-admin-action-btn href="{{ route('admin.order-types.edit',$type->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
@@ -24,5 +31,5 @@
 @endsection
 @section('scripts')
 @parent
-<script>$(function(){$.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'desc']],pageLength:100});$('.datatable-OrderType:not(.ajaxTable)').DataTable({buttons:[]});});</script>
+<script>$(function(){ $.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'asc']],pageLength:25}); $('.datatable-OrderType:not(.ajaxTable)').DataTable({buttons:$.extend(true,[],$.fn.dataTable.defaults.buttons)}); });</script>
 @endsection

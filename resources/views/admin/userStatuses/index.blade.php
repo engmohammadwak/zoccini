@@ -1,16 +1,23 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="background:#f4f6fb;min-height:100vh;padding:24px;">
-    <x-admin-page-header title="User Statuses" icon="fas fa-user-check" color="blue" :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'User Statuses']]" />
-    <x-admin-table title="User Statuses List" icon="fas fa-user-check" color="blue" datatableClass="datatable-UserStatus" :count="$userStatuses->count()" :createRoute="route('admin.user-statuses.create')" createLabel="Add Status">
-        <x-slot name="thead"><tr><th width="10"></th><th>Name EN</th><th>Name AR</th><th>Color</th><th>&nbsp;</th></tr></x-slot>
+<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
+    <x-admin-page-header title="User Statuses" icon="fas fa-user-check" color="purple"
+        :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'User Statuses']]" />
+    @php $total=$userStatuses->count(); @endphp
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:22px;">
+        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#9333ea,#c084fc);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-user-check"></i></div>
+            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Statuses</div></div>
+        </div>
+    </div>
+    <x-admin-table title="User Statuses" icon="fas fa-user-check" color="purple" datatableClass="datatable-UserStatus" :count="$userStatuses->count()" :createRoute="can('user_status_create') ? route('admin.user-statuses.create') : null" :createLabel="trans('global.add').' Status'">
+        <x-slot name="thead"><tr><th width="10"></th><th>Name EN</th><th>Name AR</th><th>&nbsp;</th></tr></x-slot>
         <x-slot name="tbody">
             @foreach($userStatuses as $status)
             <tr data-entry-id="{{ $status->id }}">
                 <td></td>
-                <td>{{ $status->name_en ?? '' }}</td>
-                <td>{{ $status->name_ar ?? '' }}</td>
-                <td>@if($status->color)<span style="display:inline-block;width:18px;height:18px;border-radius:50%;background:{{ $status->color }};vertical-align:middle;margin-left:5px;"></span> {{ $status->color }}@endif</td>
+                <td style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $status->name_en ?? $status->name ?? '—' }}</td>
+                <td style="font-size:0.83rem;color:#475569;">{{ $status->name_ar ?? '—' }}</td>
                 <td style="display:flex;gap:5px;">
                     @can('user_status_show')<x-admin-action-btn href="{{ route('admin.user-statuses.show',$status->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
                     @can('user_status_edit')<x-admin-action-btn href="{{ route('admin.user-statuses.edit',$status->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
@@ -24,5 +31,5 @@
 @endsection
 @section('scripts')
 @parent
-<script>$(function(){$.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'desc']],pageLength:100});$('.datatable-UserStatus:not(.ajaxTable)').DataTable({buttons:[]});});</script>
+<script>$(function(){ $.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'asc']],pageLength:25}); $('.datatable-UserStatus:not(.ajaxTable)').DataTable({buttons:$.extend(true,[],$.fn.dataTable.defaults.buttons)}); });</script>
 @endsection
