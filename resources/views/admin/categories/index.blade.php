@@ -40,9 +40,10 @@
     </div>
 
     {{-- DataTable Card --}}
-    <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:16px;box-shadow:var(--z-card-shadow);overflow:hidden;">
+    {{-- overflow:visible بدل hidden حتى DataTables dropdowns ما تتقطع --}}
+    <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:16px;box-shadow:var(--z-card-shadow);overflow:visible;">
 
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--z-border);background:var(--z-surface-2);">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--z-border);background:var(--z-surface-2);border-radius:16px 16px 0 0;">
             <div style="display:flex;align-items:center;gap:10px;">
                 <div style="width:36px;height:36px;border-radius:10px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;color:#7c3aed;font-size:15px;"><i class="fas fa-layer-group"></i></div>
                 <div>
@@ -75,7 +76,6 @@
                 @foreach($categories as $category)
                 <tr data-entry-id="{{ $category->id }}">
                     <td></td>
-                    {{-- Name + Image --}}
                     <td>
                         <div style="display:flex;align-items:center;gap:10px;">
                             @if($category->image)
@@ -86,9 +86,7 @@
                             <div style="font-weight:700;color:var(--z-text);font-size:0.85rem;">{{ $category->name_en ?? '' }}</div>
                         </div>
                     </td>
-                    {{-- Name AR --}}
                     <td style="font-size:0.83rem;color:var(--z-text-muted);direction:rtl;text-align:right;">{{ $category->name_ar ?? '' }}</td>
-                    {{-- Parent --}}
                     <td>
                         @if($category->parent_id)
                             <span style="background:rgba(124,58,237,.1);color:#5b21b6;padding:4px 10px;border-radius:8px;font-size:0.78rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;">
@@ -98,7 +96,6 @@
                             <span style="background:rgba(148,163,184,.1);color:var(--z-text-muted);padding:4px 10px;border-radius:8px;font-size:0.78rem;font-weight:600;">Root</span>
                         @endif
                     </td>
-                    {{-- Status --}}
                     <td>
                         @if($category->status == 1)
                         <span style="background:rgba(16,185,129,.12);color:#065f46;padding:4px 11px;border-radius:999px;font-weight:600;font-size:0.75rem;display:inline-flex;align-items:center;gap:5px;">
@@ -110,7 +107,6 @@
                         </span>
                         @endif
                     </td>
-                    {{-- Actions --}}
                     <td>
                         <div style="display:flex;gap:5px;">
                             @can('category_show')
@@ -160,8 +156,16 @@ $(function(){
         }
     });
     @endcan
-    $.extend(true, $.fn.dataTable.defaults, { orderCellsTop:true, order:[[1,'asc']], pageLength:25 });
-    $('.datatable-Category:not(.ajaxTable)').DataTable({ buttons: dtButtons });
+
+    $('.datatable-Category:not(.ajaxTable)').DataTable({
+        buttons: dtButtons,
+        orderCellsTop: true,
+        pageLength: 25,
+        order: [[1, 'asc']],
+        columnDefs: [
+            { orderable: false, targets: [0, 5] }
+        ]
+    });
 });
 </script>
 @endsection
