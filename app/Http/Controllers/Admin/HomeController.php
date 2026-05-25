@@ -26,33 +26,35 @@ use Illuminate\Support\Facades\Schema;
 
 class HomeController
 {
-    /**
-     * Find the best available price column in the orders table.
-     * Returns null if no price column exists at all.
-     */
+    /** Find the best available price column in the orders table. */
     private function priceCol(): ?string
     {
         static $col = false;
         if ($col === false) {
-            $candidates = ['final_price', 'total_price', 'total', 'price', 'amount', 'order_total'];
-            $col = null;
-            foreach ($candidates as $c) {
-                if (Schema::hasColumn('orders', $c)) {
-                    $col = $c;
-                    break;
-                }
+            foreach (['final_price','total_price','total','price','amount','order_total'] as $c) {
+                if (Schema::hasColumn('orders', $c)) { $col = $c; break; }
             }
+            if ($col === false) $col = null;
         }
         return $col;
     }
 
-    /**
-     * Safe sum — returns 0 if price column doesn't exist.
-     */
+    /** Safe sum — returns 0 if price column doesn't exist. */
     private function safeSum($query, ?string $col): float
     {
         if (!$col) return 0;
         return (float) $query->sum($col);
+    }
+
+    /** Safe column query — only applies where clause if column exists. */
+    private function safeCol(string $table, string $col): bool
+    {
+        static $cache = [];
+        $key = $table.'.'.$col;
+        if (!isset($cache[$key])) {
+            $cache[$key] = Schema::hasColumn($table, $col);
+        }
+        return $cache[$key];
     }
 
     public function index()
@@ -137,46 +139,82 @@ class HomeController
         $newUsersToday     = $isAdmin ? User::where('user_type', 2)->whereDate('created_at', Carbon::today())->count() : 0;
         $newUsersWeek      = $isAdmin ? User::where('user_type', 2)->where('created_at', '>=', Carbon::now()->startOfWeek())->count() : 0;
         $totalRestaurants  = $isAdmin ? User::where('user_type', 3)->count() : 0;
-        $activeRestaurants = $isAdmin ? Restaurant::where('active', 1)->count() : 0;
         $newRestWeek       = $isAdmin ? User::where('user_type', 3)->where('created_at', '>=', Carbon::now()->startOfWeek())->count() : 0;
+
+        // active restaurants — only if column exists
+        $activeRestaurants = 0;
+        if ($isAdmin && $this->safeCol('restaurants', 'active')) {
+            $activeRestaurants = Restaurant::where('active', 1)->count();
+        } elseif ($isAdmin) {
+            $activeRestaurants = Restaurant::count();
+        }
 
         // ═══════════════════ ITEMS ═══════════════════
         $itemsQ = Item::query();
         if ($isRestaurant) $itemsQ->where('restaurant_id', $restId);
-        $totalItems  = (clone $itemsQ)->count();
-        $activeItems = (clone $itemsQ)->where('active', 1)->count();
+        $totalItems = (clone $itemsQ)->count();
+        $activeItems = 0;
+        if ($this->safeCol('items', 'active')) {
+            $activeItems = (clone $itemsQ)->where('active', 1)->count();
+        } else {
+            $activeItems = $totalItems;
+        }
 
         // ═══════════════════ RATINGS ═══════════════════
-        $ratesQ = Rate::query();
-        if ($isRestaurant) $ratesQ->where('restaurant_id', $restId);
-
-        $totalRatings = (clone $ratesQ)->count();
-        $avgRating    = (clone $ratesQ)->avg('rating') ?? 0;
-        $rating5      = (clone $ratesQ)->where('rating', 5)->count();
-        $rating4      = (clone $ratesQ)->whereBetween('rating', [4, 4.99])->count();
-        $rating3      = (clone $ratesQ)->whereBetween('rating', [3, 3.99])->count();
-        $ratingBelow3 = (clone $ratesQ)->where('rating', '<', 3)->count();
-
+        $totalRatings = 0;
+        $avgRating    = 0;
+        $rating5      = 0;
+        $rating4      = 0;
+        $rating3      = 0;
+        $ratingBelow3 = 0;
         $topRatedRestaurants = collect();
-        if ($isAdmin) {
-            $topRatedRestaurants = Rate::select('restaurant_id', DB::raw('avg(rating) as avg_rate'), DB::raw('count(*) as cnt'))
-                ->with('restaurant')
-                ->groupBy('restaurant_id')
-                ->orderByDesc('avg_rate')
-                ->take(5)
-                ->get();
+
+        if (Schema::hasTable('rates')) {
+            $ratesQ = Rate::query();
+            if ($isRestaurant && $this->safeCol('rates', 'restaurant_id')) {
+                $ratesQ->where('restaurant_id', $restId);
+            }
+            $totalRatings = (clone $ratesQ)->count();
+            $avgRating    = (clone $ratesQ)->avg('rating') ?? 0;
+            if ($this->safeCol('rates', 'rating')) {
+                $rating5      = (clone $ratesQ)->where('rating', 5)->count();
+                $rating4      = (clone $ratesQ)->whereBetween('rating', [4, 4.99])->count();
+                $rating3      = (clone $ratesQ)->whereBetween('rating', [3, 3.99])->count();
+                $ratingBelow3 = (clone $ratesQ)->where('rating', '<', 3)->count();
+            }
+            if ($isAdmin && $this->safeCol('rates', 'restaurant_id')) {
+                $topRatedRestaurants = Rate::select('restaurant_id', DB::raw('avg(rating) as avg_rate'), DB::raw('count(*) as cnt'))
+                    ->with('restaurant')
+                    ->groupBy('restaurant_id')
+                    ->orderByDesc('avg_rate')
+                    ->take(5)
+                    ->get();
+            }
         }
 
         // ═══════════════════ COUPONS, FAVORITES, ADS ═══════════════════
-        $totalCoupons  = class_exists(Coupon::class) ? Coupon::count() : 0;
-        $activeCoupons = class_exists(Coupon::class) ? Coupon::where('active', 1)->count() : 0;
+        $totalCoupons  = (class_exists(Coupon::class) && Schema::hasTable('coupons')) ? Coupon::count() : 0;
+        $activeCoupons = 0;
+        if ($totalCoupons > 0 && $this->safeCol('coupons', 'active')) {
+            $activeCoupons = Coupon::where('active', 1)->count();
+        } else {
+            $activeCoupons = $totalCoupons;
+        }
 
-        $totalFavorites = class_exists(Favorite::class)
-            ? ($isRestaurant ? Favorite::where('restaurant_id', $restId)->count() : Favorite::count())
-            : 0;
+        $totalFavorites = 0;
+        if (class_exists(Favorite::class) && Schema::hasTable('favorites')) {
+            $totalFavorites = $isRestaurant && $this->safeCol('favorites', 'restaurant_id')
+                ? Favorite::where('restaurant_id', $restId)->count()
+                : Favorite::count();
+        }
 
-        $totalAds  = class_exists(AllAd::class) ? AllAd::count() : 0;
-        $activeAds = class_exists(AllAd::class) ? AllAd::where('status', 1)->count() : 0;
+        $totalAds  = (class_exists(AllAd::class) && Schema::hasTable('all_ads')) ? AllAd::count() : 0;
+        $activeAds = 0;
+        if ($totalAds > 0 && $this->safeCol('all_ads', 'status')) {
+            $activeAds = AllAd::where('status', 1)->count();
+        } else {
+            $activeAds = $totalAds;
+        }
 
         // ═══════════════════ RESTAURANT-SPECIFIC ═══════════════════
         $restVisits    = 0;
@@ -184,11 +222,11 @@ class HomeController
         $restCartItems = 0;
         if ($isRestaurant) {
             $rest = Restaurant::find($restId);
-            $restVisits    = $rest ? ($rest->visits ?? 0) : 0;
-            $restFavorites = class_exists(Favorite::class) ? Favorite::where('restaurant_id', $restId)->count() : 0;
-            $restCartItems = class_exists(CartItem::class)
-                ? CartItem::whereHas('item', fn($q) => $q->where('restaurant_id', $restId))->count()
-                : 0;
+            $restVisits    = $rest && $this->safeCol('restaurants', 'visits') ? ($rest->visits ?? 0) : 0;
+            $restFavorites = (class_exists(Favorite::class) && Schema::hasTable('favorites') && $this->safeCol('favorites', 'restaurant_id'))
+                ? Favorite::where('restaurant_id', $restId)->count() : 0;
+            $restCartItems = (class_exists(CartItem::class) && Schema::hasTable('cart_items'))
+                ? CartItem::whereHas('item', fn($q) => $q->where('restaurant_id', $restId))->count() : 0;
         }
 
         // ═══════════════════ FINANCE (admin) ═══════════════════
@@ -218,7 +256,7 @@ class HomeController
         $activeSubs    = 0;
         $expiredSubs   = 0;
         $subsThisMonth = 0;
-        if ($isAdmin) {
+        if ($isAdmin && Schema::hasTable('subscription_users')) {
             $activeSubs    = SubscriptionUser::where('status', 1)->count();
             $expiredSubs   = SubscriptionUser::where('status', '!=', 1)->count();
             $subsThisMonth = SubscriptionUser::where('created_at', '>=', Carbon::now()->startOfMonth())->count();
@@ -231,8 +269,8 @@ class HomeController
         $latestTickets = collect();
         if ($isAdmin && class_exists(Ticket::class) && Schema::hasTable('tickets')) {
             $totalTickets  = Ticket::count();
-            $openTickets   = Ticket::where('ticket_status_id', 1)->count();
-            $closedTickets = Ticket::where('ticket_status_id', '!=', 1)->count();
+            $openTickets   = $this->safeCol('tickets','ticket_status_id') ? Ticket::where('ticket_status_id', 1)->count() : 0;
+            $closedTickets = $this->safeCol('tickets','ticket_status_id') ? Ticket::where('ticket_status_id', '!=', 1)->count() : 0;
             $latestTickets = Ticket::with(['user', 'status'])->latest()->take(8)->get();
         }
 
@@ -253,11 +291,11 @@ class HomeController
             }
             if (class_exists(Report::class) && Schema::hasTable('reports')) {
                 $totalReports   = Report::count();
-                $pendingReports = Report::where('status', 0)->count();
+                $pendingReports = $this->safeCol('reports','status') ? Report::where('status', 0)->count() : 0;
             }
             if (class_exists(QaTopic::class) && Schema::hasTable('qa_topics')) {
                 $totalQa = QaTopic::count();
-                $openQa  = QaTopic::where('status', 'open')->count();
+                $openQa  = $this->safeCol('qa_topics','status') ? QaTopic::where('status', 'open')->count() : 0;
             }
             if (class_exists(UserPoint::class) && Schema::hasTable('user_points')) {
                 $totalPoints = UserPoint::sum('points');
