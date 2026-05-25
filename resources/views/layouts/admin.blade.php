@@ -564,17 +564,18 @@ $(document).ready(function () {
 });
 </script>
 
-{{-- Dark/Light Mode Toggle Script --}}
+{{-- ✅ Dark/Light Mode Toggle — uses data-theme to match admin-theme.css --}}
 <script>
 (function() {
     var html = document.documentElement;
     var btn  = document.getElementById('z-theme-toggle');
     var icon = document.getElementById('z-theme-icon');
-    var saved = localStorage.getItem('z-theme');
+    var saved = null;
+    try { saved = localStorage.getItem('z-theme'); } catch(e) {}
     var mode = saved ? saved : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
     function applyTheme(m) {
-        html.setAttribute('data-z-theme', m);
+        html.setAttribute('data-theme', m);
         if (icon) {
             icon.className = m === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
         }
