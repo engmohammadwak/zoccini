@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
+<div class="content-wrapper" style="min-height:100vh;padding:24px;">
 
     <x-admin-page-header
         :title="trans('cruds.country.title')"
@@ -19,100 +19,112 @@
     @endphp
 
     {{-- KPI Cards --}}
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;margin-bottom:22px;">
-        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
-            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#6366f1,#818cf8);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-globe"></i></div>
-            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">{{ trans('cruds.country.title') }}</div></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:14px;margin-bottom:24px;">
+        <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:14px;padding:18px;box-shadow:var(--z-card-shadow);display:flex;align-items:center;gap:13px;">
+            <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#6366f1,#818cf8);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0;box-shadow:0 4px 12px rgba(99,102,241,.3);"><i class="fas fa-globe"></i></div>
+            <div><div style="font-size:1.55rem;font-weight:800;color:var(--z-text);line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:var(--z-text-faint);margin-top:3px;font-weight:600;">{{ trans('cruds.country.title') }}</div></div>
         </div>
-        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
-            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#10b981,#34d399);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-check-circle"></i></div>
-            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $active }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">{{ trans('global.active') ?? 'Active' }}</div></div>
+        <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:14px;padding:18px;box-shadow:var(--z-card-shadow);display:flex;align-items:center;gap:13px;">
+            <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#10b981,#34d399);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0;box-shadow:0 4px 12px rgba(16,185,129,.3);"><i class="fas fa-check-circle"></i></div>
+            <div><div style="font-size:1.55rem;font-weight:800;color:var(--z-text);line-height:1;">{{ $active }}</div><div style="font-size:0.72rem;color:var(--z-text-faint);margin-top:3px;font-weight:600;">{{ trans('global.active') ?? 'Active' }}</div></div>
         </div>
-        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
-            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#94a3b8,#cbd5e1);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-pause-circle"></i></div>
-            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $inactive }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">{{ trans('global.inactive') ?? 'Inactive' }}</div></div>
+        <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:14px;padding:18px;box-shadow:var(--z-card-shadow);display:flex;align-items:center;gap:13px;">
+            <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#94a3b8,#cbd5e1);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0;"><i class="fas fa-pause-circle"></i></div>
+            <div><div style="font-size:1.55rem;font-weight:800;color:var(--z-text);line-height:1;">{{ $inactive }}</div><div style="font-size:0.72rem;color:var(--z-text-faint);margin-top:3px;font-weight:600;">{{ trans('global.inactive') ?? 'Inactive' }}</div></div>
         </div>
         @if($total > 0)
-        <div style="background:linear-gradient(135deg,#6366f1,#4f46e5);border-radius:14px;padding:16px 18px;box-shadow:0 4px 14px rgba(99,102,241,0.3);display:flex;align-items:center;gap:12px;">
-            <div style="width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-chart-pie"></i></div>
-            <div><div style="font-size:1.2rem;font-weight:800;color:#fff;line-height:1;">{{ round(($active/$total)*100) }}%</div><div style="font-size:0.72rem;color:rgba(255,255,255,0.75);margin-top:2px;">{{ trans('global.active_rate') ?? 'Active Rate' }}</div></div>
+        <div style="background:linear-gradient(135deg,#6366f1,#4f46e5);border-radius:14px;padding:18px;box-shadow:0 4px 18px rgba(99,102,241,.35);display:flex;align-items:center;gap:13px;">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0;"><i class="fas fa-chart-pie"></i></div>
+            <div><div style="font-size:1.55rem;font-weight:800;color:#fff;line-height:1;">{{ round(($active/$total)*100) }}%</div><div style="font-size:0.72rem;color:rgba(255,255,255,.75);margin-top:3px;font-weight:600;">{{ trans('global.active_rate') ?? 'Active Rate' }}</div></div>
         </div>
         @endif
     </div>
 
-    {{-- Table Card --}}
-    <div style="background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);overflow:hidden;">
-        {{-- Header --}}
-        <div style="padding:16px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+    {{-- DataTable Card --}}
+    <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:16px;box-shadow:var(--z-card-shadow);overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--z-border);background:var(--z-surface-2);">
             <div style="display:flex;align-items:center;gap:10px;">
-                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#818cf8);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;"><i class="fas fa-globe"></i></div>
+                <div style="width:36px;height:36px;border-radius:10px;background:rgba(99,102,241,.1);display:flex;align-items:center;justify-content:center;color:#6366f1;font-size:15px;"><i class="fas fa-globe"></i></div>
                 <div>
-                    <div style="font-weight:700;color:#1e293b;font-size:0.92rem;">{{ trans('cruds.country.title_singular') }} {{ trans('global.list') }}</div>
-                    <div style="font-size:0.72rem;color:#94a3b8;">{{ $total }} {{ trans('cruds.country.title') }}</div>
+                    <div style="font-size:0.9rem;font-weight:700;color:var(--z-text);">{{ trans('cruds.country.title') }}</div>
+                    <div style="font-size:0.72rem;color:var(--z-text-faint);">{{ $total }} {{ trans('global.entries') ?? 'entries' }}</div>
                 </div>
             </div>
             @can('country_create')
-            <a href="{{ route('admin.countries.create') }}" style="background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;padding:8px 16px;border-radius:10px;font-size:0.82rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(99,102,241,0.3);">
-                <i class="fas fa-plus"></i> {{ trans('global.add') }} {{ trans('cruds.country.title_singular') }}
+            <a href="{{ route('admin.countries.create') }}" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:var(--z-primary);color:#fff;border-radius:10px;font-size:0.8rem;font-weight:700;text-decoration:none;box-shadow:0 3px 10px rgba(39,186,77,.3);transition:background .18s;"
+               onmouseover="this.style.background='var(--z-primary-hover)'" onmouseout="this.style.background='var(--z-primary)'">
+                <i class="fas fa-plus" style="font-size:0.75rem;"></i> {{ trans('global.add') }} {{ trans('cruds.country.title_singular') }}
             </a>
             @endcan
         </div>
-
-        {{-- DataTable --}}
-        <div style="padding:16px;">
+        <div style="padding:16px 22px;overflow-x:auto;">
             <table class="table datatable-Country" style="width:100%;">
                 <thead>
-                    <tr style="background:#f8fafc;">
+                    <tr>
                         <th width="10"></th>
-                        <th>{{ trans('cruds.country.fields.name_en') }}</th>
-                        <th>{{ trans('cruds.country.fields.name_ar') }}</th>
-                        <th>{{ trans('cruds.country.fields.code') ?? 'Code' }}</th>
-                        <th>{{ trans('cruds.country.fields.status') }}</th>
-                        <th>&nbsp;</th>
+                        <th style="font-size:0.72rem;font-weight:700;color:var(--z-text-muted);text-transform:uppercase;letter-spacing:.06em;">{{ trans('cruds.country.fields.name_en') }}</th>
+                        <th style="font-size:0.72rem;font-weight:700;color:var(--z-text-muted);text-transform:uppercase;letter-spacing:.06em;">{{ trans('cruds.country.fields.name_ar') }}</th>
+                        <th style="font-size:0.72rem;font-weight:700;color:var(--z-text-muted);text-transform:uppercase;letter-spacing:.06em;">{{ trans('cruds.country.fields.code') ?? 'Code' }}</th>
+                        <th style="font-size:0.72rem;font-weight:700;color:var(--z-text-muted);text-transform:uppercase;letter-spacing:.06em;">{{ trans('cruds.country.fields.status') }}</th>
+                        <th style="font-size:0.72rem;font-weight:700;color:var(--z-text-muted);text-transform:uppercase;letter-spacing:.06em;">&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($countries as $country)
-                    <tr data-entry-id="{{ $country->id }}">
-                        <td></td>
-                        <td>
-                            <span style="display:flex;align-items:center;gap:8px;">
-                                @if($country->flag)
-                                    <img src="{{ asset('storage/'.$country->flag) }}" style="width:28px;height:20px;border-radius:4px;object-fit:cover;" alt="" loading="lazy" />
-                                @else
-                                    <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#e0e7ff,#c7d2fe);display:flex;align-items:center;justify-content:center;color:#4f46e5;font-size:13px;flex-shrink:0;"><i class="fas fa-globe"></i></div>
-                                @endif
-                                <span style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $country->name_en ?? '' }}</span>
-                            </span>
-                        </td>
-                        <td style="color:#64748b;font-size:0.83rem;direction:rtl;">{{ $country->name_ar ?? '' }}</td>
-                        <td>
-                            @if($country->code)
-                            <span style="background:#e0e7ff;color:#3730a3;padding:3px 10px;border-radius:7px;font-weight:700;font-size:0.78rem;font-family:monospace;letter-spacing:1px;">{{ strtoupper($country->code) }}</span>
+                @foreach($countries as $country)
+                <tr data-entry-id="{{ $country->id }}">
+                    <td></td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            @if($country->flag)
+                                <img src="{{ asset('storage/'.$country->flag) }}" style="width:28px;height:20px;border-radius:4px;object-fit:cover;border:1px solid var(--z-border);" alt="" loading="lazy" />
                             @else
-                            <span style="color:#cbd5e1;">—</span>
+                                <div style="width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(129,140,248,.18));display:flex;align-items:center;justify-content:center;color:#6366f1;font-size:14px;flex-shrink:0;"><i class="fas fa-globe"></i></div>
                             @endif
-                        </td>
-                        <td>
-                            @if($country->status == 1)
-                                <span style="background:#dcfce7;color:#166534;padding:3px 11px;border-radius:8px;font-weight:600;font-size:0.78rem;display:inline-flex;align-items:center;gap:5px;">
-                                    <span style="width:6px;height:6px;border-radius:50%;background:#16a34a;display:inline-block;"></span>{{ trans('global.active') ?? 'Active' }}
-                                </span>
-                            @else
-                                <span style="background:#f1f5f9;color:#64748b;padding:3px 11px;border-radius:8px;font-weight:600;font-size:0.78rem;display:inline-flex;align-items:center;gap:5px;">
-                                    <span style="width:6px;height:6px;border-radius:50%;background:#94a3b8;display:inline-block;"></span>{{ trans('global.inactive') ?? 'Inactive' }}
-                                </span>
-                            @endif
-                        </td>
-                        <td>
-                            <div style="display:flex;gap:5px;flex-wrap:wrap;">
-                                @can('country_show')<x-admin-action-btn href="{{ route('admin.countries.show',$country->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
-                                @can('country_edit')<x-admin-action-btn href="{{ route('admin.countries.edit',$country->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
-                                @can('country_delete')<x-admin-action-btn href="{{ route('admin.countries.destroy',$country->id) }}" icon="fas fa-trash" color="red" method="DELETE" />@endcan
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
+                            <span style="font-weight:700;color:var(--z-text);font-size:0.85rem;">{{ $country->name_en ?? '' }}</span>
+                        </div>
+                    </td>
+                    <td style="font-size:0.83rem;color:var(--z-text-muted);direction:rtl;">{{ $country->name_ar ?? '' }}</td>
+                    <td>
+                        @if($country->code)
+                        <span style="background:rgba(99,102,241,.1);color:#3730a3;padding:4px 10px;border-radius:7px;font-weight:700;font-size:0.78rem;font-family:monospace;letter-spacing:1px;">{{ strtoupper($country->code) }}</span>
+                        @else
+                        <span style="color:var(--z-text-faint);">—</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if($country->status == 1)
+                        <span style="background:rgba(16,185,129,.12);color:#065f46;padding:4px 11px;border-radius:999px;font-weight:600;font-size:0.75rem;display:inline-flex;align-items:center;gap:5px;">
+                            <span style="width:6px;height:6px;border-radius:50%;background:#10b981;"></span>{{ trans('global.active') ?? 'Active' }}
+                        </span>
+                        @else
+                        <span style="background:rgba(148,163,184,.12);color:#475569;padding:4px 11px;border-radius:999px;font-weight:600;font-size:0.75rem;display:inline-flex;align-items:center;gap:5px;">
+                            <span style="width:6px;height:6px;border-radius:50%;background:#94a3b8;"></span>{{ trans('global.inactive') ?? 'Inactive' }}
+                        </span>
+                        @endif
+                    </td>
+                    <td>
+                        <div style="display:flex;gap:5px;">
+                            @can('country_show')
+                            <a href="{{ route('admin.countries.show',$country->id) }}" title="{{ trans('global.view') }}"
+                               style="width:32px;height:32px;border-radius:8px;background:rgba(59,130,246,.1);color:#3b82f6;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;text-decoration:none;"
+                               onmouseover="this.style.background='rgba(59,130,246,.22)'" onmouseout="this.style.background='rgba(59,130,246,.1)'"><i class="fas fa-eye"></i></a>
+                            @endcan
+                            @can('country_edit')
+                            <a href="{{ route('admin.countries.edit',$country->id) }}" title="{{ trans('global.edit') }}"
+                               style="width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,.1);color:#b45309;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;text-decoration:none;"
+                               onmouseover="this.style.background='rgba(245,158,11,.22)'" onmouseout="this.style.background='rgba(245,158,11,.1)'"><i class="fas fa-edit"></i></a>
+                            @endcan
+                            @can('country_delete')
+                            <form action="{{ route('admin.countries.destroy',$country->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('{{ trans('global.areYouSure') }}')">@csrf @method('DELETE')
+                                <button type="submit" title="{{ trans('global.delete') }}"
+                                   style="width:32px;height:32px;border-radius:8px;background:rgba(239,68,68,.1);color:#dc2626;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;"
+                                   onmouseover="this.style.background='rgba(239,68,68,.22)'" onmouseout="this.style.background='rgba(239,68,68,.1)'"><i class="fas fa-trash"></i></button>
+                            </form>
+                            @endcan
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
@@ -124,12 +136,23 @@
 @parent
 <script>
 $(function(){
-    let dtButtons=$.extend(true,[],$.fn.dataTable.defaults.buttons);
+    let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons);
     @can('country_delete')
-    dtButtons.push({text:'{{ trans('global.datatables.delete') }}',url:"{{ route('admin.countries.massDestroy') }}",className:'btn-danger',action:function(e,dt,node,config){var ids=$.map(dt.rows({selected:true}).nodes(),function(entry){return $(entry).data('entry-id')});if(ids.length===0){alert('{{ trans('global.datatables.zero_selected') }}');return}if(confirm('{{ trans('global.areYouSure') }}')){$.ajax({headers:{'x-csrf-token':_token},method:'POST',url:config.url,data:{ids:ids,_method:'DELETE'}}).done(function(){location.reload()})}}});
+    dtButtons.push({
+        text: '{{ trans('global.datatables.delete') }}',
+        url:  '{{ route('admin.countries.massDestroy') }}',
+        className: 'btn-danger',
+        action: function(e,dt,node,config){
+            var ids = $.map(dt.rows({selected:true}).nodes(), function(entry){ return $(entry).data('entry-id'); });
+            if(ids.length===0){ alert('{{ trans('global.datatables.zero_selected') }}'); return; }
+            if(confirm('{{ trans('global.areYouSure') }}')){
+                $.ajax({ headers:{'x-csrf-token':_token}, method:'POST', url:config.url, data:{ids:ids,_method:'DELETE'} }).done(function(){ location.reload(); });
+            }
+        }
+    });
     @endcan
-    $.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'desc']],pageLength:25});
-    $('.datatable-Country:not(.ajaxTable)').DataTable({buttons:dtButtons});
+    $.extend(true, $.fn.dataTable.defaults, { orderCellsTop:true, order:[[1,'asc']], pageLength:25 });
+    $('.datatable-Country:not(.ajaxTable)').DataTable({ buttons: dtButtons });
 });
 </script>
 @endsection
