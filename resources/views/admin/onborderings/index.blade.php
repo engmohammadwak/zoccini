@@ -1,161 +1,37 @@
 @extends('layouts.admin')
 @section('content')
-@can('onbordering_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.onborderings.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.onbordering.title_singular') }}
-            </a>
+<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
+    <x-admin-page-header title="Onboarding Screens" icon="fas fa-mobile-alt" color="blue"
+        :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Onboarding']]" />
+    @php $total=$onborderings->count(); @endphp
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:22px;">
+        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#3b82f6,#60a5fa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;"><i class="fas fa-mobile-alt"></i></div>
+            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Screens</div></div>
         </div>
     </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.onbordering.title_singular') }} {{ trans('global.list') }}
-    </div>
-
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Onbordering">
-                <thead>
-                    <tr>
-                        <th width="10">
-
-                        </th>
-                        <th>
-                            {{ trans('cruds.onbordering.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.onbordering.fields.image') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.onbordering.fields.name_ar') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.onbordering.fields.name_en') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.onbordering.fields.type') }}
-                        </th>
-
-                        <th>
-                            {{ trans('cruds.onbordering.fields.status') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($onborderings as $key => $onbordering)
-                        <tr data-entry-id="{{ $onbordering->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $onbordering->id ?? '' }}
-                            </td>
-                            <td>
-                                @if($onbordering->image)
-                                    <a href="{{ url('local/public/img/onbording/' . $onbordering->image) }}" target="_blank">
-                                        <img src="{{ url('local/public/img/onbording/' . $onbordering->image) }}" width="50px" height="50px">
-                                    </a>
-                                @endif
-                            </td>
-                            <td>
-                                {{ $onbordering->name_ar ?? '' }}
-                            </td>
-                            <td>
-                                {{ $onbordering->name_en ?? '' }}
-                            </td>
-                            <td>
-                                {{ App\Models\Onbordering::TYPE_SELECT[$onbordering->type] ?? '' }}
-                            </td>
-
-                            <td>
-                                {{ App\Models\Onbordering::STATUS_SELECT[$onbordering->status] ?? '' }}
-                            </td>
-                            <td>
-                                @can('onbordering_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.onborderings.show', $onbordering->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('onbordering_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.onborderings.edit', $onbordering->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('onbordering_delete')
-                                    <form action="{{ route('admin.onborderings.destroy', $onbordering->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <x-admin-table title="Onboarding Screens" icon="fas fa-mobile-alt" color="blue" datatableClass="datatable-Onbordering" :count="$onborderings->count()" :createRoute="can('onbordering_create') ? route('admin.onborderings.create') : null" :createLabel="trans('global.add').' Screen'">
+        <x-slot name="thead"><tr><th width="10"></th><th>Image</th><th>Title EN</th><th>Title AR</th><th>Sort</th><th>&nbsp;</th></tr></x-slot>
+        <x-slot name="tbody">
+            @foreach($onborderings as $ob)
+            <tr data-entry-id="{{ $ob->id }}">
+                <td></td>
+                <td>@if($ob->image ?? null)<img src="{{ asset('storage/'.$ob->image) }}" style="width:52px;height:36px;object-fit:cover;border-radius:7px;" alt="" loading="lazy">@else<div style="width:52px;height:36px;border-radius:7px;background:#eff6ff;display:flex;align-items:center;justify-content:center;color:#3b82f6;"><i class="fas fa-image"></i></div>@endif</td>
+                <td style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $ob->title_en ?? $ob->title ?? '—' }}</td>
+                <td style="font-size:0.83rem;color:#475569;">{{ $ob->title_ar ?? '—' }}</td>
+                <td><span style="background:#eff6ff;color:#1d4ed8;padding:3px 10px;border-radius:8px;font-weight:700;font-size:0.82rem;">{{ $ob->sort ?? $ob->order ?? '—' }}</span></td>
+                <td style="display:flex;gap:5px;">
+                    @can('onbordering_show')<x-admin-action-btn href="{{ route('admin.onborderings.show',$ob->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
+                    @can('onbordering_edit')<x-admin-action-btn href="{{ route('admin.onborderings.edit',$ob->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
+                    @can('onbordering_delete')<x-admin-action-btn href="{{ route('admin.onborderings.destroy',$ob->id) }}" icon="fas fa-trash" color="red" method="DELETE" />@endcan
+                </td>
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-admin-table>
 </div>
-
-
-
 @endsection
 @section('scripts')
 @parent
-<script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('onbordering_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.onborderings.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-Onbordering:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-  
-})
-
-</script>
+<script>$(function(){ $('.datatable-Onbordering:not(.ajaxTable)').DataTable({order:[[4,'asc']],pageLength:25,buttons:$.extend(true,[],$.fn.dataTable.defaults.buttons)}); });</script>
 @endsection

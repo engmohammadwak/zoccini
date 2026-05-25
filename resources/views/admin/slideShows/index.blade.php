@@ -1,161 +1,38 @@
 @extends('layouts.admin')
 @section('content')
-    @can('slide_show_create')
-        <div style="margin-bottom: 10px;" class="row">
-            <div class="col-lg-12">
-                <a class="btn btn-success" href="{{ route('admin.slide-shows.create') }}">
-                    {{ trans('global.add') }} {{ trans('cruds.slideShow.title_singular') }}
-                </a>
-            </div>
-        </div>
-    @endcan
-    <div class="card">
-        <div class="card-header">
-            {{ trans('cruds.slideShow.title_singular') }} {{ trans('global.list') }}
-        </div>
-
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class=" table table-bordered table-striped table-hover datatable datatable-SlideShow">
-                    <thead>
-                    <tr>
-                        <th width="10">
-
-                        </th>
-                        <th>
-                            {{ trans('cruds.slideShow.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.slideShow.fields.type') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.slideShow.fields.resource') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.slideShow.fields.status') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($slideShows as $key => $slideShow)
-                        <tr data-entry-id="{{ $slideShow->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $slideShow->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ App\Models\SlideShow::TYPE_SELECT[$slideShow->type] ?? '' }}
-                            </td>
-                            <td>
-                                @if ($slideShow->type == 'image')
-                                    @if($slideShow->image)
-                                        <a href="{{ url('local/public/img/slidshow/' . $slideShow->image) }}"
-                                           target="_blank">
-                                            <img src="{{ url('local/public/img/slidshow/' . $slideShow->image) }}"
-                                                 width="50px" height="50px">
-                                        </a>
-                                    @endif
-                                @else
-                                    @if($slideShow->video_url)
-                                        <a href="{{ $slideShow->video_url }}" target="_blank">
-                                            {{$slideShow->video_url}}
-                                        </a>
-                                    @endif
-
-                                @endif
-
-                            </td>
-
-                            <td>
-                                {{ App\Models\SlideShow::STATUS_RADIO[$slideShow->status] ?? '' }}
-                            </td>
-                            <td>
-                                @can('slide_show_show')
-                                    <a class="btn btn-xs btn-primary"
-                                       href="{{ route('admin.slide-shows.show', $slideShow->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('slide_show_delete')
-                                    <form action="{{ route('admin.slide-shows.destroy', $slideShow->id) }}"
-                                          method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                          style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger"
-                                               value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
+<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
+    <x-admin-page-header title="Slide Shows" icon="fas fa-film" color="purple"
+        :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Slide Shows']]" />
+    @php $total=$slideShows->count(); @endphp
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:22px;">
+        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#9333ea,#c084fc);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;"><i class="fas fa-film"></i></div>
+            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Slides</div></div>
         </div>
     </div>
-
-
-
+    <x-admin-table title="Slide Shows" icon="fas fa-film" color="purple" datatableClass="datatable-SlideShow" :count="$slideShows->count()" :createRoute="can('slide_show_create') ? route('admin.slide-shows.create') : null" :createLabel="trans('global.add').' Slide'">
+        <x-slot name="thead"><tr><th width="10"></th><th>Image</th><th>Title EN</th><th>Title AR</th><th>Sort</th><th>Status</th><th>&nbsp;</th></tr></x-slot>
+        <x-slot name="tbody">
+            @foreach($slideShows as $slide)
+            <tr data-entry-id="{{ $slide->id }}">
+                <td></td>
+                <td>@if($slide->image ?? null)<img src="{{ asset('storage/'.$slide->image) }}" style="width:64px;height:36px;object-fit:cover;border-radius:7px;" alt="" loading="lazy">@else<div style="width:64px;height:36px;border-radius:7px;background:#faf5ff;display:flex;align-items:center;justify-content:center;color:#9333ea;"><i class="fas fa-image"></i></div>@endif</td>
+                <td style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $slide->title_en ?? $slide->title ?? '—' }}</td>
+                <td style="font-size:0.83rem;color:#475569;">{{ $slide->title_ar ?? '—' }}</td>
+                <td><span style="background:#faf5ff;color:#7e22ce;padding:3px 10px;border-radius:8px;font-weight:700;font-size:0.82rem;">{{ $slide->sort ?? $slide->order ?? '—' }}</span></td>
+                <td>@if($slide->status ?? 1)<span style="background:#dcfce7;color:#166534;padding:3px 9px;border-radius:7px;font-size:0.78rem;font-weight:600;">Active</span>@else<span style="background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:7px;font-size:0.78rem;">Inactive</span>@endif</td>
+                <td style="display:flex;gap:5px;">
+                    @can('slide_show_show')<x-admin-action-btn href="{{ route('admin.slide-shows.show',$slide->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
+                    @can('slide_show_edit')<x-admin-action-btn href="{{ route('admin.slide-shows.edit',$slide->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
+                    @can('slide_show_delete')<x-admin-action-btn href="{{ route('admin.slide-shows.destroy',$slide->id) }}" icon="fas fa-trash" color="red" method="DELETE" />@endcan
+                </td>
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-admin-table>
+</div>
 @endsection
 @section('scripts')
-    @parent
-    <script>
-        $(function () {
-            let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-                    @can('slide_show_delete')
-            let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-            let deleteButton = {
-                text: deleteButtonTrans,
-                url: "{{ route('admin.slide-shows.massDestroy') }}",
-                className: 'btn-danger',
-                action: function (e, dt, node, config) {
-                    var ids = $.map(dt.rows({selected: true}).nodes(), function (entry) {
-                        return $(entry).data('entry-id')
-                    });
-
-                    if (ids.length === 0) {
-                        alert('{{ trans('global.datatables.zero_selected') }}')
-
-                        return
-                    }
-
-                    if (confirm('{{ trans('global.areYouSure') }}')) {
-                        $.ajax({
-                            headers: {'x-csrf-token': _token},
-                            method: 'POST',
-                            url: config.url,
-                            data: {ids: ids, _method: 'DELETE'}
-                        })
-                            .done(function () {
-                                location.reload()
-                            })
-                    }
-                }
-            }
-            dtButtons.push(deleteButton)
-            @endcan
-
-            $.extend(true, $.fn.dataTable.defaults, {
-                orderCellsTop: true,
-                order: [[1, 'desc']],
-                pageLength: 100,
-            });
-            let table = $('.datatable-SlideShow:not(.ajaxTable)').DataTable({buttons: dtButtons})
-            $('a[data-toggle="tab"]').on('shown.bs.tab click', function (e) {
-                $($.fn.dataTable.tables(true)).DataTable()
-                    .columns.adjust();
-            });
-
-        })
-
-    </script>
+@parent
+<script>$(function(){ $('.datatable-SlideShow:not(.ajaxTable)').DataTable({order:[[4,'asc']],pageLength:25,buttons:$.extend(true,[],$.fn.dataTable.defaults.buttons)}); });</script>
 @endsection
