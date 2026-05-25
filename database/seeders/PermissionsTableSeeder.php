@@ -10,989 +10,278 @@ class PermissionsTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            [
-                'id'    => 1,
-                'title' => 'user_management_access',
-            ],
-            [
-                'id'    => 2,
-                'title' => 'permission_create',
-            ],
-            [
-                'id'    => 3,
-                'title' => 'permission_edit',
-            ],
-            [
-                'id'    => 4,
-                'title' => 'permission_show',
-            ],
-            [
-                'id'    => 5,
-                'title' => 'permission_delete',
-            ],
-            [
-                'id'    => 6,
-                'title' => 'permission_access',
-            ],
-            [
-                'id'    => 7,
-                'title' => 'role_create',
-            ],
-            [
-                'id'    => 8,
-                'title' => 'role_edit',
-            ],
-            [
-                'id'    => 9,
-                'title' => 'role_show',
-            ],
-            [
-                'id'    => 10,
-                'title' => 'role_delete',
-            ],
-            [
-                'id'    => 11,
-                'title' => 'role_access',
-            ],
-            [
-                'id'    => 12,
-                'title' => 'user_create',
-            ],
-            [
-                'id'    => 13,
-                'title' => 'user_edit',
-            ],
-            [
-                'id'    => 14,
-                'title' => 'user_show',
-            ],
-            [
-                'id'    => 15,
-                'title' => 'user_delete',
-            ],
-            [
-                'id'    => 16,
-                'title' => 'user_access',
-            ],
-            [
-                'id'    => 17,
-                'title' => 'user_status_create',
-            ],
-            [
-                'id'    => 18,
-                'title' => 'user_status_edit',
-            ],
-            [
-                'id'    => 19,
-                'title' => 'user_status_show',
-            ],
-            [
-                'id'    => 20,
-                'title' => 'user_status_delete',
-            ],
-            [
-                'id'    => 21,
-                'title' => 'user_status_access',
-            ],
-            [
-                'id'    => 22,
-                'title' => 'slide_show_create',
-            ],
-            [
-                'id'    => 23,
-                'title' => 'slide_show_edit',
-            ],
-            [
-                'id'    => 24,
-                'title' => 'slide_show_show',
-            ],
-            [
-                'id'    => 25,
-                'title' => 'slide_show_delete',
-            ],
-            [
-                'id'    => 26,
-                'title' => 'slide_show_access',
-            ],
-            [
-                'id'    => 27,
-                'title' => 'restaurant_create',
-            ],
-            [
-                'id'    => 28,
-                'title' => 'restaurant_edit',
-            ],
-            [
-                'id'    => 29,
-                'title' => 'restaurant_show',
-            ],
-            [
-                'id'    => 30,
-                'title' => 'restaurant_delete',
-            ],
-            [
-                'id'    => 31,
-                'title' => 'restaurant_access',
-            ],
-            [
-                'id'    => 32,
-                'title' => 'delivery_create',
-            ],
-            [
-                'id'    => 33,
-                'title' => 'delivery_edit',
-            ],
-            [
-                'id'    => 34,
-                'title' => 'delivery_show',
-            ],
-            [
-                'id'    => 35,
-                'title' => 'delivery_delete',
-            ],
-            [
-                'id'    => 36,
-                'title' => 'delivery_access',
-            ],
-            [
-                'id'    => 37,
-                'title' => 'payment_method_create',
-            ],
-            [
-                'id'    => 38,
-                'title' => 'payment_method_edit',
-            ],
-            [
-                'id'    => 39,
-                'title' => 'payment_method_show',
-            ],
-            [
-                'id'    => 40,
-                'title' => 'payment_method_delete',
-            ],
-            [
-                'id'    => 41,
-                'title' => 'payment_method_access',
-            ],
-            [
-                'id'    => 42,
-                'title' => 'category_create',
-            ],
-            [
-                'id'    => 43,
-                'title' => 'category_edit',
-            ],
-            [
-                'id'    => 44,
-                'title' => 'category_show',
-            ],
-            [
-                'id'    => 45,
-                'title' => 'category_delete',
-            ],
-            [
-                'id'    => 46,
-                'title' => 'category_access',
-            ],
-            [
-                'id'    => 47,
-                'title' => 'item_create',
-            ],
-            [
-                'id'    => 48,
-                'title' => 'item_edit',
-            ],
-            [
-                'id'    => 49,
-                'title' => 'item_show',
-            ],
-            [
-                'id'    => 50,
-                'title' => 'item_delete',
-            ],
-            [
-                'id'    => 51,
-                'title' => 'item_access',
-            ],
-            [
-                'id'    => 52,
-                'title' => 'sitting_area_create',
-            ],
-            [
-                'id'    => 53,
-                'title' => 'sitting_area_edit',
-            ],
-            [
-                'id'    => 54,
-                'title' => 'sitting_area_show',
-            ],
-            [
-                'id'    => 55,
-                'title' => 'sitting_area_delete',
-            ],
-            [
-                'id'    => 56,
-                'title' => 'sitting_area_access',
-            ],
-            [
-                'id'    => 57,
-                'title' => 'delivery_company_create',
-            ],
-            [
-                'id'    => 58,
-                'title' => 'delivery_company_edit',
-            ],
-            [
-                'id'    => 59,
-                'title' => 'delivery_company_show',
-            ],
-            [
-                'id'    => 60,
-                'title' => 'delivery_company_delete',
-            ],
-            [
-                'id'    => 61,
-                'title' => 'delivery_company_access',
-            ],
-            [
-                'id'    => 62,
-                'title' => 'reporting_create',
-            ],
-            [
-                'id'    => 63,
-                'title' => 'reporting_edit',
-            ],
-            [
-                'id'    => 64,
-                'title' => 'reporting_show',
-            ],
-            [
-                'id'    => 65,
-                'title' => 'reporting_delete',
-            ],
-            [
-                'id'    => 66,
-                'title' => 'reporting_access',
-            ],
-            [
-                'id'    => 67,
-                'title' => 'rate_create',
-            ],
-            [
-                'id'    => 68,
-                'title' => 'rate_edit',
-            ],
-            [
-                'id'    => 69,
-                'title' => 'rate_show',
-            ],
-            [
-                'id'    => 70,
-                'title' => 'rate_delete',
-            ],
-            [
-                'id'    => 71,
-                'title' => 'rate_access',
-            ],
-            [
-                'id'    => 72,
-                'title' => 'cart_create',
-            ],
-            [
-                'id'    => 73,
-                'title' => 'cart_edit',
-            ],
-            [
-                'id'    => 74,
-                'title' => 'cart_show',
-            ],
-            [
-                'id'    => 75,
-                'title' => 'cart_delete',
-            ],
-            [
-                'id'    => 76,
-                'title' => 'cart_access',
-            ],
-            [
-                'id'    => 77,
-                'title' => 'address_create',
-            ],
-            [
-                'id'    => 78,
-                'title' => 'address_edit',
-            ],
-            [
-                'id'    => 79,
-                'title' => 'address_show',
-            ],
-            [
-                'id'    => 80,
-                'title' => 'address_delete',
-            ],
-            [
-                'id'    => 81,
-                'title' => 'address_access',
-            ],
-            [
-                'id'    => 82,
-                'title' => 'save_credit_card_create',
-            ],
-            [
-                'id'    => 83,
-                'title' => 'save_credit_card_edit',
-            ],
-            [
-                'id'    => 84,
-                'title' => 'save_credit_card_show',
-            ],
-            [
-                'id'    => 85,
-                'title' => 'save_credit_card_delete',
-            ],
-            [
-                'id'    => 86,
-                'title' => 'save_credit_card_access',
-            ],
-            [
-                'id'    => 87,
-                'title' => 'country_create',
-            ],
-            [
-                'id'    => 88,
-                'title' => 'country_edit',
-            ],
-            [
-                'id'    => 89,
-                'title' => 'country_show',
-            ],
-            [
-                'id'    => 90,
-                'title' => 'country_delete',
-            ],
-            [
-                'id'    => 91,
-                'title' => 'country_access',
-            ],
-            [
-                'id'    => 92,
-                'title' => 'city_create',
-            ],
-            [
-                'id'    => 93,
-                'title' => 'city_edit',
-            ],
-            [
-                'id'    => 94,
-                'title' => 'city_show',
-            ],
-            [
-                'id'    => 95,
-                'title' => 'city_delete',
-            ],
-            [
-                'id'    => 96,
-                'title' => 'city_access',
-            ],
-            [
-                'id'    => 97,
-                'title' => 'currency_create',
-            ],
-            [
-                'id'    => 98,
-                'title' => 'currency_edit',
-            ],
-            [
-                'id'    => 99,
-                'title' => 'currency_show',
-            ],
-            [
-                'id'    => 100,
-                'title' => 'currency_delete',
-            ],
-            [
-                'id'    => 101,
-                'title' => 'currency_access',
-            ],
-            [
-                'id'    => 102,
-                'title' => 'subscription_package_create',
-            ],
-            [
-                'id'    => 103,
-                'title' => 'subscription_package_edit',
-            ],
-            [
-                'id'    => 104,
-                'title' => 'subscription_package_show',
-            ],
-            [
-                'id'    => 105,
-                'title' => 'subscription_package_delete',
-            ],
-            [
-                'id'    => 106,
-                'title' => 'subscription_package_access',
-            ],
-            [
-                'id'    => 107,
-                'title' => 'subscription_access',
-            ],
-            [
-                'id'    => 108,
-                'title' => 'ad_access',
-            ],
-            [
-                'id'    => 109,
-                'title' => 'ads_category_create',
-            ],
-            [
-                'id'    => 110,
-                'title' => 'ads_category_edit',
-            ],
-            [
-                'id'    => 111,
-                'title' => 'ads_category_show',
-            ],
-            [
-                'id'    => 112,
-                'title' => 'ads_category_delete',
-            ],
-            [
-                'id'    => 113,
-                'title' => 'ads_category_access',
-            ],
-            [
-                'id'    => 114,
-                'title' => 'all_ad_create',
-            ],
-            [
-                'id'    => 115,
-                'title' => 'all_ad_edit',
-            ],
-            [
-                'id'    => 116,
-                'title' => 'all_ad_show',
-            ],
-            [
-                'id'    => 117,
-                'title' => 'all_ad_delete',
-            ],
-            [
-                'id'    => 118,
-                'title' => 'all_ad_access',
-            ],
-            [
-                'id'    => 119,
-                'title' => 'restaurants_management_access',
-            ],
-            [
-                'id'    => 120,
-                'title' => 'delivery_management_access',
-            ],
-            [
-                'id'    => 121,
-                'title' => 'order_create',
-            ],
-            [
-                'id'    => 122,
-                'title' => 'order_edit',
-            ],
-            [
-                'id'    => 123,
-                'title' => 'order_show',
-            ],
-            [
-                'id'    => 124,
-                'title' => 'order_delete',
-            ],
-            [
-                'id'    => 125,
-                'title' => 'order_access',
-            ],
-            [
-                'id'    => 126,
-                'title' => 'extra_create',
-            ],
-            [
-                'id'    => 127,
-                'title' => 'extra_edit',
-            ],
-            [
-                'id'    => 128,
-                'title' => 'extra_show',
-            ],
-            [
-                'id'    => 129,
-                'title' => 'extra_delete',
-            ],
-            [
-                'id'    => 130,
-                'title' => 'extra_access',
-            ],
-            [
-                'id'    => 131,
-                'title' => 'order_mangement_access',
-            ],
-            [
-                'id'    => 132,
-                'title' => 'order_type_create',
-            ],
-            [
-                'id'    => 133,
-                'title' => 'order_type_edit',
-            ],
-            [
-                'id'    => 134,
-                'title' => 'order_type_show',
-            ],
-            [
-                'id'    => 135,
-                'title' => 'order_type_delete',
-            ],
-            [
-                'id'    => 136,
-                'title' => 'order_type_access',
-            ],
-            [
-                'id'    => 137,
-                'title' => 'order_status_create',
-            ],
-            [
-                'id'    => 138,
-                'title' => 'order_status_edit',
-            ],
-            [
-                'id'    => 139,
-                'title' => 'order_status_show',
-            ],
-            [
-                'id'    => 140,
-                'title' => 'order_status_delete',
-            ],
-            [
-                'id'    => 141,
-                'title' => 'order_status_access',
-            ],
-            [
-                'id'    => 142,
-                'title' => 'otherbranch_create',
-            ],
-            [
-                'id'    => 143,
-                'title' => 'otherbranch_edit',
-            ],
-            [
-                'id'    => 144,
-                'title' => 'otherbranch_show',
-            ],
-            [
-                'id'    => 145,
-                'title' => 'otherbranch_delete',
-            ],
-            [
-                'id'    => 146,
-                'title' => 'otherbranch_access',
-            ],
-            [
-                'id'    => 147,
-                'title' => 'cansel_reason_create',
-            ],
-            [
-                'id'    => 148,
-                'title' => 'cansel_reason_edit',
-            ],
-            [
-                'id'    => 149,
-                'title' => 'cansel_reason_show',
-            ],
-            [
-                'id'    => 150,
-                'title' => 'cansel_reason_delete',
-            ],
-            [
-                'id'    => 151,
-                'title' => 'cansel_reason_access',
-            ],
-            [
-                'id'    => 152,
-                'title' => 'favorite_create',
-            ],
-            [
-                'id'    => 153,
-                'title' => 'favorite_edit',
-            ],
-            [
-                'id'    => 154,
-                'title' => 'favorite_show',
-            ],
-            [
-                'id'    => 155,
-                'title' => 'favorite_delete',
-            ],
-            [
-                'id'    => 156,
-                'title' => 'favorite_access',
-            ],
-            [
-                'id'    => 157,
-                'title' => 'faq_create',
-            ],
-            [
-                'id'    => 158,
-                'title' => 'faq_edit',
-            ],
-            [
-                'id'    => 159,
-                'title' => 'faq_show',
-            ],
-            [
-                'id'    => 160,
-                'title' => 'faq_delete',
-            ],
-            [
-                'id'    => 161,
-                'title' => 'faq_access',
-            ],
-            [
-                'id'    => 162,
-                'title' => 'ticket_create',
-            ],
-            [
-                'id'    => 163,
-                'title' => 'ticket_edit',
-            ],
-            [
-                'id'    => 164,
-                'title' => 'ticket_show',
-            ],
-            [
-                'id'    => 165,
-                'title' => 'ticket_delete',
-            ],
-            [
-                'id'    => 166,
-                'title' => 'ticket_access',
-            ],
-            [
-                'id'    => 167,
-                'title' => 'ticketmanagement_access',
-            ],
-            [
-                'id'    => 168,
-                'title' => 'ticket_status_create',
-            ],
-            [
-                'id'    => 169,
-                'title' => 'ticket_status_edit',
-            ],
-            [
-                'id'    => 170,
-                'title' => 'ticket_status_show',
-            ],
-            [
-                'id'    => 171,
-                'title' => 'ticket_status_delete',
-            ],
-            [
-                'id'    => 172,
-                'title' => 'ticket_status_access',
-            ],
-            [
-                'id'    => 173,
-                'title' => 'coupon_create',
-            ],
-            [
-                'id'    => 174,
-                'title' => 'coupon_edit',
-            ],
-            [
-                'id'    => 175,
-                'title' => 'coupon_show',
-            ],
-            [
-                'id'    => 176,
-                'title' => 'coupon_delete',
-            ],
-            [
-                'id'    => 177,
-                'title' => 'coupon_access',
-            ],
-            [
-                'id'    => 178,
-                'title' => 'place_access',
-            ],
-            [
-                'id'    => 179,
-                'title' => 'notification_create',
-            ],
-            [
-                'id'    => 180,
-                'title' => 'notification_edit',
-            ],
-            [
-                'id'    => 181,
-                'title' => 'notification_show',
-            ],
-            [
-                'id'    => 182,
-                'title' => 'notification_delete',
-            ],
-            [
-                'id'    => 183,
-                'title' => 'notification_access',
-            ],
-            [
-                'id'    => 184,
-                'title' => 'subscription_vip_create',
-            ],
-            [
-                'id'    => 185,
-                'title' => 'subscription_vip_edit',
-            ],
-            [
-                'id'    => 186,
-                'title' => 'subscription_vip_show',
-            ],
-            [
-                'id'    => 187,
-                'title' => 'subscription_vip_delete',
-            ],
-            [
-                'id'    => 188,
-                'title' => 'subscription_vip_access',
-            ],
-            [
-                'id'    => 189,
-                'title' => 'point_create',
-            ],
-            [
-                'id'    => 190,
-                'title' => 'point_edit',
-            ],
-            [
-                'id'    => 191,
-                'title' => 'point_show',
-            ],
-            [
-                'id'    => 192,
-                'title' => 'point_delete',
-            ],
-            [
-                'id'    => 193,
-                'title' => 'point_access',
-            ],
-            [
-                'id'    => 194,
-                'title' => 'point_management_access',
-            ],
-            [
-                'id'    => 195,
-                'title' => 'point_type_create',
-            ],
-            [
-                'id'    => 196,
-                'title' => 'point_type_edit',
-            ],
-            [
-                'id'    => 197,
-                'title' => 'point_type_show',
-            ],
-            [
-                'id'    => 198,
-                'title' => 'point_type_delete',
-            ],
-            [
-                'id'    => 199,
-                'title' => 'point_type_access',
-            ],
-            [
-                'id'    => 200,
-                'title' => 'onbordering_create',
-            ],
-            [
-                'id'    => 201,
-                'title' => 'onbordering_edit',
-            ],
-            [
-                'id'    => 202,
-                'title' => 'onbordering_show',
-            ],
-            [
-                'id'    => 203,
-                'title' => 'onbordering_delete',
-            ],
-            [
-                'id'    => 204,
-                'title' => 'onbordering_access',
-            ],
-            [
-                'id'    => 205,
-                'title' => 'table_create',
-            ],
-            [
-                'id'    => 206,
-                'title' => 'table_edit',
-            ],
-            [
-                'id'    => 207,
-                'title' => 'table_show',
-            ],
-            [
-                'id'    => 208,
-                'title' => 'table_delete',
-            ],
-            [
-                'id'    => 209,
-                'title' => 'table_access',
-            ],
-            [
-                'id'    => 210,
-                'title' => 'table_status_create',
-            ],
-            [
-                'id'    => 211,
-                'title' => 'table_status_edit',
-            ],
-            [
-                'id'    => 212,
-                'title' => 'table_status_show',
-            ],
-            [
-                'id'    => 213,
-                'title' => 'table_status_delete',
-            ],
-            [
-                'id'    => 214,
-                'title' => 'table_status_access',
-            ],
-            [
-                'id'    => 215,
-                'title' => 'subscription_user_create',
-            ],
-            [
-                'id'    => 216,
-                'title' => 'subscription_user_edit',
-            ],
-            [
-                'id'    => 217,
-                'title' => 'subscription_user_show',
-            ],
-            [
-                'id'    => 218,
-                'title' => 'subscription_user_delete',
-            ],
-            [
-                'id'    => 219,
-                'title' => 'subscription_user_access',
-            ],
-            [
-                'id'    => 220,
-                'title' => 'user_alert_create',
-            ],
-            [
-                'id'    => 221,
-                'title' => 'user_alert_show',
-            ],
-            [
-                'id'    => 222,
-                'title' => 'user_alert_delete',
-            ],
-            [
-                'id'    => 223,
-                'title' => 'user_alert_access',
-            ],
-            [
-                'id'    => 224,
-                'title' => 'car_access',
-            ],
-            [
-                'id'    => 225,
-                'title' => 'carbrand_create',
-            ],
-            [
-                'id'    => 226,
-                'title' => 'carbrand_edit',
-            ],
-            [
-                'id'    => 227,
-                'title' => 'carbrand_show',
-            ],
-            [
-                'id'    => 228,
-                'title' => 'carbrand_delete',
-            ],
-            [
-                'id'    => 229,
-                'title' => 'carbrand_access',
-            ],
-            [
-                'id'    => 230,
-                'title' => 'type_of_car_create',
-            ],
-            [
-                'id'    => 231,
-                'title' => 'type_of_car_edit',
-            ],
-            [
-                'id'    => 232,
-                'title' => 'type_of_car_show',
-            ],
-            [
-                'id'    => 233,
-                'title' => 'type_of_car_delete',
-            ],
-            [
-                'id'    => 234,
-                'title' => 'type_of_car_access',
-            ],
-            [
-                'id'    => 235,
-                'title' => 'car_color_create',
-            ],
-            [
-                'id'    => 236,
-                'title' => 'car_color_edit',
-            ],
-            [
-                'id'    => 237,
-                'title' => 'car_color_show',
-            ],
-            [
-                'id'    => 238,
-                'title' => 'car_color_delete',
-            ],
-            [
-                'id'    => 239,
-                'title' => 'car_color_access',
-            ],
-            [
-                'id'    => 240,
-                'title' => 'car_list_create',
-            ],
-            [
-                'id'    => 241,
-                'title' => 'car_list_edit',
-            ],
-            [
-                'id'    => 242,
-                'title' => 'car_list_show',
-            ],
-            [
-                'id'    => 243,
-                'title' => 'car_list_delete',
-            ],
-            [
-                'id'    => 244,
-                'title' => 'car_list_access',
-            ],
-            [
-                'id'    => 245,
-                'title' => 'profile_password_edit',
-            ],
+            // ====== User Management (category=1) ======
+            ['id'=>1,  'title'=>'user_management_access',     'name_ar'=>'إدارة المستخدمين',         'name_en'=>'User Management',           'category'=>1],
+            ['id'=>2,  'title'=>'permission_create',          'name_ar'=>'إضافة صلاحية',              'name_en'=>'Create Permission',         'category'=>1],
+            ['id'=>3,  'title'=>'permission_edit',            'name_ar'=>'تعديل صلاحية',              'name_en'=>'Edit Permission',           'category'=>1],
+            ['id'=>4,  'title'=>'permission_show',            'name_ar'=>'عرض صلاحية',                'name_en'=>'Show Permission',           'category'=>1],
+            ['id'=>5,  'title'=>'permission_delete',          'name_ar'=>'حذف صلاحية',                'name_en'=>'Delete Permission',         'category'=>1],
+            ['id'=>6,  'title'=>'permission_access',          'name_ar'=>'الوصول للصلاحيات',         'name_en'=>'Access Permissions',        'category'=>1],
+            ['id'=>7,  'title'=>'role_create',                'name_ar'=>'إضافة دور',                 'name_en'=>'Create Role',               'category'=>1],
+            ['id'=>8,  'title'=>'role_edit',                  'name_ar'=>'تعديل دور',                 'name_en'=>'Edit Role',                 'category'=>1],
+            ['id'=>9,  'title'=>'role_show',                  'name_ar'=>'عرض دور',                   'name_en'=>'Show Role',                 'category'=>1],
+            ['id'=>10, 'title'=>'role_delete',                'name_ar'=>'حذف دور',                   'name_en'=>'Delete Role',               'category'=>1],
+            ['id'=>11, 'title'=>'role_access',                'name_ar'=>'الوصول للأدوار',            'name_en'=>'Access Roles',              'category'=>1],
+            ['id'=>12, 'title'=>'user_create',                'name_ar'=>'إضافة مستخدم',              'name_en'=>'Create User',               'category'=>1],
+            ['id'=>13, 'title'=>'user_edit',                  'name_ar'=>'تعديل مستخدم',              'name_en'=>'Edit User',                 'category'=>1],
+            ['id'=>14, 'title'=>'user_show',                  'name_ar'=>'عرض مستخدم',                'name_en'=>'Show User',                 'category'=>1],
+            ['id'=>15, 'title'=>'user_delete',                'name_ar'=>'حذف مستخدم',                'name_en'=>'Delete User',               'category'=>1],
+            ['id'=>16, 'title'=>'user_access',                'name_ar'=>'الوصول للمستخدمين',        'name_en'=>'Access Users',              'category'=>1],
+            ['id'=>17, 'title'=>'user_status_create',         'name_ar'=>'إضافة حالة مستخدم',        'name_en'=>'Create User Status',        'category'=>1],
+            ['id'=>18, 'title'=>'user_status_edit',           'name_ar'=>'تعديل حالة مستخدم',        'name_en'=>'Edit User Status',          'category'=>1],
+            ['id'=>19, 'title'=>'user_status_show',           'name_ar'=>'عرض حالة مستخدم',          'name_en'=>'Show User Status',          'category'=>1],
+            ['id'=>20, 'title'=>'user_status_delete',         'name_ar'=>'حذف حالة مستخدم',          'name_en'=>'Delete User Status',        'category'=>1],
+            ['id'=>21, 'title'=>'user_status_access',         'name_ar'=>'الوصول لحالات المستخدمين','name_en'=>'Access User Statuses',      'category'=>1],
+
+            // ====== Slide Shows (category=2) ======
+            ['id'=>22, 'title'=>'slide_show_create',          'name_ar'=>'إضافة شريحة عرض',          'name_en'=>'Create Slide Show',         'category'=>2],
+            ['id'=>23, 'title'=>'slide_show_edit',            'name_ar'=>'تعديل شريحة عرض',          'name_en'=>'Edit Slide Show',           'category'=>2],
+            ['id'=>24, 'title'=>'slide_show_show',            'name_ar'=>'عرض شريحة عرض',            'name_en'=>'Show Slide Show',           'category'=>2],
+            ['id'=>25, 'title'=>'slide_show_delete',          'name_ar'=>'حذف شريحة عرض',            'name_en'=>'Delete Slide Show',         'category'=>2],
+            ['id'=>26, 'title'=>'slide_show_access',          'name_ar'=>'الوصول لشرائح العرض',      'name_en'=>'Access Slide Shows',        'category'=>2],
+
+            // ====== Restaurants (category=3) ======
+            ['id'=>27, 'title'=>'restaurant_create',          'name_ar'=>'إضافة مطعم',               'name_en'=>'Create Restaurant',         'category'=>3],
+            ['id'=>28, 'title'=>'restaurant_edit',            'name_ar'=>'تعديل مطعم',               'name_en'=>'Edit Restaurant',           'category'=>3],
+            ['id'=>29, 'title'=>'restaurant_show',            'name_ar'=>'عرض مطعم',                 'name_en'=>'Show Restaurant',           'category'=>3],
+            ['id'=>30, 'title'=>'restaurant_delete',          'name_ar'=>'حذف مطعم',                 'name_en'=>'Delete Restaurant',         'category'=>3],
+            ['id'=>31, 'title'=>'restaurant_access',          'name_ar'=>'الوصول للمطاعم',           'name_en'=>'Access Restaurants',        'category'=>3],
+            ['id'=>119,'title'=>'restaurants_management_access','name_ar'=>'إدارة المطاعم',          'name_en'=>'Restaurants Management',    'category'=>3],
+            ['id'=>27+100,'title'=>'category_create',         'name_ar'=>'إضافة تصنيف',              'name_en'=>'Create Category',           'category'=>3],
+            ['id'=>28+100,'title'=>'category_edit',           'name_ar'=>'تعديل تصنيف',              'name_en'=>'Edit Category',             'category'=>3],
+            ['id'=>29+100,'title'=>'category_show',           'name_ar'=>'عرض تصنيف',                'name_en'=>'Show Category',             'category'=>3],
+            ['id'=>30+100,'title'=>'category_delete',         'name_ar'=>'حذف تصنيف',                'name_en'=>'Delete Category',           'category'=>3],
+            ['id'=>31+100,'title'=>'category_access',         'name_ar'=>'الوصول للتصنيفات',         'name_en'=>'Access Categories',         'category'=>3],
+            ['id'=>47, 'title'=>'item_create',                'name_ar'=>'إضافة منتج',               'name_en'=>'Create Item',               'category'=>3],
+            ['id'=>48, 'title'=>'item_edit',                  'name_ar'=>'تعديل منتج',               'name_en'=>'Edit Item',                 'category'=>3],
+            ['id'=>49, 'title'=>'item_show',                  'name_ar'=>'عرض منتج',                 'name_en'=>'Show Item',                 'category'=>3],
+            ['id'=>50, 'title'=>'item_delete',                'name_ar'=>'حذف منتج',                 'name_en'=>'Delete Item',               'category'=>3],
+            ['id'=>51, 'title'=>'item_access',                'name_ar'=>'الوصول للمنتجات',          'name_en'=>'Access Items',              'category'=>3],
+            ['id'=>126,'title'=>'extra_create',               'name_ar'=>'إضافة إضافة',              'name_en'=>'Create Extra',              'category'=>3],
+            ['id'=>127,'title'=>'extra_edit',                 'name_ar'=>'تعديل إضافة',              'name_en'=>'Edit Extra',                'category'=>3],
+            ['id'=>128,'title'=>'extra_show',                 'name_ar'=>'عرض إضافة',                'name_en'=>'Show Extra',                'category'=>3],
+            ['id'=>129,'title'=>'extra_delete',               'name_ar'=>'حذف إضافة',                'name_en'=>'Delete Extra',              'category'=>3],
+            ['id'=>130,'title'=>'extra_access',               'name_ar'=>'الوصول للإضافات',          'name_en'=>'Access Extras',             'category'=>3],
+
+            // ====== Delivery (category=4) ======
+            ['id'=>32, 'title'=>'delivery_create',            'name_ar'=>'إضافة توصيل',              'name_en'=>'Create Delivery',           'category'=>4],
+            ['id'=>33, 'title'=>'delivery_edit',              'name_ar'=>'تعديل توصيل',              'name_en'=>'Edit Delivery',             'category'=>4],
+            ['id'=>34, 'title'=>'delivery_show',              'name_ar'=>'عرض توصيل',                'name_en'=>'Show Delivery',             'category'=>4],
+            ['id'=>35, 'title'=>'delivery_delete',            'name_ar'=>'حذف توصيل',                'name_en'=>'Delete Delivery',           'category'=>4],
+            ['id'=>36, 'title'=>'delivery_access',            'name_ar'=>'الوصول للتوصيل',           'name_en'=>'Access Delivery',           'category'=>4],
+            ['id'=>57, 'title'=>'delivery_company_create',    'name_ar'=>'إضافة شركة توصيل',         'name_en'=>'Create Delivery Company',   'category'=>4],
+            ['id'=>58, 'title'=>'delivery_company_edit',      'name_ar'=>'تعديل شركة توصيل',         'name_en'=>'Edit Delivery Company',     'category'=>4],
+            ['id'=>59, 'title'=>'delivery_company_show',      'name_ar'=>'عرض شركة توصيل',           'name_en'=>'Show Delivery Company',     'category'=>4],
+            ['id'=>60, 'title'=>'delivery_company_delete',    'name_ar'=>'حذف شركة توصيل',           'name_en'=>'Delete Delivery Company',   'category'=>4],
+            ['id'=>61, 'title'=>'delivery_company_access',    'name_ar'=>'الوصول لشركات التوصيل',    'name_en'=>'Access Delivery Companies', 'category'=>4],
+            ['id'=>120,'title'=>'delivery_management_access', 'name_ar'=>'إدارة التوصيل',            'name_en'=>'Delivery Management',       'category'=>4],
+
+            // ====== Orders (category=5) ======
+            ['id'=>121,'title'=>'order_create',               'name_ar'=>'إضافة طلب',                'name_en'=>'Create Order',              'category'=>5],
+            ['id'=>122,'title'=>'order_edit',                 'name_ar'=>'تعديل طلب',                'name_en'=>'Edit Order',                'category'=>5],
+            ['id'=>123,'title'=>'order_show',                 'name_ar'=>'عرض طلب',                  'name_en'=>'Show Order',                'category'=>5],
+            ['id'=>124,'title'=>'order_delete',               'name_ar'=>'حذف طلب',                  'name_en'=>'Delete Order',              'category'=>5],
+            ['id'=>125,'title'=>'order_access',               'name_ar'=>'الوصول للطلبات',           'name_en'=>'Access Orders',             'category'=>5],
+            ['id'=>131,'title'=>'order_mangement_access',     'name_ar'=>'إدارة الطلبات',            'name_en'=>'Order Management',          'category'=>5],
+            ['id'=>132,'title'=>'order_type_create',          'name_ar'=>'إضافة نوع طلب',            'name_en'=>'Create Order Type',         'category'=>5],
+            ['id'=>133,'title'=>'order_type_edit',            'name_ar'=>'تعديل نوع طلب',            'name_en'=>'Edit Order Type',           'category'=>5],
+            ['id'=>134,'title'=>'order_type_show',            'name_ar'=>'عرض نوع طلب',              'name_en'=>'Show Order Type',           'category'=>5],
+            ['id'=>135,'title'=>'order_type_delete',          'name_ar'=>'حذف نوع طلب',              'name_en'=>'Delete Order Type',         'category'=>5],
+            ['id'=>136,'title'=>'order_type_access',          'name_ar'=>'الوصول لأنواع الطلبات',    'name_en'=>'Access Order Types',        'category'=>5],
+            ['id'=>137,'title'=>'order_status_create',        'name_ar'=>'إضافة حالة طلب',           'name_en'=>'Create Order Status',       'category'=>5],
+            ['id'=>138,'title'=>'order_status_edit',          'name_ar'=>'تعديل حالة طلب',           'name_en'=>'Edit Order Status',         'category'=>5],
+            ['id'=>139,'title'=>'order_status_show',          'name_ar'=>'عرض حالة طلب',             'name_en'=>'Show Order Status',         'category'=>5],
+            ['id'=>140,'title'=>'order_status_delete',        'name_ar'=>'حذف حالة طلب',             'name_en'=>'Delete Order Status',       'category'=>5],
+            ['id'=>141,'title'=>'order_status_access',        'name_ar'=>'الوصول لحالات الطلبات',    'name_en'=>'Access Order Statuses',     'category'=>5],
+            ['id'=>147,'title'=>'cansel_reason_create',       'name_ar'=>'إضافة سبب إلغاء',          'name_en'=>'Create Cancel Reason',      'category'=>5],
+            ['id'=>148,'title'=>'cansel_reason_edit',         'name_ar'=>'تعديل سبب إلغاء',          'name_en'=>'Edit Cancel Reason',        'category'=>5],
+            ['id'=>149,'title'=>'cansel_reason_show',         'name_ar'=>'عرض سبب إلغاء',            'name_en'=>'Show Cancel Reason',        'category'=>5],
+            ['id'=>150,'title'=>'cansel_reason_delete',       'name_ar'=>'حذف سبب إلغاء',            'name_en'=>'Delete Cancel Reason',      'category'=>5],
+            ['id'=>151,'title'=>'cansel_reason_access',       'name_ar'=>'الوصول لأسباب الإلغاء',    'name_en'=>'Access Cancel Reasons',     'category'=>5],
+
+            // ====== Payments & Subscriptions (category=6) ======
+            ['id'=>37, 'title'=>'payment_method_create',      'name_ar'=>'إضافة طريقة دفع',          'name_en'=>'Create Payment Method',     'category'=>6],
+            ['id'=>38, 'title'=>'payment_method_edit',        'name_ar'=>'تعديل طريقة دفع',          'name_en'=>'Edit Payment Method',       'category'=>6],
+            ['id'=>39, 'title'=>'payment_method_show',        'name_ar'=>'عرض طريقة دفع',            'name_en'=>'Show Payment Method',       'category'=>6],
+            ['id'=>40, 'title'=>'payment_method_delete',      'name_ar'=>'حذف طريقة دفع',            'name_en'=>'Delete Payment Method',     'category'=>6],
+            ['id'=>41, 'title'=>'payment_method_access',      'name_ar'=>'الوصول لطرق الدفع',        'name_en'=>'Access Payment Methods',    'category'=>6],
+            ['id'=>102,'title'=>'subscription_package_create','name_ar'=>'إضافة باقة اشتراك',        'name_en'=>'Create Subscription Package','category'=>6],
+            ['id'=>103,'title'=>'subscription_package_edit',  'name_ar'=>'تعديل باقة اشتراك',        'name_en'=>'Edit Subscription Package', 'category'=>6],
+            ['id'=>104,'title'=>'subscription_package_show',  'name_ar'=>'عرض باقة اشتراك',          'name_en'=>'Show Subscription Package', 'category'=>6],
+            ['id'=>105,'title'=>'subscription_package_delete','name_ar'=>'حذف باقة اشتراك',          'name_en'=>'Delete Subscription Package','category'=>6],
+            ['id'=>106,'title'=>'subscription_package_access','name_ar'=>'الوصول لباقات الاشتراك',   'name_en'=>'Access Subscription Packages','category'=>6],
+            ['id'=>107,'title'=>'subscription_access',        'name_ar'=>'الوصول للاشتراكات',        'name_en'=>'Access Subscriptions',      'category'=>6],
+            ['id'=>184,'title'=>'subscription_vip_create',    'name_ar'=>'إضافة اشتراك VIP',         'name_en'=>'Create VIP Subscription',   'category'=>6],
+            ['id'=>185,'title'=>'subscription_vip_edit',      'name_ar'=>'تعديل اشتراك VIP',         'name_en'=>'Edit VIP Subscription',     'category'=>6],
+            ['id'=>186,'title'=>'subscription_vip_show',      'name_ar'=>'عرض اشتراك VIP',           'name_en'=>'Show VIP Subscription',     'category'=>6],
+            ['id'=>187,'title'=>'subscription_vip_delete',    'name_ar'=>'حذف اشتراك VIP',           'name_en'=>'Delete VIP Subscription',   'category'=>6],
+            ['id'=>188,'title'=>'subscription_vip_access',    'name_ar'=>'الوصول لاشتراكات VIP',     'name_en'=>'Access VIP Subscriptions',  'category'=>6],
+            ['id'=>215,'title'=>'subscription_user_create',   'name_ar'=>'إضافة اشتراك مستخدم',      'name_en'=>'Create User Subscription',  'category'=>6],
+            ['id'=>216,'title'=>'subscription_user_edit',     'name_ar'=>'تعديل اشتراك مستخدم',      'name_en'=>'Edit User Subscription',    'category'=>6],
+            ['id'=>217,'title'=>'subscription_user_show',     'name_ar'=>'عرض اشتراك مستخدم',        'name_en'=>'Show User Subscription',    'category'=>6],
+            ['id'=>218,'title'=>'subscription_user_delete',   'name_ar'=>'حذف اشتراك مستخدم',        'name_en'=>'Delete User Subscription',  'category'=>6],
+            ['id'=>219,'title'=>'subscription_user_access',   'name_ar'=>'الوصول لاشتراكات المستخدمين','name_en'=>'Access User Subscriptions','category'=>6],
+            ['id'=>173,'title'=>'coupon_create',              'name_ar'=>'إضافة كوبون',              'name_en'=>'Create Coupon',             'category'=>6],
+            ['id'=>174,'title'=>'coupon_edit',                'name_ar'=>'تعديل كوبون',              'name_en'=>'Edit Coupon',               'category'=>6],
+            ['id'=>175,'title'=>'coupon_show',                'name_ar'=>'عرض كوبون',                'name_en'=>'Show Coupon',               'category'=>6],
+            ['id'=>176,'title'=>'coupon_delete',              'name_ar'=>'حذف كوبون',                'name_en'=>'Delete Coupon',             'category'=>6],
+            ['id'=>177,'title'=>'coupon_access',              'name_ar'=>'الوصول للكوبونات',         'name_en'=>'Access Coupons',            'category'=>6],
+
+            // ====== Locations (category=7) ======
+            ['id'=>87, 'title'=>'country_create',             'name_ar'=>'إضافة دولة',               'name_en'=>'Create Country',            'category'=>7],
+            ['id'=>88, 'title'=>'country_edit',               'name_ar'=>'تعديل دولة',               'name_en'=>'Edit Country',              'category'=>7],
+            ['id'=>89, 'title'=>'country_show',               'name_ar'=>'عرض دولة',                 'name_en'=>'Show Country',              'category'=>7],
+            ['id'=>90, 'title'=>'country_delete',             'name_ar'=>'حذف دولة',                 'name_en'=>'Delete Country',            'category'=>7],
+            ['id'=>91, 'title'=>'country_access',             'name_ar'=>'الوصول للدول',             'name_en'=>'Access Countries',          'category'=>7],
+            ['id'=>92, 'title'=>'city_create',                'name_ar'=>'إضافة مدينة',              'name_en'=>'Create City',               'category'=>7],
+            ['id'=>93, 'title'=>'city_edit',                  'name_ar'=>'تعديل مدينة',              'name_en'=>'Edit City',                 'category'=>7],
+            ['id'=>94, 'title'=>'city_show',                  'name_ar'=>'عرض مدينة',                'name_en'=>'Show City',                 'category'=>7],
+            ['id'=>95, 'title'=>'city_delete',                'name_ar'=>'حذف مدينة',                'name_en'=>'Delete City',               'category'=>7],
+            ['id'=>96, 'title'=>'city_access',                'name_ar'=>'الوصول للمدن',             'name_en'=>'Access Cities',             'category'=>7],
+            ['id'=>97, 'title'=>'currency_create',            'name_ar'=>'إضافة عملة',               'name_en'=>'Create Currency',           'category'=>7],
+            ['id'=>98, 'title'=>'currency_edit',              'name_ar'=>'تعديل عملة',               'name_en'=>'Edit Currency',             'category'=>7],
+            ['id'=>99, 'title'=>'currency_show',              'name_ar'=>'عرض عملة',                 'name_en'=>'Show Currency',             'category'=>7],
+            ['id'=>100,'title'=>'currency_delete',            'name_ar'=>'حذف عملة',                 'name_en'=>'Delete Currency',           'category'=>7],
+            ['id'=>101,'title'=>'currency_access',            'name_ar'=>'الوصول للعملات',           'name_en'=>'Access Currencies',         'category'=>7],
+            ['id'=>178,'title'=>'place_access',               'name_ar'=>'الوصول للأماكن',           'name_en'=>'Access Places',             'category'=>7],
+
+            // ====== Ads (category=8) ======
+            ['id'=>108,'title'=>'ad_access',                  'name_ar'=>'الوصول للإعلانات',         'name_en'=>'Access Ads',                'category'=>8],
+            ['id'=>109,'title'=>'ads_category_create',        'name_ar'=>'إضافة تصنيف إعلانات',      'name_en'=>'Create Ads Category',       'category'=>8],
+            ['id'=>110,'title'=>'ads_category_edit',          'name_ar'=>'تعديل تصنيف إعلانات',      'name_en'=>'Edit Ads Category',         'category'=>8],
+            ['id'=>111,'title'=>'ads_category_show',          'name_ar'=>'عرض تصنيف إعلانات',        'name_en'=>'Show Ads Category',         'category'=>8],
+            ['id'=>112,'title'=>'ads_category_delete',        'name_ar'=>'حذف تصنيف إعلانات',        'name_en'=>'Delete Ads Category',       'category'=>8],
+            ['id'=>113,'title'=>'ads_category_access',        'name_ar'=>'الوصول لتصنيفات الإعلانات','name_en'=>'Access Ads Categories',     'category'=>8],
+            ['id'=>114,'title'=>'all_ad_create',              'name_ar'=>'إضافة إعلان',              'name_en'=>'Create Ad',                 'category'=>8],
+            ['id'=>115,'title'=>'all_ad_edit',                'name_ar'=>'تعديل إعلان',              'name_en'=>'Edit Ad',                   'category'=>8],
+            ['id'=>116,'title'=>'all_ad_show',                'name_ar'=>'عرض إعلان',                'name_en'=>'Show Ad',                   'category'=>8],
+            ['id'=>117,'title'=>'all_ad_delete',              'name_ar'=>'حذف إعلان',                'name_en'=>'Delete Ad',                 'category'=>8],
+            ['id'=>118,'title'=>'all_ad_access',              'name_ar'=>'الوصول لجميع الإعلانات',   'name_en'=>'Access All Ads',            'category'=>8],
+
+            // ====== Support & Tickets (category=9) ======
+            ['id'=>162,'title'=>'ticket_create',              'name_ar'=>'إضافة تذكرة دعم',          'name_en'=>'Create Ticket',             'category'=>9],
+            ['id'=>163,'title'=>'ticket_edit',                'name_ar'=>'تعديل تذكرة دعم',          'name_en'=>'Edit Ticket',               'category'=>9],
+            ['id'=>164,'title'=>'ticket_show',                'name_ar'=>'عرض تذكرة دعم',            'name_en'=>'Show Ticket',               'category'=>9],
+            ['id'=>165,'title'=>'ticket_delete',              'name_ar'=>'حذف تذكرة دعم',            'name_en'=>'Delete Ticket',             'category'=>9],
+            ['id'=>166,'title'=>'ticket_access',              'name_ar'=>'الوصول للتذاكر',           'name_en'=>'Access Tickets',            'category'=>9],
+            ['id'=>167,'title'=>'ticketmanagement_access',    'name_ar'=>'إدارة التذاكر',            'name_en'=>'Ticket Management',         'category'=>9],
+            ['id'=>168,'title'=>'ticket_status_create',       'name_ar'=>'إضافة حالة تذكرة',         'name_en'=>'Create Ticket Status',      'category'=>9],
+            ['id'=>169,'title'=>'ticket_status_edit',         'name_ar'=>'تعديل حالة تذكرة',         'name_en'=>'Edit Ticket Status',        'category'=>9],
+            ['id'=>170,'title'=>'ticket_status_show',         'name_ar'=>'عرض حالة تذكرة',           'name_en'=>'Show Ticket Status',        'category'=>9],
+            ['id'=>171,'title'=>'ticket_status_delete',       'name_ar'=>'حذف حالة تذكرة',           'name_en'=>'Delete Ticket Status',      'category'=>9],
+            ['id'=>172,'title'=>'ticket_status_access',       'name_ar'=>'الوصول لحالات التذاكر',    'name_en'=>'Access Ticket Statuses',    'category'=>9],
+            ['id'=>157,'title'=>'faq_create',                 'name_ar'=>'إضافة سؤال شائع',          'name_en'=>'Create FAQ',                'category'=>9],
+            ['id'=>158,'title'=>'faq_edit',                   'name_ar'=>'تعديل سؤال شائع',          'name_en'=>'Edit FAQ',                  'category'=>9],
+            ['id'=>159,'title'=>'faq_show',                   'name_ar'=>'عرض سؤال شائع',            'name_en'=>'Show FAQ',                  'category'=>9],
+            ['id'=>160,'title'=>'faq_delete',                 'name_ar'=>'حذف سؤال شائع',            'name_en'=>'Delete FAQ',                'category'=>9],
+            ['id'=>161,'title'=>'faq_access',                 'name_ar'=>'الوصول للأسئلة الشائعة',   'name_en'=>'Access FAQs',               'category'=>9],
+
+            // ====== Points (category=10) ======
+            ['id'=>189,'title'=>'point_create',               'name_ar'=>'إضافة نقطة',               'name_en'=>'Create Point',              'category'=>10],
+            ['id'=>190,'title'=>'point_edit',                 'name_ar'=>'تعديل نقطة',               'name_en'=>'Edit Point',                'category'=>10],
+            ['id'=>191,'title'=>'point_show',                 'name_ar'=>'عرض نقطة',                 'name_en'=>'Show Point',                'category'=>10],
+            ['id'=>192,'title'=>'point_delete',               'name_ar'=>'حذف نقطة',                 'name_en'=>'Delete Point',              'category'=>10],
+            ['id'=>193,'title'=>'point_access',               'name_ar'=>'الوصول للنقاط',            'name_en'=>'Access Points',             'category'=>10],
+            ['id'=>194,'title'=>'point_management_access',    'name_ar'=>'إدارة النقاط',             'name_en'=>'Point Management',          'category'=>10],
+            ['id'=>195,'title'=>'point_type_create',          'name_ar'=>'إضافة نوع نقطة',           'name_en'=>'Create Point Type',         'category'=>10],
+            ['id'=>196,'title'=>'point_type_edit',            'name_ar'=>'تعديل نوع نقطة',           'name_en'=>'Edit Point Type',           'category'=>10],
+            ['id'=>197,'title'=>'point_type_show',            'name_ar'=>'عرض نوع نقطة',             'name_en'=>'Show Point Type',           'category'=>10],
+            ['id'=>198,'title'=>'point_type_delete',          'name_ar'=>'حذف نوع نقطة',             'name_en'=>'Delete Point Type',         'category'=>10],
+            ['id'=>199,'title'=>'point_type_access',          'name_ar'=>'الوصول لأنواع النقاط',     'name_en'=>'Access Point Types',        'category'=>10],
+
+            // ====== Cars (category=11) ======
+            ['id'=>224,'title'=>'car_access',                 'name_ar'=>'الوصول للسيارات',          'name_en'=>'Access Cars',               'category'=>11],
+            ['id'=>225,'title'=>'carbrand_create',            'name_ar'=>'إضافة ماركة سيارة',        'name_en'=>'Create Car Brand',          'category'=>11],
+            ['id'=>226,'title'=>'carbrand_edit',              'name_ar'=>'تعديل ماركة سيارة',        'name_en'=>'Edit Car Brand',            'category'=>11],
+            ['id'=>227,'title'=>'carbrand_show',              'name_ar'=>'عرض ماركة سيارة',          'name_en'=>'Show Car Brand',            'category'=>11],
+            ['id'=>228,'title'=>'carbrand_delete',            'name_ar'=>'حذف ماركة سيارة',          'name_en'=>'Delete Car Brand',          'category'=>11],
+            ['id'=>229,'title'=>'carbrand_access',            'name_ar'=>'الوصول لماركات السيارات',  'name_en'=>'Access Car Brands',         'category'=>11],
+            ['id'=>230,'title'=>'type_of_car_create',         'name_ar'=>'إضافة نوع سيارة',          'name_en'=>'Create Car Type',           'category'=>11],
+            ['id'=>231,'title'=>'type_of_car_edit',           'name_ar'=>'تعديل نوع سيارة',          'name_en'=>'Edit Car Type',             'category'=>11],
+            ['id'=>232,'title'=>'type_of_car_show',           'name_ar'=>'عرض نوع سيارة',            'name_en'=>'Show Car Type',             'category'=>11],
+            ['id'=>233,'title'=>'type_of_car_delete',         'name_ar'=>'حذف نوع سيارة',            'name_en'=>'Delete Car Type',           'category'=>11],
+            ['id'=>234,'title'=>'type_of_car_access',         'name_ar'=>'الوصول لأنواع السيارات',   'name_en'=>'Access Car Types',          'category'=>11],
+            ['id'=>235,'title'=>'car_color_create',           'name_ar'=>'إضافة لون سيارة',          'name_en'=>'Create Car Color',          'category'=>11],
+            ['id'=>236,'title'=>'car_color_edit',             'name_ar'=>'تعديل لون سيارة',          'name_en'=>'Edit Car Color',            'category'=>11],
+            ['id'=>237,'title'=>'car_color_show',             'name_ar'=>'عرض لون سيارة',            'name_en'=>'Show Car Color',            'category'=>11],
+            ['id'=>238,'title'=>'car_color_delete',           'name_ar'=>'حذف لون سيارة',            'name_en'=>'Delete Car Color',          'category'=>11],
+            ['id'=>239,'title'=>'car_color_access',           'name_ar'=>'الوصول لألوان السيارات',   'name_en'=>'Access Car Colors',         'category'=>11],
+            ['id'=>240,'title'=>'car_list_create',            'name_ar'=>'إضافة سيارة',              'name_en'=>'Create Car',                'category'=>11],
+            ['id'=>241,'title'=>'car_list_edit',              'name_ar'=>'تعديل سيارة',              'name_en'=>'Edit Car',                  'category'=>11],
+            ['id'=>242,'title'=>'car_list_show',              'name_ar'=>'عرض سيارة',                'name_en'=>'Show Car',                  'category'=>11],
+            ['id'=>243,'title'=>'car_list_delete',            'name_ar'=>'حذف سيارة',                'name_en'=>'Delete Car',                'category'=>11],
+            ['id'=>244,'title'=>'car_list_access',            'name_ar'=>'الوصول لقائمة السيارات',   'name_en'=>'Access Car List',           'category'=>11],
+
+            // ====== Notifications & Alerts (category=12) ======
+            ['id'=>179,'title'=>'notification_create',        'name_ar'=>'إضافة إشعار',              'name_en'=>'Create Notification',       'category'=>12],
+            ['id'=>180,'title'=>'notification_edit',          'name_ar'=>'تعديل إشعار',              'name_en'=>'Edit Notification',         'category'=>12],
+            ['id'=>181,'title'=>'notification_show',          'name_ar'=>'عرض إشعار',                'name_en'=>'Show Notification',         'category'=>12],
+            ['id'=>182,'title'=>'notification_delete',        'name_ar'=>'حذف إشعار',                'name_en'=>'Delete Notification',       'category'=>12],
+            ['id'=>183,'title'=>'notification_access',        'name_ar'=>'الوصول للإشعارات',         'name_en'=>'Access Notifications',      'category'=>12],
+            ['id'=>220,'title'=>'user_alert_create',          'name_ar'=>'إضافة تنبيه مستخدم',       'name_en'=>'Create User Alert',         'category'=>12],
+            ['id'=>221,'title'=>'user_alert_show',            'name_ar'=>'عرض تنبيه مستخدم',         'name_en'=>'Show User Alert',           'category'=>12],
+            ['id'=>222,'title'=>'user_alert_delete',          'name_ar'=>'حذف تنبيه مستخدم',         'name_en'=>'Delete User Alert',         'category'=>12],
+            ['id'=>223,'title'=>'user_alert_access',          'name_ar'=>'الوصول لتنبيهات المستخدمين','name_en'=>'Access User Alerts',       'category'=>12],
+
+            // ====== Other (category=13) ======
+            ['id'=>52, 'title'=>'sitting_area_create',        'name_ar'=>'إضافة منطقة جلوس',         'name_en'=>'Create Sitting Area',       'category'=>13],
+            ['id'=>53, 'title'=>'sitting_area_edit',          'name_ar'=>'تعديل منطقة جلوس',         'name_en'=>'Edit Sitting Area',         'category'=>13],
+            ['id'=>54, 'title'=>'sitting_area_show',          'name_ar'=>'عرض منطقة جلوس',           'name_en'=>'Show Sitting Area',         'category'=>13],
+            ['id'=>55, 'title'=>'sitting_area_delete',        'name_ar'=>'حذف منطقة جلوس',           'name_en'=>'Delete Sitting Area',       'category'=>13],
+            ['id'=>56, 'title'=>'sitting_area_access',        'name_ar'=>'الوصول لمناطق الجلوس',     'name_en'=>'Access Sitting Areas',      'category'=>13],
+            ['id'=>62, 'title'=>'reporting_create',           'name_ar'=>'إضافة تقرير',              'name_en'=>'Create Report',             'category'=>13],
+            ['id'=>63, 'title'=>'reporting_edit',             'name_ar'=>'تعديل تقرير',              'name_en'=>'Edit Report',               'category'=>13],
+            ['id'=>64, 'title'=>'reporting_show',             'name_ar'=>'عرض تقرير',                'name_en'=>'Show Report',               'category'=>13],
+            ['id'=>65, 'title'=>'reporting_delete',           'name_ar'=>'حذف تقرير',                'name_en'=>'Delete Report',             'category'=>13],
+            ['id'=>66, 'title'=>'reporting_access',           'name_ar'=>'الوصول للتقارير',          'name_en'=>'Access Reports',            'category'=>13],
+            ['id'=>67, 'title'=>'rate_create',                'name_ar'=>'إضافة تقييم',              'name_en'=>'Create Rate',               'category'=>13],
+            ['id'=>68, 'title'=>'rate_edit',                  'name_ar'=>'تعديل تقييم',              'name_en'=>'Edit Rate',                 'category'=>13],
+            ['id'=>69, 'title'=>'rate_show',                  'name_ar'=>'عرض تقييم',                'name_en'=>'Show Rate',                 'category'=>13],
+            ['id'=>70, 'title'=>'rate_delete',                'name_ar'=>'حذف تقييم',                'name_en'=>'Delete Rate',               'category'=>13],
+            ['id'=>71, 'title'=>'rate_access',                'name_ar'=>'الوصول للتقييمات',         'name_en'=>'Access Rates',              'category'=>13],
+            ['id'=>72, 'title'=>'cart_create',                'name_ar'=>'إضافة سلة',                'name_en'=>'Create Cart',               'category'=>13],
+            ['id'=>73, 'title'=>'cart_edit',                  'name_ar'=>'تعديل سلة',                'name_en'=>'Edit Cart',                 'category'=>13],
+            ['id'=>74, 'title'=>'cart_show',                  'name_ar'=>'عرض سلة',                  'name_en'=>'Show Cart',                 'category'=>13],
+            ['id'=>75, 'title'=>'cart_delete',                'name_ar'=>'حذف سلة',                  'name_en'=>'Delete Cart',               'category'=>13],
+            ['id'=>76, 'title'=>'cart_access',                'name_ar'=>'الوصول للسلة',             'name_en'=>'Access Carts',              'category'=>13],
+            ['id'=>77, 'title'=>'address_create',             'name_ar'=>'إضافة عنوان',              'name_en'=>'Create Address',            'category'=>13],
+            ['id'=>78, 'title'=>'address_edit',               'name_ar'=>'تعديل عنوان',              'name_en'=>'Edit Address',              'category'=>13],
+            ['id'=>79, 'title'=>'address_show',               'name_ar'=>'عرض عنوان',                'name_en'=>'Show Address',              'category'=>13],
+            ['id'=>80, 'title'=>'address_delete',             'name_ar'=>'حذف عنوان',                'name_en'=>'Delete Address',            'category'=>13],
+            ['id'=>81, 'title'=>'address_access',             'name_ar'=>'الوصول للعناوين',          'name_en'=>'Access Addresses',          'category'=>13],
+            ['id'=>82, 'title'=>'save_credit_card_create',    'name_ar'=>'حفظ بطاقة ائتمان',         'name_en'=>'Save Credit Card',          'category'=>13],
+            ['id'=>83, 'title'=>'save_credit_card_edit',      'name_ar'=>'تعديل بطاقة ائتمان',       'name_en'=>'Edit Credit Card',          'category'=>13],
+            ['id'=>84, 'title'=>'save_credit_card_show',      'name_ar'=>'عرض بطاقة ائتمان',         'name_en'=>'Show Credit Card',          'category'=>13],
+            ['id'=>85, 'title'=>'save_credit_card_delete',    'name_ar'=>'حذف بطاقة ائتمان',         'name_en'=>'Delete Credit Card',        'category'=>13],
+            ['id'=>86, 'title'=>'save_credit_card_access',    'name_ar'=>'الوصول لبطاقات الائتمان',  'name_en'=>'Access Credit Cards',       'category'=>13],
+            ['id'=>152,'title'=>'favorite_create',            'name_ar'=>'إضافة مفضلة',              'name_en'=>'Create Favorite',           'category'=>13],
+            ['id'=>153,'title'=>'favorite_edit',              'name_ar'=>'تعديل مفضلة',              'name_en'=>'Edit Favorite',             'category'=>13],
+            ['id'=>154,'title'=>'favorite_show',              'name_ar'=>'عرض مفضلة',                'name_en'=>'Show Favorite',             'category'=>13],
+            ['id'=>155,'title'=>'favorite_delete',            'name_ar'=>'حذف مفضلة',                'name_en'=>'Delete Favorite',           'category'=>13],
+            ['id'=>156,'title'=>'favorite_access',            'name_ar'=>'الوصول للمفضلة',           'name_en'=>'Access Favorites',          'category'=>13],
+            ['id'=>200,'title'=>'onbordering_create',         'name_ar'=>'إضافة تأهيل',              'name_en'=>'Create Onboarding',         'category'=>13],
+            ['id'=>201,'title'=>'onbordering_edit',           'name_ar'=>'تعديل تأهيل',              'name_en'=>'Edit Onboarding',           'category'=>13],
+            ['id'=>202,'title'=>'onbordering_show',           'name_ar'=>'عرض تأهيل',                'name_en'=>'Show Onboarding',           'category'=>13],
+            ['id'=>203,'title'=>'onbordering_delete',         'name_ar'=>'حذف تأهيل',                'name_en'=>'Delete Onboarding',         'category'=>13],
+            ['id'=>204,'title'=>'onbordering_access',         'name_ar'=>'الوصول للتأهيل',           'name_en'=>'Access Onboarding',         'category'=>13],
+            ['id'=>205,'title'=>'table_create',               'name_ar'=>'إضافة طاولة',              'name_en'=>'Create Table',              'category'=>13],
+            ['id'=>206,'title'=>'table_edit',                 'name_ar'=>'تعديل طاولة',              'name_en'=>'Edit Table',                'category'=>13],
+            ['id'=>207,'title'=>'table_show',                 'name_ar'=>'عرض طاولة',                'name_en'=>'Show Table',                'category'=>13],
+            ['id'=>208,'title'=>'table_delete',               'name_ar'=>'حذف طاولة',                'name_en'=>'Delete Table',              'category'=>13],
+            ['id'=>209,'title'=>'table_access',               'name_ar'=>'الوصول للطاولات',          'name_en'=>'Access Tables',             'category'=>13],
+            ['id'=>210,'title'=>'table_status_create',        'name_ar'=>'إضافة حالة طاولة',         'name_en'=>'Create Table Status',       'category'=>13],
+            ['id'=>211,'title'=>'table_status_edit',          'name_ar'=>'تعديل حالة طاولة',         'name_en'=>'Edit Table Status',         'category'=>13],
+            ['id'=>212,'title'=>'table_status_show',          'name_ar'=>'عرض حالة طاولة',           'name_en'=>'Show Table Status',         'category'=>13],
+            ['id'=>213,'title'=>'table_status_delete',        'name_ar'=>'حذف حالة طاولة',           'name_en'=>'Delete Table Status',       'category'=>13],
+            ['id'=>214,'title'=>'table_status_access',        'name_ar'=>'الوصول لحالات الطاولات',   'name_en'=>'Access Table Statuses',     'category'=>13],
+            ['id'=>142,'title'=>'otherbranch_create',         'name_ar'=>'إضافة فرع آخر',            'name_en'=>'Create Other Branch',       'category'=>13],
+            ['id'=>143,'title'=>'otherbranch_edit',           'name_ar'=>'تعديل فرع آخر',            'name_en'=>'Edit Other Branch',         'category'=>13],
+            ['id'=>144,'title'=>'otherbranch_show',           'name_ar'=>'عرض فرع آخر',              'name_en'=>'Show Other Branch',         'category'=>13],
+            ['id'=>145,'title'=>'otherbranch_delete',         'name_ar'=>'حذف فرع آخر',              'name_en'=>'Delete Other Branch',       'category'=>13],
+            ['id'=>146,'title'=>'otherbranch_access',         'name_ar'=>'الوصول للفروع الأخرى',     'name_en'=>'Access Other Branches',     'category'=>13],
+            ['id'=>245,'title'=>'profile_password_edit',      'name_ar'=>'تعديل كلمة المرور',        'name_en'=>'Edit Profile Password',     'category'=>13],
         ];
 
         Permission::insert($permissions);
     }
 }
-
