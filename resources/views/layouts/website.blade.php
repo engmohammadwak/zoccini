@@ -41,6 +41,8 @@
         <link rel="stylesheet" href="{{asset('assets/css/main.rtl.css')}}"/>
     @endif
     <link rel="stylesheet" href="{{asset('assets/css/perfect-scrollbar.min.css')}}"/>
+    {{-- Glassmorphism layer - website frontend only --}}
+    <link rel="stylesheet" href="{{asset('assets/css/glass.css')}}"/>
 
 
     <link
