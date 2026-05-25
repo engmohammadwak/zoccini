@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="min-height:100vh;padding:24px;">
+<div style="padding:24px;">
 
     <x-admin-page-header
         :title="trans('cruds.restaurant.title')"
@@ -43,7 +43,7 @@
     <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:16px;box-shadow:var(--z-card-shadow);overflow:hidden;">
 
         {{-- Header --}}
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--z-border);background:var(--z-surface-2);">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--z-border);background:var(--z-surface-2);flex-wrap:wrap;gap:10px;">
             <div style="display:flex;align-items:center;gap:10px;">
                 <div style="width:36px;height:36px;border-radius:10px;background:rgba(244,63,94,.1);display:flex;align-items:center;justify-content:center;color:#f43f5e;font-size:15px;"><i class="fas fa-store"></i></div>
                 <div>
@@ -119,14 +119,14 @@
                             <span style="width:6px;height:6px;border-radius:50%;background:#10b981;"></span>{{ trans('global.active') ?? 'Active' }}
                         </span>
                         @else
-                        <span style="background:rgba(148,163,184,.12);color:#475569;padding:4px 11px;border-radius:999px;font-weight:600;font-size:0.75rem;display:inline-flex;align-items:center;gap:5px;">
+                        <span style="background:rgba(148,163,184,.12);color:var(--z-text-muted);padding:4px 11px;border-radius:999px;font-weight:600;font-size:0.75rem;display:inline-flex;align-items:center;gap:5px;">
                             <span style="width:6px;height:6px;border-radius:50%;background:#94a3b8;"></span>{{ trans('global.inactive') ?? 'Inactive' }}
                         </span>
                         @endif
                     </td>
                     {{-- Actions --}}
                     <td>
-                        <div style="display:flex;gap:5px;">
+                        <div style="display:flex;gap:5px;flex-wrap:nowrap;">
                             @can('restaurant_show')
                             <a href="{{ route('admin.restaurants.show',$restaurant->id) }}" title="{{ trans('global.view') }}"
                                style="width:32px;height:32px;border-radius:8px;background:rgba(59,130,246,.1);color:#3b82f6;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;text-decoration:none;transition:background .15s;"
