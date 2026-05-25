@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
+<div style="background:#f0f2f8;min-height:100vh;padding:24px;">
     <x-admin-page-header title="Slide Shows" icon="fas fa-film" color="purple"
         :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Slide Shows']]" />
     @php $total=$slideShows->count(); @endphp
