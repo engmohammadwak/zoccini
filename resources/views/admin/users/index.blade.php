@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="min-height:100vh;padding:24px;">
+<div style="padding:24px;">
 
     <x-admin-page-header
         :title="trans('cruds.user.title')"
@@ -121,7 +121,7 @@
                             {{ $tc['label'] }}
                         </span>
                     </td>
-                    {{-- Status (use status_id to avoid UserStatus object comparison) --}}
+                    {{-- Status --}}
                     <td>
                         @if(($user->status_id ?? 0) == 1)
                         <span style="background:rgba(16,185,129,.12);color:#065f46;padding:4px 11px;border-radius:999px;font-weight:600;font-size:0.75rem;display:inline-flex;align-items:center;gap:5px;">
