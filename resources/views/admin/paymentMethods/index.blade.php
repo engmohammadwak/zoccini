@@ -14,16 +14,16 @@
             <div><div style="font-size:1.4rem;font-weight:800;color:#fff;line-height:1;">{{ $active }}</div><div style="font-size:0.72rem;color:rgba(255,255,255,0.75);margin-top:2px;">Active</div></div>
         </div>
     </div>
-    <x-admin-table title="Payment Methods" icon="fas fa-credit-card" color="green" datatableClass="datatable-PaymentMethod" :count="$paymentMethods->count()" :createRoute="can('payment_method_create') ? route('admin.payment-methods.create') : null" :createLabel="trans('global.add').' Method'">
+    <x-admin-table title="Payment Methods" icon="fas fa-credit-card" color="green" datatableClass="datatable-PaymentMethod" :count="$paymentMethods->count()" :createRoute="\Illuminate\Support\Facades\Gate::allows('payment_method_create') ? route('admin.payment-methods.create') : null" :createLabel="trans('global.add').' Method'">
         <x-slot name="thead"><tr><th width="10"></th><th>Logo</th><th>Name EN</th><th>Name AR</th><th>Status</th><th>&nbsp;</th></tr></x-slot>
         <x-slot name="tbody">
             @foreach($paymentMethods as $pm)
             <tr data-entry-id="{{ $pm->id }}">
                 <td></td>
-                <td>@if($pm->image ?? $pm->logo ?? null)<img src="{{ asset('storage/'.($pm->image ?? $pm->logo)) }}" style="width:42px;height:32px;object-fit:contain;border-radius:6px;border:1px solid #f1f5f9;" alt="" loading="lazy">@else<div style="width:42px;height:32px;border-radius:6px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;color:#10b981;"><i class="fas fa-credit-card"></i></div>@endif</td>
+                <td>@if($pm->logo ?? null)<img src="{{ asset('storage/'.$pm->logo) }}" style="width:42px;height:32px;object-fit:contain;border-radius:6px;border:1px solid #f1f5f9;" alt="" loading="lazy">@else<div style="width:42px;height:32px;border-radius:6px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;color:#10b981;"><i class="fas fa-credit-card"></i></div>@endif</td>
                 <td style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $pm->name_en ?? $pm->name ?? '—' }}</td>
                 <td style="font-size:0.83rem;color:#475569;">{{ $pm->name_ar ?? '—' }}</td>
-                <td>@if($pm->status ?? 1)<span style="background:#dcfce7;color:#166534;padding:3px 9px;border-radius:7px;font-size:0.78rem;font-weight:600;">Active</span>@else<span style="background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:7px;font-size:0.78rem;">Inactive</span>@endif</td>
+                <td>@if($pm->status == 1)<span style="background:#dcfce7;color:#166534;padding:3px 9px;border-radius:7px;font-size:0.78rem;font-weight:600;">{{ trans('global.active') }}</span>@else<span style="background:#f1f5f9;color:#64748b;padding:3px 9px;border-radius:7px;font-size:0.78rem;">{{ trans('global.inactive') }}</span>@endif</td>
                 <td style="display:flex;gap:5px;">
                     @can('payment_method_show')<x-admin-action-btn href="{{ route('admin.payment-methods.show',$pm->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
                     @can('payment_method_edit')<x-admin-action-btn href="{{ route('admin.payment-methods.edit',$pm->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
