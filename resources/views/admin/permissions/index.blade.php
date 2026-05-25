@@ -33,7 +33,7 @@
         color="slate"
         datatableClass="datatable-Permission"
         :count="$permissions->count()"
-        :createRoute="can('permission_create') ? route('admin.permissions.create') : null"
+        :createRoute="auth()->user()->can('permission_create') ? route('admin.permissions.create') : null"
         :createLabel="trans('global.add').' Permission'"
     >
         <x-slot name="thead">
