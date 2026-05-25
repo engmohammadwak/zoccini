@@ -4,8 +4,8 @@
 
     <x-admin-page-header
         :title="trans('cruds.category.title')"
-        icon="fas fa-th-large"
-        color="teal"
+        icon="fas fa-layer-group"
+        color="violet"
         :breadcrumbs="[
             ['label' => trans('global.dashboard'), 'url' => route('admin.home')],
             ['label' => trans('cruds.category.title')],
@@ -13,93 +13,82 @@
     />
 
     @php
-        $totalCat   = $categories->count();
-        $activeCat  = $categories->where('status',1)->count();
-        $inactiveCat= $categories->where('status',0)->count();
+        $total    = $categories->count();
+        $active   = $categories->where('status',1)->count();
+        $parents  = $categories->whereNull('parent_id')->count();
+        $children = $categories->whereNotNull('parent_id')->count();
     @endphp
-
-    {{-- Stats --}}
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:22px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:22px;">
         <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
-            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#0d9488,#14b8a6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;">
-                <i class="fas fa-th-large"></i>
-            </div>
-            <div>
-                <div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $totalCat }}</div>
-                <div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">{{ trans('cruds.category.title') }}</div>
-            </div>
+            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#7c3aed,#a78bfa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-layer-group"></i></div>
+            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">{{ trans('cruds.category.title') }}</div></div>
         </div>
         <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
-            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#10b981,#34d399);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <div>
-                <div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $activeCat }}</div>
-                <div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">{{ trans('global.active') ?? 'Active' }}</div>
-            </div>
+            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#10b981,#34d399);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-check-circle"></i></div>
+            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $active }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">{{ trans('global.active') ?? 'Active' }}</div></div>
         </div>
-        <div style="background:linear-gradient(135deg,#0d9488,#0f766e);border-radius:14px;padding:16px 18px;box-shadow:0 4px 14px rgba(13,148,136,0.28);display:flex;align-items:center;gap:12px;">
-            <div style="width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;">
-                <i class="fas fa-ban"></i>
-            </div>
-            <div>
-                <div style="font-size:1.4rem;font-weight:800;color:#fff;line-height:1;">{{ $inactiveCat }}</div>
-                <div style="font-size:0.72rem;color:rgba(255,255,255,0.75);margin-top:2px;">{{ trans('global.inactive') ?? 'Inactive' }}</div>
-            </div>
+        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#6366f1,#818cf8);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-folder"></i></div>
+            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $parents }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Parent</div></div>
+        </div>
+        <div style="background:linear-gradient(135deg,#7c3aed,#5b21b6);border-radius:14px;padding:16px 18px;box-shadow:0 4px 14px rgba(124,58,237,0.3);display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-folder-open"></i></div>
+            <div><div style="font-size:1.4rem;font-weight:800;color:#fff;line-height:1;">{{ $children }}</div><div style="font-size:0.72rem;color:rgba(255,255,255,0.75);margin-top:2px;">Sub-categories</div></div>
         </div>
     </div>
 
-    {{-- Table --}}
     <x-admin-table
         :title="trans('cruds.category.title_singular').' '.trans('global.list')"
-        icon="fas fa-th-large"
-        color="teal"
+        icon="fas fa-layer-group"
+        color="violet"
         datatableClass="datatable-Category"
         :count="$categories->count()"
-        :createRoute="route('admin.categories.create')"
+        :createRoute="can('category_create') ? route('admin.categories.create') : null"
         :createLabel="trans('global.add').' '.trans('cruds.category.title_singular')"
     >
         <x-slot name="thead">
             <tr>
                 <th width="10"></th>
-                <th>{{ trans('cruds.category.fields.name') }}</th>
-                <th>{{ trans('cruds.category.fields.name_ar') ?? 'Name AR' }}</th>
-                <th>{{ trans('cruds.category.fields.image') ?? 'Image' }}</th>
-                <th>{{ trans('cruds.category.fields.status') ?? 'Status' }}</th>
+                <th>{{ trans('cruds.category.fields.name_en') }}</th>
+                <th>{{ trans('cruds.category.fields.name_ar') }}</th>
+                <th>Parent</th>
+                <th>{{ trans('cruds.category.fields.status') }}</th>
                 <th>&nbsp;</th>
             </tr>
         </x-slot>
         <x-slot name="tbody">
-            @foreach($categories as $cat)
-            <tr data-entry-id="{{ $cat->id }}">
+            @foreach($categories as $category)
+            <tr data-entry-id="{{ $category->id }}">
                 <td></td>
-                <td style="font-weight:700;color:#1e293b;font-size:0.85rem;">{{ $cat->name ?? $cat->name_en ?? '' }}</td>
-                <td style="color:#64748b;font-size:0.85rem;">{{ $cat->name_ar ?? '' }}</td>
                 <td>
-                    @if($cat->image)
-                        <img src="{{ asset('storage/'.$cat->image) }}" alt="" width="40" height="40" loading="lazy" style="border-radius:10px;object-fit:cover;border:2px solid #e2e8f0;">
-                    @else
-                        <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#0d9488,#14b8a6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;">
-                            <i class="fas fa-th-large"></i>
-                        </div>
-                    @endif
-                </td>
-                <td>
-                    @if(isset($cat->status))
-                        @if($cat->status == 1)
-                            <span style="background:#dcfce7;color:#166534;padding:3px 11px;border-radius:8px;font-weight:600;font-size:0.78rem;display:inline-flex;align-items:center;gap:5px;">
-                                <span style="width:5px;height:5px;border-radius:50%;background:#16a34a;"></span>
-                                {{ trans('global.active') ?? 'Active' }}
-                            </span>
+                    <span style="display:flex;align-items:center;gap:9px;">
+                        @if($category->image)
+                            <img src="{{ asset('storage/'.$category->image) }}" style="width:34px;height:34px;border-radius:9px;object-fit:cover;" alt="" loading="lazy" />
                         @else
-                            <span style="background:#f1f5f9;color:#64748b;padding:3px 11px;border-radius:8px;font-weight:600;font-size:0.78rem;">{{ trans('global.inactive') ?? 'Inactive' }}</span>
+                            <div style="width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;color:#7c3aed;font-size:14px;"><i class="fas fa-layer-group"></i></div>
                         @endif
+                        <span style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $category->name_en ?? '' }}</span>
+                    </span>
+                </td>
+                <td style="color:#64748b;font-size:0.83rem;">{{ $category->name_ar ?? '' }}</td>
+                <td>
+                    @if($category->parent_id)
+                        <span style="background:#ede9fe;color:#5b21b6;padding:3px 10px;border-radius:7px;font-size:0.78rem;font-weight:600;"><i class="fas fa-level-up-alt" style="font-size:0.7rem;"></i> {{ optional($category->parent)->name_en ?? '—' }}</span>
+                    @else
+                        <span style="background:#f1f5f9;color:#64748b;padding:3px 10px;border-radius:7px;font-size:0.78rem;">Root</span>
                     @endif
                 </td>
-                <td style="display:flex;gap:5px;">
-                    @can('category_show')<x-admin-action-btn href="{{ route('admin.categories.show',$cat->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
-                    @can('category_edit')<x-admin-action-btn href="{{ route('admin.categories.edit',$cat->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
-                    @can('category_delete')<x-admin-action-btn href="{{ route('admin.categories.destroy',$cat->id) }}" icon="fas fa-trash" color="red" method="DELETE" />@endcan
+                <td>
+                    @if($category->status == 1)
+                        <span style="background:#dcfce7;color:#166534;padding:3px 11px;border-radius:8px;font-weight:600;font-size:0.78rem;display:inline-flex;align-items:center;gap:5px;"><span style="width:6px;height:6px;border-radius:50%;background:#16a34a;display:inline-block;"></span>{{ trans('global.active') ?? 'Active' }}</span>
+                    @else
+                        <span style="background:#f1f5f9;color:#64748b;padding:3px 11px;border-radius:8px;font-weight:600;font-size:0.78rem;display:inline-flex;align-items:center;gap:5px;"><span style="width:6px;height:6px;border-radius:50%;background:#94a3b8;display:inline-block;"></span>{{ trans('global.inactive') ?? 'Inactive' }}</span>
+                    @endif
+                </td>
+                <td style="display:flex;gap:5px;flex-wrap:wrap;">
+                    @can('category_show')<x-admin-action-btn href="{{ route('admin.categories.show',$category->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
+                    @can('category_edit')<x-admin-action-btn href="{{ route('admin.categories.edit',$category->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
+                    @can('category_delete')<x-admin-action-btn href="{{ route('admin.categories.destroy',$category->id) }}" icon="fas fa-trash" color="red" method="DELETE" />@endcan
                 </td>
             </tr>
             @endforeach
@@ -112,8 +101,12 @@
 @parent
 <script>
 $(function(){
-    $.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'asc']],pageLength:25});
-    $('.datatable-Category:not(.ajaxTable)').DataTable({buttons:[]});
+    let dtButtons=$.extend(true,[],$.fn.dataTable.defaults.buttons);
+    @can('category_delete')
+    dtButtons.push({text:'{{ trans('global.datatables.delete') }}',url:"{{ route('admin.categories.massDestroy') }}",className:'btn-danger',action:function(e,dt,node,config){var ids=$.map(dt.rows({selected:true}).nodes(),function(entry){return $(entry).data('entry-id')});if(ids.length===0){alert('{{ trans('global.datatables.zero_selected') }}');return}if(confirm('{{ trans('global.areYouSure') }}')){$.ajax({headers:{'x-csrf-token':_token},method:'POST',url:config.url,data:{ids:ids,_method:'DELETE'}}).done(function(){location.reload()})}}});
+    @endcan
+    $.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'desc']],pageLength:25});
+    $('.datatable-Category:not(.ajaxTable)').DataTable({buttons:dtButtons});
 });
 </script>
 @endsection
