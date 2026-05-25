@@ -10,7 +10,15 @@
             <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Statuses</div></div>
         </div>
     </div>
-    <x-admin-table title="Table Statuses" icon="fas fa-toggle-on" color="green" datatableClass="datatable-TableStatus" :count="$tableStatuses->count()" :createRoute="can('table_status_create') ? route('admin.table-statuses.create') : null" :createLabel="trans('global.add').' Status'">
+    <x-admin-table
+        title="Table Statuses"
+        icon="fas fa-toggle-on"
+        color="green"
+        datatableClass="datatable-TableStatus"
+        :count="$tableStatuses->count()"
+        createPermission="table_status_create"
+        :createRoute="route('admin.table-statuses.create')"
+        :createLabel="trans('global.add').' Status'">
         <x-slot name="thead"><tr><th width="10"></th><th>Name EN</th><th>Name AR</th><th>Color</th><th>&nbsp;</th></tr></x-slot>
         <x-slot name="tbody">
             @foreach($tableStatuses as $status)
