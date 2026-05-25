@@ -83,7 +83,6 @@ if ($createRoute) {
     box-shadow:0 3px 8px {{ $a['shadow'] }};
     flex-shrink:0;
 }
-/* Topbar: length + filter + export buttons */
 .adm-tbl-topbar {
     display: flex;
     align-items: center;
@@ -93,7 +92,6 @@ if ($createRoute) {
     padding: 12px 18px;
     border-bottom: 1px solid var(--z-border, #eef0f8);
 }
-/* Table wrap */
 .adm-tbl-wrap { width: 100%; overflow-x: auto; }
 .adm-tbl-table {
     width: 100% !important;
@@ -135,28 +133,35 @@ if ($createRoute) {
     transition: opacity .2s, transform .15s;
     white-space: nowrap;
 }
-.adm-btn-create:hover { opacity: .87; transform: translateY(-1px); color: #fff !important; text-decoration: none; }
+.adm-btn-create:hover { opacity:.87; transform:translateY(-1px); color:#fff !important; text-decoration:none; }
 
-/* ── DataTables overrides ── */
-#{{ $uid }}_wrapper {
-    width: 100% !important;
-}
-/* إزالة height الثابت من scroll divs */
-#{{ $uid }}_wrapper .dataTables_scroll { width: 100% !important; }
+/* ─── DataTables overrides ─── */
+#{{ $uid }}_wrapper { width: 100% !important; }
+
+/* إلغاء الارتفاع الثابت من scrollY: السبب الجذري للمسافة الفارغة */
 #{{ $uid }}_wrapper .dataTables_scrollBody {
     height: auto !important;
     max-height: none !important;
-    overflow: visible !important;
+    overflow-y: visible !important;
+    overflow-x: auto !important;
 }
 #{{ $uid }}_wrapper .dataTables_scrollHead {
     overflow: visible !important;
+    height: auto !important;
 }
-#{{ $uid }}_wrapper .dataTables_scrollHeadInner,
-#{{ $uid }}_wrapper .dataTables_scrollHeadInner table {
+#{{ $uid }}_wrapper .dataTables_scrollHeadInner {
     width: 100% !important;
-    box-sizing: border-box !important;
+    padding-right: 0 !important;
     padding-left: 0 !important;
+    box-sizing: border-box !important;
 }
+#{{ $uid }}_wrapper .dataTables_scrollHeadInner > table,
+#{{ $uid }}_wrapper .dataTables_scrollBody  > table {
+    width: 100% !important;
+    margin: 0 !important;
+}
+#{{ $uid }}_wrapper .dataTables_scroll { width: 100% !important; }
+
 #{{ $uid }}_wrapper .dataTables_filter input {
     border: 1px solid var(--z-border, #dde2f0) !important;
     border-radius: 7px !important;
@@ -240,41 +245,37 @@ if ($createRoute) {
 
 <script>
 (function(){
-    function initTbl(){
-        var tblId = '#{{ $uid }}';
-        var $tbl  = $(tblId);
-        if (!$tbl.length) return;
+    var tblId  = '#{{ $uid }}';
+    var wrapId = '#{{ $uid }}_wrapper';
 
-        var dt = null;
+    function fixScroll() {
+        /* إلغاء الارتفاع الثابت من scrollY */
+        $(wrapId + ' .dataTables_scrollBody').css({
+            height    : 'auto',
+            maxHeight : 'none',
+            overflowY : 'visible',
+            overflowX : 'auto'
+        });
+        $(wrapId + ' .dataTables_scrollHead').css({ overflow:'visible', height:'auto' });
+        $(wrapId + ' .dataTables_scrollHeadInner').css({ width:'100%', paddingLeft:'0', paddingRight:'0' });
+        $(wrapId + ' .dataTables_scrollHeadInner > table').css({ width:'100%', margin:'0' });
+        $(wrapId + ' .dataTables_scrollBody > table').css({ width:'100%', margin:'0' });
+        /* columns.adjust بعد تصحيح العرض */
         if ($.fn.DataTable && $.fn.DataTable.isDataTable(tblId)) {
-            dt = $tbl.DataTable();
+            $(tblId).DataTable().columns.adjust();
         }
+    }
 
-        /* ── تعطيل scrollY إن كان مفعّلاً ── */
-        if (dt) {
-            /* إزالة height ثابت من scrollBody */
-            $(tblId + '_wrapper .dataTables_scrollBody').css({
-                'height'    : 'auto',
-                'max-height': 'none',
-                'overflow'  : 'visible'
-            });
-            $(tblId + '_wrapper .dataTables_scrollHead').css('overflow', 'visible');
-            $(tblId + '_wrapper .dataTables_scrollHeadInner').css({
-                'width'      : '100%',
-                'padding-left': '0'
-            });
-            $(tblId + '_wrapper .dataTables_scrollHeadInner table').css('width', '100%');
-            dt.columns.adjust();
-        }
-
-        $(tblId + '_wrapper').css('width', '100%');
-        $tbl.css('width', '100%');
+    function initTbl() {
+        if (!$(tblId).length) return;
+        fixScroll();
+        $(wrapId).css('width', '100%');
 
         /* ── سحب controls إلى topbar ── */
         var $topbar = $('#{{ $uid }}-topbar');
-        var $filter = $(tblId + '_wrapper .dataTables_filter');
-        var $length = $(tblId + '_wrapper .dataTables_length');
-        var $btns   = $(tblId + '_wrapper .dt-buttons');
+        var $filter = $(wrapId + ' .dataTables_filter');
+        var $length = $(wrapId + ' .dataTables_length');
+        var $btns   = $(wrapId + ' .dt-buttons');
 
         if ($filter.length || $length.length || $btns.length) {
             $topbar.show();
@@ -285,12 +286,16 @@ if ($createRoute) {
             if ($filter.length) $right.append($filter);
             $topbar.empty().append($left).append($right);
         }
+
+        /* إعادة تطبيق fixScroll بعد render النهائي للجدول */
+        setTimeout(fixScroll, 100);
+        setTimeout(fixScroll, 600);
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function(){ setTimeout(initTbl, 400); });
+        document.addEventListener('DOMContentLoaded', function(){ setTimeout(initTbl, 350); });
     } else {
-        setTimeout(initTbl, 400);
+        setTimeout(initTbl, 350);
     }
 })();
 </script>
