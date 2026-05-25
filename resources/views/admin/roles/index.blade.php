@@ -1,5 +1,82 @@
 @extends('layouts.admin')
 @section('content')
+
+@php
+/* ============================================================
+   خريطة ترجمة الصلاحيات — مشتركة بين index / show / edit
+   ============================================================ */
+$moduleAr = [
+    'ad'=>'الإعلانات','address'=>'العناوين','ads'=>'الإعلانات',
+    'adscategory'=>'تصنيفات الإعلانات','allad'=>'كل الإعلانات',
+    'becomepartner'=>'طلب شراكة','becomePartner'=>'طلب شراكة',
+    'cancelreason'=>'أسباب الإلغاء','cancel'=>'الإلغاء',
+    'carbrand'=>'ماركات السيارات','carcolor'=>'ألوان السيارات',
+    'carlist'=>'قائمة السيارات','cart'=>'سلة التسوق',
+    'category'=>'الفئات','categorytoprestaurant'=>'تصنيف المطاعم المميزة',
+    'city'=>'المدن','contact'=>'التواصل','country'=>'الدول',
+    'coupon'=>'الكوبونات','currency'=>'العملات',
+    'delivery'=>'التوصيل','deliverycompany'=>'شركات التوصيل',
+    'expense'=>'المصاريف','expensecategory'=>'تصنيفات المصاريف',
+    'extra'=>'الإضافات','faq'=>'الأسئلة الشائعة',
+    'favorite'=>'المفضلة','image'=>'الصور',
+    'income'=>'الإيرادات','incomecategory'=>'تصنيفات الإيرادات',
+    'item'=>'المنتجات','loopbank'=>'البنك','loopuser'=>'مستخدمو النظام',
+    'notification'=>'الإشعارات','offeruser'=>'عروض المستخدمين',
+    'onbordering'=>'التأهيل','order'=>'الطلبات',
+    'orderstatus'=>'حالات الطلبات','ordertype'=>'أنواع الطلبات',
+    'otherbranch'=>'الفروع الأخرى','paymentmethod'=>'طرق الدفع',
+    'permission'=>'الصلاحيات','point'=>'النقاط','pointtype'=>'أنواع النقاط',
+    'qa'=>'الأسئلة والأجوبة','qamessage'=>'رسائل الأسئلة','qatopic'=>'مواضيع الأسئلة',
+    'queue'=>'قائمة الانتظار','rate'=>'التقييمات',
+    'referralsubscription'=>'اشتراكات الإحالة','reporting'=>'التقارير',
+    'restaurant'=>'المطاعم','role'=>'الأدوار',
+    'savecreditcard'=>'بطاقات الائتمان','setting'=>'الإعدادات',
+    'sittingarea'=>'مناطق الجلوس','slideshow'=>'عروض الشرائح',
+    'slider'=>'السلايدر','smshistory'=>'سجل الرسائل',
+    'subscriptionpackage'=>'باقات الاشتراك',
+    'subscriptionuser'=>'اشتراكات المستخدمين',
+    'subscriptionvip'=>'اشتراكات VIP',
+    'table'=>'الطاولات','tablestatus'=>'حالات الطاولات',
+    'ticket'=>'التذاكر','ticketmessage'=>'رسائل التذاكر',
+    'ticketstatus'=>'حالات التذاكر','toprestaurant'=>'المطاعم المميزة',
+    'typeofcar'=>'أنواع السيارات','user'=>'المستخدمون',
+    'useralert'=>'تنبيهات المستخدمين','userstatus'=>'حالات المستخدمين',
+    'venturecompany'=>'شركات المشاريع',
+];
+$actionAr = [
+    'access'=>'الوصول','create'=>'إضافة','edit'=>'تعديل',
+    'delete'=>'حذف','destroy'=>'حذف','show'=>'عرض','view'=>'عرض',
+    'index'=>'قائمة','store'=>'حفظ','update'=>'تحديث',
+    'export'=>'تصدير','import'=>'استيراد','approve'=>'موافقة',
+    'reject'=>'رفض','manage'=>'إدارة',
+];
+$actionColors = [
+    'access'=>['bg'=>'rgba(71,85,105,.1)','text'=>'#475569'],
+    'create'=>['bg'=>'rgba(22,163,74,.1)','text'=>'#16a34a'],
+    'edit'=>['bg'=>'rgba(217,119,6,.1)','text'=>'#b45309'],
+    'update'=>['bg'=>'rgba(217,119,6,.1)','text'=>'#b45309'],
+    'delete'=>['bg'=>'rgba(220,38,38,.1)','text'=>'#dc2626'],
+    'destroy'=>['bg'=>'rgba(220,38,38,.1)','text'=>'#dc2626'],
+    'show'=>['bg'=>'rgba(37,99,235,.1)','text'=>'#2563eb'],
+    'view'=>['bg'=>'rgba(37,99,235,.1)','text'=>'#2563eb'],
+    'index'=>['bg'=>'rgba(124,58,237,.1)','text'=>'#7c3aed'],
+    'export'=>['bg'=>'rgba(14,116,144,.1)','text'=>'#0e7490'],
+    'import'=>['bg'=>'rgba(14,116,144,.1)','text'=>'#0e7490'],
+];
+$translatePerm = function(string $title) use ($moduleAr,$actionAr,$actionColors):array {
+    $parts  = explode('_',$title);
+    $action = strtolower(array_pop($parts));
+    $module = strtolower(implode('',$parts));
+    return [
+        'module' => $moduleAr[$module] ?? ucwords(str_replace('_',' ',$module)),
+        'action' => $actionAr[$action]  ?? ucfirst($action),
+        'action_en' => ucfirst($action),
+        'colors' => $actionColors[$action] ?? ['bg'=>'rgba(71,85,105,.1)','text'=>'#475569'],
+    ];
+};
+$total = $roles->count();
+@endphp
+
 <div style="padding:24px;">
 
     {{-- Page Header --}}
@@ -19,10 +96,6 @@
         </div>
     </div>
 
-    @php
-        $total = $roles->count();
-    @endphp
-
     {{-- KPI --}}
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:14px;margin-bottom:24px;">
         <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:14px;padding:18px;box-shadow:var(--z-card-shadow);display:flex;align-items:center;gap:13px;">
@@ -36,7 +109,7 @@
     </div>
 
     {{-- DataTable Card --}}
-    <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:16px;box-shadow:var(--z-card-shadow);overflow:hidden;">
+    <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:16px;box-shadow:var(--z-card-shadow);overflow:hidden;width:100%;">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--z-border);background:var(--z-surface-2);">
             <div style="display:flex;align-items:center;gap:10px;">
                 <div style="width:36px;height:36px;border-radius:10px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;color:#7c3aed;font-size:15px;"><i class="fas fa-user-tag"></i></div>
@@ -74,12 +147,17 @@
                         </div>
                     </td>
                     <td>
-                        <div style="display:flex;flex-wrap:wrap;gap:4px;">
-                            @foreach($role->permissions->take(5) as $perm)
-                            <span style="background:rgba(124,58,237,.08);color:#5b21b6;padding:2px 8px;border-radius:6px;font-size:0.72rem;font-weight:600;">{{ $perm->title }}</span>
+                        <div style="display:flex;flex-wrap:wrap;gap:5px;max-width:520px;">
+                            @foreach($role->permissions->take(6) as $perm)
+                            @php $t = $translatePerm($perm->title); @endphp
+                            <span title="{{ $perm->title }}" style="display:inline-flex;align-items:center;gap:4px;background:{{ $t['colors']['bg'] }};border:1px solid {{ $t['colors']['text'] }}22;border-radius:7px;padding:3px 9px;">
+                                <span style="font-size:0.75rem;font-weight:700;color:{{ $t['colors']['text'] }};">{{ $t['module'] }}</span>
+                                <span style="width:1px;height:10px;background:{{ $t['colors']['text'] }}44;flex-shrink:0;"></span>
+                                <span style="font-size:0.7rem;color:{{ $t['colors']['text'] }};opacity:.85;">{{ $t['action'] }}</span>
+                            </span>
                             @endforeach
-                            @if($role->permissions->count() > 5)
-                            <span style="background:rgba(148,163,184,.12);color:var(--z-text-muted);padding:2px 8px;border-radius:6px;font-size:0.72rem;font-weight:600;">+{{ $role->permissions->count() - 5 }}</span>
+                            @if($role->permissions->count() > 6)
+                            <span style="background:rgba(148,163,184,.12);color:var(--z-text-muted);padding:3px 9px;border-radius:7px;font-size:0.75rem;font-weight:700;">+{{ $role->permissions->count() - 6 }} أخرى</span>
                             @endif
                         </div>
                     </td>
