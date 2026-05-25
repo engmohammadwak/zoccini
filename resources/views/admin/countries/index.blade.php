@@ -21,8 +21,8 @@
 
     @php
         $total    = $countries->count();
-        $active   = $countries->where('status',1)->count();
-        $inactive = $countries->where('status',0)->count();
+        $active   = $countries->where('status', 1)->count();
+        $inactive = $countries->where('status', 0)->count();
     @endphp
 
     {{-- KPI Cards --}}
@@ -99,7 +99,7 @@
                             <span style="width:6px;height:6px;border-radius:50%;background:#10b981;"></span>{{ trans('global.active') ?? 'Active' }}
                         </span>
                         @else
-                        <span style="background:rgba(148,163,184,.12);color:#475569;padding:4px 11px;border-radius:999px;font-weight:600;font-size:0.75rem;display:inline-flex;align-items:center;gap:5px;">
+                        <span style="background:rgba(148,163,184,.12);color:var(--z-text-muted);padding:4px 11px;border-radius:999px;font-weight:600;font-size:0.75rem;display:inline-flex;align-items:center;gap:5px;">
                             <span style="width:6px;height:6px;border-radius:50%;background:#94a3b8;"></span>{{ trans('global.inactive') ?? 'Inactive' }}
                         </span>
                         @endif
@@ -138,12 +138,39 @@
 @parent
 <script>
 $(function(){
-    let dtButtons=$.extend(true,[],$.fn.dataTable.defaults.buttons);
+    let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons);
     @can('country_delete')
-    dtButtons.push({text:'{{ trans('global.datatables.delete') }}',url:"{{ route('admin.countries.massDestroy') }}",className:'btn-danger',action:function(e,dt,node,config){var ids=$.map(dt.rows({selected:true}).nodes(),function(entry){return $(entry).data('entry-id')});if(ids.length===0){alert('{{ trans('global.datatables.zero_selected') }}');return}if(confirm('{{ trans('global.areYouSure') }}')){$.ajax({headers:{'x-csrf-token':_token},method:'POST',url:config.url,data:{ids:ids,_method:'DELETE'}}).done(function(){location.reload()})}}});
+    dtButtons.push({
+        text: '{{ trans('global.datatables.delete') }}',
+        url: "{{ route('admin.countries.massDestroy') }}",
+        className: 'btn-danger',
+        action: function(e, dt, node, config) {
+            var ids = $.map(dt.rows({ selected: true }).nodes(), function(entry) { return $(entry).data('entry-id'); });
+            if (ids.length === 0) { alert('{{ trans('global.datatables.zero_selected') }}'); return; }
+            if (confirm('{{ trans('global.areYouSure') }}')) {
+                $.ajax({
+                    headers: { 'x-csrf-token': _token },
+                    method: 'POST',
+                    url: config.url,
+                    data: { ids: ids, _method: 'DELETE' }
+                }).done(function() { location.reload(); });
+            }
+        }
+    });
     @endcan
-    $.extend(true,$.fn.dataTable.defaults,{orderCellsTop:true,order:[[1,'asc']],pageLength:25});
-    $('.datatable-Country:not(.ajaxTable)').DataTable({buttons:dtButtons});
+
+    $.extend(true, $.fn.dataTable.defaults, {
+        orderCellsTop: true,
+        pageLength: 25
+    });
+
+    $('.datatable-Country:not(.ajaxTable)').DataTable({
+        buttons: dtButtons,
+        order: [[1, 'asc']],   // column 1 = name_en (after the empty checkbox column)
+        columnDefs: [
+            { orderable: false, targets: [0, 4, 6] }  // disable sort on: empty col, flag col, actions col
+        ]
+    });
 });
 </script>
 @endsection
