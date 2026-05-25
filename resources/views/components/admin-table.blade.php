@@ -45,7 +45,7 @@ if ($createRoute) {
 @endphp
 
 <style>
-/* ===== admin-table component (dark-mode-aware) ===== */
+/* ===== admin-table component ===== */
 .adm-tbl-card {
     background: var(--z-card-bg, #fff);
     border: 1px solid var(--z-card-border, #e8ecf4);
@@ -83,7 +83,7 @@ if ($createRoute) {
     box-shadow:0 3px 8px {{ $a['shadow'] }};
     flex-shrink:0;
 }
-/* DataTables top bar (length + filter) */
+/* Topbar: length + filter + export buttons */
 .adm-tbl-topbar {
     display: flex;
     align-items: center;
@@ -93,94 +93,114 @@ if ($createRoute) {
     padding: 12px 18px;
     border-bottom: 1px solid var(--z-border, #eef0f8);
 }
-/* Table */
-.adm-tbl-wrap { width:100%; overflow-x:auto; padding: 0 0 4px; }
+/* Table wrap */
+.adm-tbl-wrap { width: 100%; overflow-x: auto; }
 .adm-tbl-table {
-    width:100% !important;
-    border-collapse:collapse;
-    font-size:.84rem;
-    table-layout:auto;
+    width: 100% !important;
+    border-collapse: collapse;
+    font-size: .84rem;
+    table-layout: auto;
 }
 .adm-tbl-table thead tr:first-child th {
     background: var(--z-surface-2, #f5f7ff);
     color: var(--z-text-muted, #4a5080);
-    font-weight:700;
-    font-size:.75rem;
-    text-transform:uppercase;
-    letter-spacing:.5px;
-    padding:11px 14px;
-    border-bottom:2px solid var(--z-border, #e2e7f4);
-    white-space:nowrap;
+    font-weight: 700;
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding: 11px 14px;
+    border-bottom: 2px solid var(--z-border, #e2e7f4);
+    white-space: nowrap;
 }
 .adm-tbl-table tbody tr {
-    border-bottom:1px solid var(--z-border, #f0f2fa);
-    transition:background .15s;
+    border-bottom: 1px solid var(--z-border, #f0f2fa);
+    transition: background .15s;
 }
-.adm-tbl-table tbody tr:last-child { border-bottom:none; }
-.adm-tbl-table tbody tr:hover { background:var(--z-surface-2, #f7f9ff); }
+.adm-tbl-table tbody tr:last-child { border-bottom: none; }
+.adm-tbl-table tbody tr:hover { background: var(--z-surface-2, #f7f9ff); }
 .adm-tbl-table tbody td {
-    padding:12px 14px;
-    color:var(--z-text, #2d3250);
-    vertical-align:middle;
+    padding: 12px 14px;
+    color: var(--z-text, #2d3250);
+    vertical-align: middle;
 }
 .adm-btn-create {
-    display:inline-flex; align-items:center; gap:6px;
-    padding:7px 15px;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 15px;
     background: {{ $a['grad'] }};
-    color:#fff !important;
-    border-radius:8px;
-    font-size:.81rem; font-weight:600;
-    text-decoration:none; border:none; cursor:pointer;
-    box-shadow:0 3px 10px {{ $a['shadow'] }};
-    transition:opacity .2s, transform .15s;
-    white-space:nowrap;
+    color: #fff !important;
+    border-radius: 8px;
+    font-size: .81rem; font-weight: 600;
+    text-decoration: none; border: none; cursor: pointer;
+    box-shadow: 0 3px 10px {{ $a['shadow'] }};
+    transition: opacity .2s, transform .15s;
+    white-space: nowrap;
 }
-.adm-btn-create:hover { opacity:.87; transform:translateY(-1px); color:#fff !important; text-decoration:none; }
-/* DataTables overrides */
-#{{ $uid }}_wrapper { width:100% !important; }
+.adm-btn-create:hover { opacity: .87; transform: translateY(-1px); color: #fff !important; text-decoration: none; }
+
+/* ── DataTables overrides ── */
+#{{ $uid }}_wrapper {
+    width: 100% !important;
+}
+/* إزالة height الثابت من scroll divs */
+#{{ $uid }}_wrapper .dataTables_scroll { width: 100% !important; }
+#{{ $uid }}_wrapper .dataTables_scrollBody {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+#{{ $uid }}_wrapper .dataTables_scrollHead {
+    overflow: visible !important;
+}
+#{{ $uid }}_wrapper .dataTables_scrollHeadInner,
+#{{ $uid }}_wrapper .dataTables_scrollHeadInner table {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding-left: 0 !important;
+}
 #{{ $uid }}_wrapper .dataTables_filter input {
-    border:1px solid var(--z-border, #dde2f0) !important;
-    border-radius:7px !important;
-    padding:5px 11px !important;
-    font-size:.82rem !important;
-    outline:none !important;
-    background:var(--z-card-bg,#fff) !important;
-    color:var(--z-text,#222) !important;
+    border: 1px solid var(--z-border, #dde2f0) !important;
+    border-radius: 7px !important;
+    padding: 5px 11px !important;
+    font-size: .82rem !important;
+    outline: none !important;
+    background: var(--z-card-bg,#fff) !important;
+    color: var(--z-text,#222) !important;
 }
 #{{ $uid }}_wrapper .dataTables_filter input:focus {
-    border-color:{{ $a['text'] }} !important;
-    box-shadow:0 0 0 3px {{ $a['focus'] }} !important;
+    border-color: {{ $a['text'] }} !important;
+    box-shadow: 0 0 0 3px {{ $a['focus'] }} !important;
 }
 #{{ $uid }}_wrapper .dataTables_length select {
-    border:1px solid var(--z-border,#dde2f0) !important;
-    border-radius:7px !important;
-    padding:4px 8px !important;
-    font-size:.82rem !important;
-    background:var(--z-card-bg,#fff) !important;
-    color:var(--z-text,#222) !important;
+    border: 1px solid var(--z-border,#dde2f0) !important;
+    border-radius: 7px !important;
+    padding: 4px 8px !important;
+    font-size: .82rem !important;
+    background: var(--z-card-bg,#fff) !important;
+    color: var(--z-text,#222) !important;
 }
 #{{ $uid }}_wrapper .dataTables_info,
 #{{ $uid }}_wrapper .dataTables_paginate {
-    font-size:.81rem !important;
+    font-size: .81rem !important;
     padding: 10px 18px !important;
-    color:var(--z-text-muted,#7a80a0) !important;
+    color: var(--z-text-muted,#7a80a0) !important;
 }
-#{{ $uid }}_wrapper .paginate_button { border-radius:6px !important; font-size:.79rem !important; }
+#{{ $uid }}_wrapper .paginate_button { border-radius: 6px !important; font-size: .79rem !important; }
 #{{ $uid }}_wrapper .paginate_button.current,
 #{{ $uid }}_wrapper .paginate_button.current:hover {
     background: {{ $a['page'] }} !important;
-    color:#fff !important;
-    border:none !important;
+    color: #fff !important;
+    border: none !important;
 }
 #{{ $uid }}_wrapper .dt-buttons {
-    float:none !important;
-    display:flex !important; flex-wrap:wrap !important; gap:5px !important;
+    float: none !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
 }
-#{{ $uid }}_wrapper > .row,
-#{{ $uid }}_wrapper > div { width:100% !important; }
-/* hide default DT top/bottom bar spacing */
 #{{ $uid }}_wrapper .dataTables_filter,
-#{{ $uid }}_wrapper .dataTables_length { margin:0 !important; }
+#{{ $uid }}_wrapper .dataTables_length { margin: 0 !important; }
+#{{ $uid }}_wrapper > .row,
+#{{ $uid }}_wrapper > div { width: 100% !important; }
 </style>
 
 <div class="adm-tbl-card">
@@ -205,7 +225,7 @@ if ($createRoute) {
         </div>
     </div>
 
-    {{-- DataTables topbar (length + filter + export buttons) injected here by JS --}}
+    {{-- DataTables topbar --}}
     <div id="{{ $uid }}-topbar" class="adm-tbl-topbar" style="display:none;"></div>
 
     {{-- Table --}}
@@ -221,24 +241,42 @@ if ($createRoute) {
 <script>
 (function(){
     function initTbl(){
-        var $tbl = $('#{{ $uid }}');
+        var tblId = '#{{ $uid }}';
+        var $tbl  = $(tblId);
         if (!$tbl.length) return;
 
-        // Adjust columns if DataTable already initialised
-        if ($.fn.DataTable && $.fn.DataTable.isDataTable('#{{ $uid }}')) {
-            $tbl.DataTable().columns.adjust();
+        var dt = null;
+        if ($.fn.DataTable && $.fn.DataTable.isDataTable(tblId)) {
+            dt = $tbl.DataTable();
         }
-        $('#{{ $uid }}_wrapper').css('width','100%');
-        $tbl.css('width','100%');
 
-        // Pull DT controls into our topbar
-        var $topbar  = $('#{{ $uid }}-topbar');
-        var $filter  = $('#{{ $uid }}_wrapper .dataTables_filter');
-        var $length  = $('#{{ $uid }}_wrapper .dataTables_length');
-        var $btns    = $('#{{ $uid }}_wrapper .dt-buttons');
+        /* ── تعطيل scrollY إن كان مفعّلاً ── */
+        if (dt) {
+            /* إزالة height ثابت من scrollBody */
+            $(tblId + '_wrapper .dataTables_scrollBody').css({
+                'height'    : 'auto',
+                'max-height': 'none',
+                'overflow'  : 'visible'
+            });
+            $(tblId + '_wrapper .dataTables_scrollHead').css('overflow', 'visible');
+            $(tblId + '_wrapper .dataTables_scrollHeadInner').css({
+                'width'      : '100%',
+                'padding-left': '0'
+            });
+            $(tblId + '_wrapper .dataTables_scrollHeadInner table').css('width', '100%');
+            dt.columns.adjust();
+        }
 
-        var hasControls = $filter.length || $length.length || $btns.length;
-        if (hasControls) {
+        $(tblId + '_wrapper').css('width', '100%');
+        $tbl.css('width', '100%');
+
+        /* ── سحب controls إلى topbar ── */
+        var $topbar = $('#{{ $uid }}-topbar');
+        var $filter = $(tblId + '_wrapper .dataTables_filter');
+        var $length = $(tblId + '_wrapper .dataTables_length');
+        var $btns   = $(tblId + '_wrapper .dt-buttons');
+
+        if ($filter.length || $length.length || $btns.length) {
             $topbar.show();
             var $left  = $('<div>').css({'display':'flex','align-items':'center','gap':'6px'});
             var $right = $('<div>').css({'display':'flex','align-items':'center','gap':'8px'});
