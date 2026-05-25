@@ -1,204 +1,37 @@
 @extends('layouts.admin')
 @section('content')
-@can('referral_subscription_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.referral-subscriptions.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.referralSubscription.title_singular') }}
-            </a>
+<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
+    <x-admin-page-header title="Referral Subscriptions" icon="fas fa-share-alt" color="teal"
+        :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Referral Subscriptions']]" />
+    @php $total=$referralSubscriptions->count(); @endphp
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:22px;">
+        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#0d9488,#14b8a6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;"><i class="fas fa-share-alt"></i></div>
+            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Referrals</div></div>
         </div>
     </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.referralSubscription.title_singular') }} {{ trans('global.list') }}
-    </div>
-
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-ReferralSubscription">
-                <thead>
-                    <tr>
-                        <th width="10">
-
-                        </th>
-                        <th>
-                            {{ trans('cruds.referralSubscription.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.referralSubscription.fields.user') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.referralSubscription.fields.user_loop') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.referralSubscription.fields.plan') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.referralSubscription.fields.price') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                            <select class="search">
-                                <option value>{{ trans('global.all') }}</option>
-                                @foreach($restaurant as $key => $item)
-                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td>
-                            <select class="search">
-                                <option value>{{ trans('global.all') }}</option>
-                                @foreach($users as $key => $item)
-                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td>
-                            <select class="search">
-                                <option value>{{ trans('global.all') }}</option>
-                                @foreach($subscription_packages as $key => $item)
-                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($referralSubscriptions as $key => $referralSubscription)
-                        <tr data-entry-id="{{ $referralSubscription->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $referralSubscription->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $referralSubscription->user->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $referralSubscription->user_loop->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $referralSubscription->plan->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $referralSubscription->price ?? '' }}
-                            </td>
-                            <td>
-                                @can('referral_subscription_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.referral-subscriptions.show', $referralSubscription->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('referral_subscription_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.referral-subscriptions.edit', $referralSubscription->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('referral_subscription_delete')
-                                    <form action="{{ route('admin.referral-subscriptions.destroy', $referralSubscription->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <x-admin-table title="Referral Subscriptions" icon="fas fa-share-alt" color="teal" datatableClass="datatable-ReferralSubscription" :count="$referralSubscriptions->count()">
+        <x-slot name="thead"><tr><th width="10"></th><th>Referrer</th><th>Referred User</th><th>Package</th><th>Reward</th><th>Date</th><th>&nbsp;</th></tr></x-slot>
+        <x-slot name="tbody">
+            @foreach($referralSubscriptions as $ref)
+            <tr data-entry-id="{{ $ref->id }}">
+                <td></td>
+                <td><span style="display:flex;align-items:center;gap:7px;"><x-admin-avatar :name="optional($ref->referrer)->name ?? optional($ref->user)->name ?? 'R'" color="teal" /><span style="font-size:0.83rem;color:#1e293b;font-weight:600;">{{ optional($ref->referrer)->name ?? optional($ref->user)->name ?? '—' }}</span></span></td>
+                <td style="font-size:0.83rem;color:#475569;">{{ optional($ref->referredUser)->name ?? optional($ref->referred)->name ?? '—' }}</td>
+                <td style="font-size:0.82rem;color:#64748b;">{{ optional($ref->subscriptionPackage)->name_en ?? optional($ref->package)->name_en ?? '—' }}</td>
+                <td><span style="background:#f0fdfa;color:#0f766e;padding:3px 10px;border-radius:8px;font-weight:700;font-size:0.83rem;">{{ number_format($ref->reward ?? $ref->commission ?? 0,2) }}</span></td>
+                <td style="font-size:0.8rem;color:#94a3b8;">{{ optional($ref->created_at)->format('d/m/Y') }}</td>
+                <td style="display:flex;gap:5px;">
+                    @can('referral_subscription_show')<x-admin-action-btn href="{{ route('admin.referral-subscriptions.show',$ref->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
+                    @can('referral_subscription_delete')<x-admin-action-btn href="{{ route('admin.referral-subscriptions.destroy',$ref->id) }}" icon="fas fa-trash" color="red" method="DELETE" />@endcan
+                </td>
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-admin-table>
 </div>
-
-
-
 @endsection
 @section('scripts')
 @parent
-<script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('referral_subscription_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.referral-subscriptions.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  let table = $('.datatable-ReferralSubscription:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
-      $($.fn.dataTable.tables(true)).DataTable()
-          .columns.adjust();
-  });
-
-let visibleColumnsIndexes = null;
-$('.datatable thead').on('input', '.search', function () {
-      let strict = $(this).attr('strict') || false
-      let value = strict && this.value ? "^" + this.value + "$" : this.value
-
-      let index = $(this).parent().index()
-      if (visibleColumnsIndexes !== null) {
-        index = visibleColumnsIndexes[index]
-      }
-
-      table
-        .column(index)
-        .search(value, strict)
-        .draw()
-  });
-table.on('column-visibility.dt', function(e, settings, column, state) {
-      visibleColumnsIndexes = []
-      table.columns(":visible").every(function(colIdx) {
-          visibleColumnsIndexes.push(colIdx);
-      });
-  })
-})
-
-</script>
+<script>$(function(){ $('.datatable-ReferralSubscription:not(.ajaxTable)').DataTable({order:[[5,'desc']],pageLength:25,buttons:$.extend(true,[],$.fn.dataTable.defaults.buttons)}); });</script>
 @endsection
