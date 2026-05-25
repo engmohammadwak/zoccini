@@ -1,45 +1,24 @@
 @php
     $user = \Illuminate\Support\Facades\Auth::id();
     $status = true;
-if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 3)
-    {
-         $restaurant = \App\Models\Restaurant::where('restaurant_id' , $user)->first();
-    if ($restaurant && $restaurant->plan){
-        if ($restaurant->plan->have_map == 1)
-            {
-               $status = false;
-            }
+    if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 3) {
+        $restaurant = \App\Models\Restaurant::where('restaurant_id', $user)->first();
+        if ($restaurant && $restaurant->plan && $restaurant->plan->have_map == 1) {
+            $status = false;
+        }
     }
-    }
-
 @endphp
 
 <style>
-/* =============================
-   SIDEBAR — Modern Redesign
-============================= */
-.main-sidebar {
-    background: linear-gradient(180deg, #1a1f2e 0%, #141824 100%) !important;
-    box-shadow: 4px 0 20px rgba(0,0,0,0.3) !important;
-    border-right: none !important;
-}
+/* ================================================================
+   SIDEBAR — Zoccini Brand Theme (Light/Dark)
+================================================================ */
 
-.main-sidebar .brand-link {
-    background: rgba(255,255,255,0.04) !important;
-    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
-    padding: 14px 16px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px;
-    transition: background 0.2s;
-}
-.main-sidebar .brand-link:hover {
-    background: rgba(255,255,255,0.07) !important;
-}
+/* Brand Logo Icon */
 .brand-logo-icon {
-    width: 34px;
-    height: 34px;
-    background: linear-gradient(135deg, #4f7cff 0%, #7c4fff 100%);
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--z-primary) 0%, #1a9e3f 100%);
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -47,19 +26,46 @@ if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 3)
     font-size: 16px;
     color: #fff;
     flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(79,124,255,0.4);
+    box-shadow: 0 4px 14px rgba(39,186,77,0.4);
 }
 .brand-text {
-    color: #fff !important;
+    color: var(--z-text) !important;
     font-size: 1rem !important;
     font-weight: 700 !important;
     letter-spacing: 0.3px;
 }
 
-/* Sidebar user panel */
+/* ── Main Sidebar ────────────────────────────────────────── */
+.main-sidebar {
+    background: var(--z-sidebar-bg) !important;
+    border-right: 1px solid var(--z-sidebar-border) !important;
+    box-shadow: 2px 0 16px rgba(0,0,0,0.07) !important;
+    transition: background var(--z-transition-slow), border-color var(--z-transition-slow) !important;
+}
+[dir="rtl"] .main-sidebar {
+    border-right: none !important;
+    border-left: 1px solid var(--z-sidebar-border) !important;
+}
+
+/* Brand link */
+.main-sidebar .brand-link {
+    background: var(--z-sidebar-brand-bg) !important;
+    border-bottom: 1px solid var(--z-sidebar-brand-border) !important;
+    padding: 14px 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px;
+    transition: background var(--z-transition) !important;
+    text-decoration: none !important;
+}
+.main-sidebar .brand-link:hover {
+    background: var(--z-sidebar-hover-bg) !important;
+}
+
+/* ── User Panel ──────────────────────────────────────────── */
 .sidebar .user-panel {
-    background: rgba(255,255,255,0.03);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: var(--z-sidebar-header-bg);
+    border-bottom: 1px solid var(--z-sidebar-border);
     padding: 12px 16px;
     display: flex;
     align-items: center;
@@ -68,8 +74,8 @@ if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 3)
 .sidebar .user-panel .user-avatar {
     width: 36px;
     height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #4f7cff, #7c4fff);
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--z-primary), #1a9e3f);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -77,80 +83,98 @@ if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 3)
     color: #fff;
     font-weight: 700;
     flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(39,186,77,0.35);
 }
 .sidebar .user-panel .user-name {
-    color: #e0e4f0;
+    color: var(--z-text);
     font-size: 0.82rem;
     font-weight: 600;
     line-height: 1.2;
 }
 .sidebar .user-panel .user-role {
-    color: rgba(255,255,255,0.35);
-    font-size: 0.72rem;
-}
-
-/* Nav section labels */
-.nav-section-label {
-    color: rgba(255,255,255,0.25) !important;
-    font-size: 0.65rem !important;
-    font-weight: 700 !important;
-    letter-spacing: 1.2px !important;
-    text-transform: uppercase !important;
-    padding: 14px 18px 4px !important;
-    display: block;
-}
-
-/* Nav items */
-.nav-sidebar > .nav-item > .nav-link,
-.nav-sidebar .nav-treeview .nav-item .nav-link {
-    color: rgba(210,218,240,0.75) !important;
-    border-radius: 8px !important;
-    margin: 1px 8px !important;
-    padding: 8px 12px !important;
-    font-size: 0.83rem !important;
-    font-weight: 500 !important;
-    transition: all 0.18s ease !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px;
+    color: var(--z-text-faint);
+    font-size: 0.70rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-.nav-sidebar > .nav-item > .nav-link:hover,
-.nav-sidebar .nav-treeview .nav-item .nav-link:hover {
-    background: rgba(79,124,255,0.12) !important;
-    color: #fff !important;
-}
-.nav-sidebar > .nav-item > .nav-link.active,
-.nav-sidebar .nav-treeview .nav-item .nav-link.active {
-    background: linear-gradient(135deg, rgba(79,124,255,0.25), rgba(124,79,255,0.18)) !important;
-    color: #fff !important;
-    box-shadow: 0 2px 8px rgba(79,124,255,0.2) !important;
-}
-.nav-sidebar > .nav-item > .nav-link.active .nav-icon,
-.nav-sidebar .nav-treeview .nav-item .nav-link.active .nav-icon {
-    color: #6b9fff !important;
+    max-width: 155px;
 }
 
-/* Nav icons */
+/* ── Section Labels ─────────────────────────────────────── */
+.nav-section-label {
+    color: var(--z-text-faint) !important;
+    font-size: 0.63rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.1px !important;
+    text-transform: uppercase !important;
+    padding: 16px 18px 5px !important;
+    display: block;
+    transition: color var(--z-transition-slow);
+}
+
+/* ── Nav Items ────────────────────────────────────────────── */
+.nav-sidebar > .nav-item > .nav-link {
+    color: var(--z-sidebar-text) !important;
+    border-radius: 9px !important;
+    margin: 2px 8px !important;
+    padding: 8px 12px !important;
+    font-size: 0.83rem !important;
+    font-weight: 500 !important;
+    transition: background var(--z-transition), color var(--z-transition) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px;
+}
+.nav-sidebar > .nav-item > .nav-link:hover {
+    background: var(--z-sidebar-hover-bg) !important;
+    color: var(--z-sidebar-hover-text) !important;
+}
+.nav-sidebar > .nav-item > .nav-link:hover .nav-icon {
+    color: var(--z-primary) !important;
+}
+
+/* Active state */
+.nav-sidebar > .nav-item > .nav-link.active {
+    background: var(--z-sidebar-active-bg) !important;
+    color: var(--z-sidebar-active-text) !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 10px rgba(39,186,77,0.15) !important;
+}
+.nav-sidebar > .nav-item > .nav-link.active .nav-icon {
+    color: var(--z-sidebar-active-icon) !important;
+}
+
+/* Active left accent bar */
+.nav-sidebar > .nav-item > .nav-link.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 60%;
+    background: var(--z-primary);
+    border-radius: 0 3px 3px 0;
+}
+[dir="rtl"] .nav-sidebar > .nav-item > .nav-link.active::before {
+    left: auto;
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+.nav-sidebar > .nav-item { position: relative; }
+
+/* ── Icons ────────────────────────────────────────────────── */
 .nav-sidebar .nav-icon {
     width: 18px !important;
     font-size: 0.8rem !important;
     margin: 0 !important;
     text-align: center !important;
-    color: rgba(255,255,255,0.4) !important;
-    transition: color 0.18s !important;
+    color: var(--z-sidebar-icon) !important;
+    transition: color var(--z-transition) !important;
     flex-shrink: 0;
 }
-.nav-sidebar .nav-link:hover .nav-icon {
-    color: rgba(255,255,255,0.75) !important;
-}
 
-/* Treeview parent links */
-.nav-sidebar .nav-dropdown-toggle {
-    position: relative;
-}
+/* ── Paragraph / Text inside nav-link ─────────────────── */
 .nav-sidebar .nav-link p {
     flex: 1;
     margin: 0 !important;
@@ -159,98 +183,136 @@ if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 3)
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
 }
 .nav-sidebar .nav-link p .right {
-    font-size: 0.7rem !important;
-    opacity: 0.5;
-    transition: transform 0.2s, opacity 0.2s !important;
+    font-size: 0.68rem !important;
+    opacity: 0.45;
+    margin-left: auto !important;
+    transition: transform 0.22s ease, opacity 0.22s !important;
+}
+[dir="rtl"] .nav-sidebar .nav-link p .right {
+    margin-left: 0 !important;
+    margin-right: auto !important;
 }
 .nav-sidebar .menu-open > .nav-link p .right {
     transform: rotate(-90deg);
-    opacity: 0.8;
+    opacity: 0.75;
 }
 
-/* Treeview sub-items */
+/* ── Treeview Sub-menu ─────────────────────────────────── */
 .nav-treeview {
-    background: rgba(0,0,0,0.15) !important;
-    border-radius: 8px !important;
-    margin: 2px 8px !important;
-    padding: 4px 0 !important;
+    background: transparent !important;
+    margin: 0 8px 4px !important;
+    padding: 2px 0 !important;
+    border-left: 2px solid var(--z-primary-border) !important;
+    margin-left: 20px !important;
+}
+[dir="rtl"] .nav-treeview {
+    border-left: none !important;
+    border-right: 2px solid var(--z-primary-border) !important;
+    margin-left: 8px !important;
+    margin-right: 20px !important;
 }
 .nav-treeview .nav-item .nav-link {
-    padding: 6px 10px 6px 28px !important;
-    font-size: 0.8rem !important;
+    color: var(--z-sidebar-text) !important;
+    padding: 6px 10px 6px 14px !important;
+    font-size: 0.80rem !important;
     margin: 1px 4px !important;
-    color: rgba(200,210,235,0.6) !important;
+    border-radius: 7px !important;
+    background: transparent !important;
+    transition: background var(--z-transition), color var(--z-transition) !important;
+}
+[dir="rtl"] .nav-treeview .nav-item .nav-link {
+    padding: 6px 14px 6px 10px !important;
 }
 .nav-treeview .nav-item .nav-link:hover {
-    color: #c8d2eb !important;
-    background: rgba(255,255,255,0.06) !important;
+    background: var(--z-sidebar-hover-bg) !important;
+    color: var(--z-sidebar-hover-text) !important;
 }
 .nav-treeview .nav-item .nav-link.active {
-    color: #a0bcff !important;
-    background: rgba(79,124,255,0.15) !important;
-    box-shadow: none !important;
+    background: var(--z-sidebar-active-bg) !important;
+    color: var(--z-sidebar-active-text) !important;
+    font-weight: 600 !important;
 }
 
-/* Sidebar scrollbar */
+/* ── Message Badge in sidebar ─────────────────────────── */
+.nav-msg-badge {
+    background: var(--z-primary) !important;
+    color: #fff !important;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+    margin-left: auto;
+}
+[dir="rtl"] .nav-msg-badge { margin-left: 0; margin-right: auto; }
+
+/* ── Logout Link ────────────────────────────────────────── */
+.nav-logout-link > .nav-link {
+    color: #ef4444 !important;
+    margin-top: 2px !important;
+}
+.nav-logout-link > .nav-link:hover {
+    background: rgba(239,68,68,0.08) !important;
+    color: #dc2626 !important;
+}
+.nav-logout-link > .nav-link .nav-icon {
+    color: #ef4444 !important;
+}
+
+/* ── Sidebar Footer Version ───────────────────────────── */
+.sidebar-version {
+    padding: 10px 18px;
+    font-size: 0.67rem;
+    color: var(--z-text-faint);
+    border-top: 1px solid var(--z-sidebar-border);
+    text-align: center;
+    transition: color var(--z-transition-slow);
+}
+
+/* ── Sidebar Scrollbar ─────────────────────────────────── */
 .sidebar {
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.1) transparent;
+    scrollbar-color: var(--z-scrollbar-thumb) transparent;
 }
 .sidebar::-webkit-scrollbar { width: 4px; }
-.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
-
-/* Logout link */
-.nav-logout-link .nav-link {
-    color: rgba(255,120,120,0.7) !important;
-    margin-top: 4px !important;
-    border-top: 1px solid rgba(255,255,255,0.06) !important;
-    border-radius: 0 0 8px 8px !important;
-}
-.nav-logout-link .nav-link:hover {
-    color: #ff8080 !important;
-    background: rgba(255,80,80,0.1) !important;
-}
-
-/* Sidebar footer */
-.sidebar-version {
-    padding: 10px 18px;
-    font-size: 0.68rem;
-    color: rgba(255,255,255,0.18);
-    border-top: 1px solid rgba(255,255,255,0.05);
-    text-align: center;
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--z-scrollbar-thumb);
+    border-radius: 4px;
 }
 </style>
 
 <aside class="main-sidebar elevation-0">
-    <!-- Brand Logo -->
-    <a href="{{route('home_loop')}}" class="brand-link">
+
+    {{-- Brand --}}
+    <a href="{{ route('home_loop') }}" class="brand-link">
         <div class="brand-logo-icon">
             <i class="fas fa-utensils"></i>
         </div>
         <span class="brand-text">{{ trans('panel.site_title') }}</span>
     </a>
 
-    <!-- Sidebar -->
     <div class="sidebar">
 
-        <!-- User Panel -->
+        {{-- User Panel --}}
         <div class="user-panel">
             <div class="user-avatar">
                 {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
             </div>
-            <div>
+            <div style="overflow:hidden;">
                 <div class="user-name">{{ Auth::user()->name ?? '' }}</div>
                 <div class="user-role">{{ Auth::user()->email ?? '' }}</div>
             </div>
         </div>
 
-        <!-- Sidebar Menu -->
+        {{-- Navigation --}}
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column"
+                data-widget="treeview" role="menu" data-accordion="false">
 
                 {{-- Dashboard --}}
                 <span class="nav-section-label">{{ trans('global.dashboard') }}</span>
@@ -351,8 +413,7 @@ if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 3)
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('admin/loopusers?type=1') }}"
-                               class="nav-link">
+                            <a href="{{ url('admin/loopusers?type=1') }}" class="nav-link">
                                 <i class="fas fa-bullhorn nav-icon"></i>
                                 <p>{{ trans('cruds.loopuserRegister') }}</p>
                             </a>
@@ -362,7 +423,6 @@ if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 3)
                 </li>
                 @endcan
 
-                {{-- Employees --}}
                 @can('employees_access')
                 <li class="nav-item">
                     <a href="{{ $status == true ? route('admin.employees.index') : '#' }}"
@@ -451,7 +511,7 @@ if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 3)
                         </li>
                         @endcan
                         @can('otherbranch_access')
-                        @if (\Illuminate\Support\Facades\Auth::user()['restaurant_id'] == null)
+                        @if(\Illuminate\Support\Facades\Auth::user()['restaurant_id'] == null)
                         <li class="nav-item">
                             <a href="{{ $status == true ? route('admin.otherbranches.index') : '#' }}"
                                class="nav-link {{ request()->is('admin/otherbranches*') ? 'active' : '' }}">
@@ -1057,13 +1117,13 @@ if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 3)
                         <p>
                             {{ trans('global.messages') }}
                             @if($unread > 0)
-                                <span class="badge badge-pill ml-auto" style="background:rgba(79,124,255,0.9);color:#fff;font-size:0.65rem;padding:2px 6px;">{{ $unread }}</span>
+                                <span class="nav-msg-badge">{{ $unread }}</span>
                             @endif
                         </p>
                     </a>
                 </li>
 
-                {{-- Profile / Logout --}}
+                {{-- Profile --}}
                 @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                     @can('profile_password_edit')
                     <li class="nav-item">
@@ -1076,6 +1136,7 @@ if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 3)
                     @endcan
                 @endif
 
+                {{-- Logout --}}
                 <li class="nav-item nav-logout-link">
                     <a href="#" class="nav-link"
                        onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
