@@ -57,6 +57,7 @@ $uid = 'tbl_'.Str::random(6);
     box-shadow:0 2px 12px rgba(0,0,0,0.06);
     overflow:hidden;
     margin-bottom:24px;
+    width:100%;
 }
 .adm-tbl-header {
     background: {{ $p['header_bg'] }};
@@ -80,18 +81,21 @@ $uid = 'tbl_'.Str::random(6);
 .adm-tbl-header-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 .adm-tbl-body { padding:20px; }
 
-/* wrap */
+/* wrap — full width, scroll only when content wider than container */
 .adm-tbl-wrap {
+    width:100%;
     overflow-x:auto;
     border-radius:10px;
     border:1px solid #eef0f8;
 }
 
-/* table */
+/* table — always fill its container */
 .adm-tbl-table {
-    width:100%;
+    width:100% !important;
+    min-width:100%;
     border-collapse:collapse;
     font-size:0.84rem;
+    table-layout:auto;
 }
 .adm-tbl-table thead tr:first-child th {
     background:#f5f7ff;
@@ -192,6 +196,9 @@ $uid = 'tbl_'.Str::random(6);
 }
 
 /* DataTables overrides scoped by component */
+#{{ $uid }}_wrapper {
+    width:100% !important;
+}
 #{{ $uid }}_wrapper .dataTables_filter input {
     border:1px solid #dde2f0 !important;
     border-radius:8px !important;
@@ -221,6 +228,25 @@ $uid = 'tbl_'.Str::random(6);
     background: {{ $p['page_btn'] }} !important;
     color:#fff !important;
     border:none !important;
+}
+
+/* Force DataTables buttons row to stretch full width */
+#{{ $uid }}_wrapper .dt-buttons {
+    float:none !important;
+    display:flex !important;
+    flex-wrap:wrap !important;
+    gap:6px !important;
+    margin-bottom:10px !important;
+}
+#{{ $uid }}_wrapper .dataTables_length,
+#{{ $uid }}_wrapper .dataTables_filter {
+    display:inline-flex !important;
+    align-items:center !important;
+    gap:6px !important;
+}
+#{{ $uid }}_wrapper > .row,
+#{{ $uid }}_wrapper > div {
+    width:100% !important;
 }
 </style>
 
@@ -252,7 +278,7 @@ $uid = 'tbl_'.Str::random(6);
                 </a>
             @endif
             <span style="font-size:0.78rem;color:#9aa0c0;">
-                <i class="fas fa-sync-alt" style="margin-left:4px;"></i>
+                <i class="fas fa-sync-alt" style="margin-inline-start:4px;"></i>
                 {{ now()->translatedFormat('d/m/Y H:i') }}
             </span>
         </div>
@@ -269,6 +295,29 @@ $uid = 'tbl_'.Str::random(6);
     </div>
 
 </div>
+
+{{-- Fix DataTables autoWidth + stretch after init --}}
+<script>
+(function(){
+    function fixTbl(){
+        var tbl = $('#{{ $uid }}');
+        if(!tbl.length) return;
+        var dt = tbl.DataTable ? tbl.DataTable() : null;
+        if(dt){
+            dt.settings()[0].oInit.autoWidth = false;
+            dt.columns.adjust();
+        }
+        // Force wrapper to 100%
+        $('#{{ $uid }}_wrapper').css('width','100%');
+        tbl.css('width','100%');
+    }
+    if(document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', function(){setTimeout(fixTbl,300);});
+    } else {
+        setTimeout(fixTbl,300);
+    }
+})();
+</script>
 
 {{-- Optional extra scripts slot --}}
 {{ $scripts ?? '' }}
