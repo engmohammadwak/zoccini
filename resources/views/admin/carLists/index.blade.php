@@ -1,94 +1,102 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
+<div class="content-wrapper" style="min-height:100vh;padding:24px;">
 
-    <x-admin-page-header title="Car Lists" icon="fas fa-car" color="blue"
-        :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Car Lists']]" />
+    <x-admin-page-header
+        title="Car Models"
+        icon="fas fa-car"
+        color="blue"
+        :breadcrumbs="[
+            ['label'=>trans('global.dashboard'),'url'=>route('admin.home')],
+            ['label'=>'Car Models'],
+        ]"
+    />
 
-    @php
-        $total  = $carLists->count();
-        $brands = $carLists->groupBy(fn($c)=> optional($c->carbrand ?? $c->brand)->id)->count();
-    @endphp
+    @php $total = $carLists->count(); @endphp
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;margin-bottom:22px;">
-        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
-            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#3b82f6,#60a5fa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-car"></i></div>
-            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Cars</div></div>
+    {{-- KPI --}}
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:14px;margin-bottom:24px;">
+        <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:14px;padding:18px;box-shadow:var(--z-card-shadow);display:flex;align-items:center;gap:13px;">
+            <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#60a5fa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0;box-shadow:0 4px 12px rgba(59,130,246,.3);"><i class="fas fa-car"></i></div>
+            <div><div style="font-size:1.55rem;font-weight:800;color:var(--z-text);line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:var(--z-text-faint);margin-top:3px;font-weight:600;">Car Models</div></div>
         </div>
-        <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
-            <div style="width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#475569,#64748b);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-trademark"></i></div>
-            <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $brands }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Brands</div></div>
-        </div>
-        <div style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);border-radius:14px;padding:16px 18px;box-shadow:0 4px 14px rgba(59,130,246,0.3);display:flex;align-items:center;gap:12px;">
-            <div style="width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0;"><i class="fas fa-id-card"></i></div>
-            <div><div style="font-size:1rem;font-weight:700;color:#fff;">Manage</div><div style="font-size:0.72rem;color:rgba(255,255,255,0.7);margin-top:2px;">Car List</div></div>
+        <div style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);border-radius:14px;padding:18px;box-shadow:0 4px 18px rgba(59,130,246,.35);display:flex;align-items:center;gap:13px;">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0;"><i class="fas fa-list"></i></div>
+            <div><div style="font-size:1.55rem;font-weight:800;color:#fff;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:rgba(255,255,255,.75);margin-top:3px;font-weight:600;">Total</div></div>
         </div>
     </div>
 
-    <div style="background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);overflow:hidden;">
-        <div style="padding:16px 20px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+    {{-- DataTable Card --}}
+    <div style="background:var(--z-card-bg);border:1px solid var(--z-card-border);border-radius:16px;box-shadow:var(--z-card-shadow);overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--z-border);background:var(--z-surface-2);">
             <div style="display:flex;align-items:center;gap:10px;">
-                <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#3b82f6,#60a5fa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;"><i class="fas fa-car"></i></div>
+                <div style="width:36px;height:36px;border-radius:10px;background:rgba(59,130,246,.12);display:flex;align-items:center;justify-content:center;color:#3b82f6;font-size:15px;"><i class="fas fa-car"></i></div>
                 <div>
-                    <div style="font-weight:700;color:#1e293b;font-size:0.92rem;">Car List</div>
-                    <div style="font-size:0.72rem;color:#94a3b8;">{{ $total }} cars</div>
+                    <div style="font-size:0.9rem;font-weight:700;color:var(--z-text);">Car Models List</div>
+                    <div style="font-size:0.72rem;color:var(--z-text-faint);">{{ $total }} {{ trans('global.entries') ?? 'entries' }}</div>
                 </div>
             </div>
             @can('car_list_create')
-            <a href="{{ route('admin.car-lists.create') }}" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff;padding:8px 16px;border-radius:10px;font-size:0.82rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(59,130,246,0.3);">
-                <i class="fas fa-plus"></i> {{ trans('global.add') }} Car
+            <a href="{{ route('admin.car-lists.create') }}" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:var(--z-primary);color:#fff;border-radius:10px;font-size:0.8rem;font-weight:700;text-decoration:none;box-shadow:0 3px 10px rgba(39,186,77,.3);transition:background .18s;"
+               onmouseover="this.style.background='var(--z-primary-hover)'" onmouseout="this.style.background='var(--z-primary)'">
+                <i class="fas fa-plus" style="font-size:0.75rem;"></i> {{ trans('global.add') }} Model
             </a>
             @endcan
         </div>
-        <div style="padding:16px;">
+        <div style="padding:16px 22px;overflow-x:auto;">
             <table class="table datatable-CarList" style="width:100%;">
                 <thead>
-                    <tr style="background:#f8fafc;">
+                    <tr>
                         <th width="10"></th>
-                        <th>Image</th>
-                        <th>Model</th>
-                        <th>Brand</th>
-                        <th>Color</th>
-                        <th>Type</th>
-                        <th>Plate</th>
-                        <th>&nbsp;</th>
+                        <th style="font-size:0.72rem;font-weight:700;color:var(--z-text-muted);text-transform:uppercase;letter-spacing:.06em;">Name EN</th>
+                        <th style="font-size:0.72rem;font-weight:700;color:var(--z-text-muted);text-transform:uppercase;letter-spacing:.06em;">Name AR</th>
+                        <th style="font-size:0.72rem;font-weight:700;color:var(--z-text-muted);text-transform:uppercase;letter-spacing:.06em;">Brand</th>
+                        <th style="font-size:0.72rem;font-weight:700;color:var(--z-text-muted);text-transform:uppercase;letter-spacing:.06em;">&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($carLists as $car)
-                    <tr data-entry-id="{{ $car->id }}">
-                        <td></td>
-                        <td>
-                            @if($car->image ?? null)
-                                <img src="{{ asset('storage/'.$car->image) }}" style="width:52px;height:36px;object-fit:cover;border-radius:7px;" alt="" loading="lazy">
-                            @else
-                                <div style="width:52px;height:36px;border-radius:7px;background:#eff6ff;display:flex;align-items:center;justify-content:center;color:#3b82f6;"><i class="fas fa-car"></i></div>
-                            @endif
-                        </td>
-                        <td style="font-weight:600;color:#1e293b;font-size:0.85rem;">{{ $car->model ?? $car->name ?? '—' }}</td>
-                        <td style="font-size:0.83rem;color:#475569;">{{ optional($car->carbrand ?? $car->brand)->name_en ?? '—' }}</td>
-                        <td>
-                            @php $clr = $car->carColor ?? $car->color_rel ?? null; @endphp
-                            @if(optional($clr)->color ?? null)
-                                <span style="display:inline-flex;align-items:center;gap:5px;">
-                                    <span style="width:14px;height:14px;border-radius:4px;background:{{ optional($clr)->color }};display:inline-block;border:1px solid rgba(0,0,0,0.1);"></span>
-                                    <span style="font-size:0.78rem;color:#475569;">{{ optional($clr)->name_en ?? '' }}</span>
-                                </span>
-                            @else
-                                <span style="font-size:0.82rem;color:#94a3b8;">{{ optional($clr)->name_en ?? '—' }}</span>
-                            @endif
-                        </td>
-                        <td style="font-size:0.82rem;color:#64748b;">{{ optional($car->typeOfCar ?? $car->type)->name_en ?? '—' }}</td>
-                        <td><span style="font-family:monospace;font-size:0.82rem;color:#1e293b;font-weight:600;background:#f1f5f9;padding:2px 8px;border-radius:5px;">{{ $car->plate_number ?? $car->plate ?? '—' }}</span></td>
-                        <td>
-                            <div style="display:flex;gap:5px;flex-wrap:wrap;">
-                                @can('car_list_show')<x-admin-action-btn href="{{ route('admin.car-lists.show',$car->id) }}" icon="fas fa-eye" :label="trans('global.view')" color="blue" />@endcan
-                                @can('car_list_edit')<x-admin-action-btn href="{{ route('admin.car-lists.edit',$car->id) }}" icon="fas fa-edit" :label="trans('global.edit')" color="orange" />@endcan
-                                @can('car_list_delete')<x-admin-action-btn href="{{ route('admin.car-lists.destroy',$car->id) }}" icon="fas fa-trash" color="red" method="DELETE" />@endcan
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
+                @foreach($carLists as $car)
+                <tr data-entry-id="{{ $car->id }}">
+                    <td></td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <div style="width:34px;height:34px;border-radius:9px;background:rgba(59,130,246,.1);display:flex;align-items:center;justify-content:center;color:#3b82f6;font-size:14px;flex-shrink:0;"><i class="fas fa-car"></i></div>
+                            <span style="font-weight:700;color:var(--z-text);font-size:0.85rem;">{{ $car->name_en ?? $car->model_en ?? $car->name ?? '—' }}</span>
+                        </div>
+                    </td>
+                    <td style="font-size:0.83rem;color:var(--z-text-muted);direction:rtl;">{{ $car->name_ar ?? $car->model_ar ?? '—' }}</td>
+                    <td>
+                        @if(optional($car->carbrand)->name_en ?? optional($car->brand)->name_en ?? null)
+                        <span style="background:rgba(71,85,105,.1);color:var(--z-text-muted);padding:4px 10px;border-radius:8px;font-size:0.78rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;">
+                            <i class="fas fa-trademark" style="font-size:0.65rem;"></i>{{ optional($car->carbrand)->name_en ?? optional($car->brand)->name_en }}
+                        </span>
+                        @else
+                        <span style="color:var(--z-text-faint);">—</span>
+                        @endif
+                    </td>
+                    <td>
+                        <div style="display:flex;gap:5px;">
+                            @can('car_list_show')
+                            <a href="{{ route('admin.car-lists.show',$car->id) }}" title="{{ trans('global.view') }}"
+                               style="width:32px;height:32px;border-radius:8px;background:rgba(59,130,246,.1);color:#3b82f6;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;text-decoration:none;"
+                               onmouseover="this.style.background='rgba(59,130,246,.22)'" onmouseout="this.style.background='rgba(59,130,246,.1)'"><i class="fas fa-eye"></i></a>
+                            @endcan
+                            @can('car_list_edit')
+                            <a href="{{ route('admin.car-lists.edit',$car->id) }}" title="{{ trans('global.edit') }}"
+                               style="width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,.1);color:#b45309;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;text-decoration:none;"
+                               onmouseover="this.style.background='rgba(245,158,11,.22)'" onmouseout="this.style.background='rgba(245,158,11,.1)'"><i class="fas fa-edit"></i></a>
+                            @endcan
+                            @can('car_list_delete')
+                            <form action="{{ route('admin.car-lists.destroy',$car->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('{{ trans('global.areYouSure') }}')">@csrf @method('DELETE')
+                                <button type="submit" title="{{ trans('global.delete') }}"
+                                   style="width:32px;height:32px;border-radius:8px;background:rgba(239,68,68,.1);color:#dc2626;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;"
+                                   onmouseover="this.style.background='rgba(239,68,68,.22)'" onmouseout="this.style.background='rgba(239,68,68,.1)'"><i class="fas fa-trash"></i></button>
+                            </form>
+                            @endcan
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
@@ -98,5 +106,5 @@
 @endsection
 @section('scripts')
 @parent
-<script>$(function(){ $('.datatable-CarList:not(.ajaxTable)').DataTable({order:[[2,'asc']],pageLength:25,buttons:$.extend(true,[],$.fn.dataTable.defaults.buttons)}); });</script>
+<script>$(function(){ $('.datatable-CarList:not(.ajaxTable)').DataTable({order:[[1,'asc']],pageLength:25,buttons:$.extend(true,[],$.fn.dataTable.defaults.buttons)}); });</script>
 @endsection
