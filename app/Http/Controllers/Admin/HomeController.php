@@ -26,6 +26,19 @@ use Illuminate\Support\Facades\Schema;
 
 class HomeController
 {
+    /**
+     * Return the best available price column in the orders table.
+     * Tries final_price first, falls back to price.
+     */
+    private function priceCol(): string
+    {
+        static $col;
+        if (!$col) {
+            $col = Schema::hasColumn('orders', 'final_price') ? 'final_price' : 'price';
+        }
+        return $col;
+    }
+
     public function index()
     {
         if (Auth::user()->user_type == 12) {
@@ -36,6 +49,7 @@ class HomeController
         $userType  = $user->user_type;
         $isAdmin   = $userType == 1;
         $isRestaurant = $userType == 3;
+        $priceCol  = $this->priceCol();
 
         // Resolve restaurant id for restaurant users
         $restId = null;
@@ -79,7 +93,7 @@ class HomeController
             $dq = Order::whereDate('created_at', $day);
             if ($isRestaurant) $dq->where('restaurants_id', $restId);
             $ordersChartData[]  = $dq->count();
-            $revenueChartData[] = (float)$dq->sum('final_price');
+            $revenueChartData[] = (float)$dq->sum($priceCol);
         }
 
         // Top restaurants by orders (admin)
@@ -97,9 +111,9 @@ class HomeController
         $revQ = Order::where('status_id', 2);
         if ($isRestaurant) $revQ->where('restaurants_id', $restId);
 
-        $revenueTotal  = (clone $revQ)->sum('final_price');
-        $revenueToday  = (clone $revQ)->whereDate('created_at', Carbon::today())->sum('final_price');
-        $revenueMonth  = (clone $revQ)->where('created_at', '>=', Carbon::now()->startOfMonth())->sum('final_price');
+        $revenueTotal  = (clone $revQ)->sum($priceCol);
+        $revenueToday  = (clone $revQ)->whereDate('created_at', Carbon::today())->sum($priceCol);
+        $revenueMonth  = (clone $revQ)->where('created_at', '>=', Carbon::now()->startOfMonth())->sum($priceCol);
         $avgOrderValue = $totalOrders > 0 ? $revenueTotal / $totalOrders : 0;
 
         // ═══════════════════ USERS & RESTAURANTS ═══════════════════
