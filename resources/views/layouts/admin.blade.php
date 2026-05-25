@@ -1,138 +1,406 @@
 @if (\Illuminate\Support\Facades\Auth::user()['user_type'] == 12)
     <script>window.location = "/";</script>
-
 @endif
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html {{\Illuminate\Support\Facades\App::getLocale() == 'ar' ? 'dir="rtl"' : ''}}>
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ trans('panel.site_title') }}</title>
-    <link rel="icon" href="{{asset('img/setting/'.getSetting('website_icon'))}}">
+    <link rel="icon" href="{{asset('img/setting/'.getSetting('website_icon'))}}"/>
+
+    {{-- CSS Libraries --}}
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet"/>
-    <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
-        rel="stylesheet"/>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
     <link href="{{ asset('/css/adminltev3.css') }}" rel="stylesheet"/>
     <link href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"/>
     <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet"/>
     <link href="https://cdn.datatables.net/select/1.3.0/css/select.dataTables.min.css" rel="stylesheet"/>
     <link href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet"/>
     <link href="{{ asset('/css/custom.css') }}" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    @if (\Illuminate\Support\Facades\App::getLocale() == 'ar')
+    <style>
+        * { direction: rtl !important; }
+        .layout-fixed .main-sidebar { right: 0; }
+        .brand-image { float: right; }
+        .content-wrapper, .main-footer, .main-header { margin-left: 0px; margin-right: 250px; }
+        .mr-auto-navbav { margin-right: auto !important; }
+        .navbar-expand .navbar-nav .nav-link { padding-right: 1rem; padding-left: 1rem; }
+        [class*=icheck-]>input:first-child:checked+input[type=hidden]+label::after,
+        [class*=icheck-]>input:first-child:checked+label::after { right: 15px; left: auto; }
+        .nav-sidebar .nav-link>.right, .nav-sidebar .nav-link>p>.right { left: 1rem; right: auto; }
+        .nav-sidebar .nav-link>.right:nth-child(2), .nav-sidebar .nav-link>p>.right:nth-child(2) { left: 2.2rem; right: auto; }
+        .small-box .icon>i { left: 15px; right: auto; }
+        @media (min-width: 992px) {
+            .sidebar-mini.sidebar-collapse .content-wrapper,
+            .sidebar-mini.sidebar-collapse .main-footer,
+            .sidebar-mini.sidebar-collapse .main-header { margin-right: 4.6rem !important; margin-left: 0 !important; }
+        }
+        @media (max-width: 767.98px) {
+            .main-sidebar, .main-sidebar::before { box-shadow: none !important; margin-right: -250px; }
+            .content-wrapper, .content-wrapper::before, .main-footer, .main-footer::before, .main-header, .main-header::before { margin-right: 0; }
+            .sidebar-open .main-sidebar, .sidebar-open .main-sidebar::before { margin-right: 0; }
+        }
+        body { margin: 0; font-family: 'Cairo', sans-serif; font-size: 1rem; font-weight: 400; line-height: 1.5; color: #212529; text-align: right !important; background-color: #f4f6f9; }
+        .nav { display: flex; flex-wrap: wrap; padding-right: 0 !important; margin-bottom: 0; list-style: none; }
+        .ml-auto, .mx-auto { margin-right: auto !important; }
+        .nav-sidebar .nav-link>.right, .nav-sidebar .nav-link>p>.right { left: 2rem !important; right: auto; }
+        /* Navbar RTL fixes */
+        .navbar-right-items { margin-right: auto !important; margin-left: 0 !important; }
+        .admin-navbar .navbar-left { margin-right: 0; }
+        .admin-navbar .dropdown-menu-right { right: auto !important; left: 0 !important; }
+    </style>
+    @endif
 
-        @if (\Illuminate\Support\Facades\App::getLocale() == 'ar')
-            <style>
-                *{
-                    direction: rtl !important;
-                }
-                .layout-fixed .main-sidebar {
-                    right: 0;
-                }
-                .brand-image {
-                    float: right;
-                }
-                .content-wrapper, .main-footer, .main-header {
-                    margin-left: 0px;
-                    margin-right: 250px;
-                }
-                .mr-auto-navbav{
-                    margin-right: auto!important;
-                }
-                .navbar-expand .navbar-nav .nav-link {
-                    padding-right: 1rem;
-                    padding-left: 1rem;
-                }
-
-                [class*=icheck-]>input:first-child:checked+input[type=hidden]+label::after,
-                [class*=icheck-]>input:first-child:checked+label::after {
-                    right: 15px;
-                    left: auto;
-                }
-                .nav-sidebar .nav-link>.right,
-                .nav-sidebar .nav-link>p>.right {
-                    left: 1rem;
-                    right: auto;
-                }
-                .nav-sidebar .nav-link>.right:nth-child(2),
-                .nav-sidebar .nav-link>p>.right:nth-child(2) {
-                    left: 2.2rem;
-                    right: auto;
-                }
-                .small-box .icon>i {
-                    left: 15px;
-                    right: auto;
-                }
-                @media (min-width: 992px){
-                    .sidebar-mini.sidebar-collapse .content-wrapper, .sidebar-mini.sidebar-collapse .main-footer, .sidebar-mini.sidebar-collapse .main-header {
-                        margin-right: 4.6rem!important;
-                    }
-                    .sidebar-mini.sidebar-collapse .content-wrapper, .sidebar-mini.sidebar-collapse .main-footer, .sidebar-mini.sidebar-collapse .main-header {
-                        margin-right: 4.6rem!important;
-                        margin-left: 0!important;
-                    }
-                }
-
-                @media (max-width: 767.98px) {
-                    .main-sidebar, .main-sidebar::before {
-                        box-shadow: none !important;
-                        margin-right: -250px;
-                    }
-
-                    .content-wrapper, .content-wrapper::before, .main-footer, .main-footer::before, .main-header, .main-header::before {
-                        margin-right: 0;
-                    }
-
-                    .sidebar-open .main-sidebar, .sidebar-open .main-sidebar::before {
-                        margin-right: 0;
-                    }
-                }
-
-                body {
-                    margin: 0;
-                    font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-                    font-size: 1rem;
-                    font-weight: 400;
-                    line-height: 1.5;
-                    color: #212529;
-                    text-align: right !important;
-                    background-color: #fff;
-                }
-
-                .nav {
-                    display: flex;
-                    flex-wrap: wrap;
-                    padding-right: 0 !important;
-                    margin-bottom: 0;
-                    list-style: none;
-                }
-
-                .ml-auto, .mx-auto {
-                    margin-right: auto!important;
-                }
-                .nav-sidebar .nav-link>.right, .nav-sidebar .nav-link>p>.right {
-                    left: 2rem !important;
-                    right: auto;
-                }
-            </style>
-        @endif
-
-    <link href='https://fonts.googleapis.com/css?family=Cairo' rel='stylesheet'>
     <style>
         body {
-            font-family: 'Cairo';
+            font-family: 'Cairo', sans-serif;
+            background-color: #f4f6f9;
         }
+
+        /* =============================================
+           NAVBAR — Modern Redesign
+        ============================================= */
+        .admin-navbar {
+            background: #ffffff !important;
+            border-bottom: 1px solid rgba(0,0,0,0.07) !important;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
+            height: 58px !important;
+            padding: 0 16px !important;
+            display: flex !important;
+            align-items: center !important;
+            z-index: 1030;
+        }
+
+        /* Toggle button */
+        .navbar-toggler-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: #64748b;
+            transition: background 0.18s, color 0.18s;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        .navbar-toggler-btn:hover {
+            background: #f1f5f9;
+            color: #334155;
+        }
+
+        /* Breadcrumb / page title area */
+        .navbar-page-title {
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: #475569;
+            margin-left: 12px;
+            padding-left: 12px;
+            border-left: 1px solid #e2e8f0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 260px;
+        }
+        [dir="rtl"] .navbar-page-title {
+            margin-left: 0;
+            padding-left: 0;
+            margin-right: 12px;
+            padding-right: 12px;
+            border-left: none;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        /* Right section */
+        .navbar-right-items {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: auto;
+        }
+        [dir="rtl"] .navbar-right-items {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        /* Icon buttons */
+        .navbar-icon-btn {
+            position: relative;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            color: #64748b;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: background 0.18s, color 0.18s;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+        .navbar-icon-btn:hover {
+            background: #f1f5f9;
+            color: #334155;
+        }
+        .navbar-icon-btn:focus { outline: none; }
+
+        /* Notification badge */
+        .navbar-badge-dot {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+        .navbar-badge-count {
+            position: absolute;
+            top: 4px;
+            right: 3px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 0.58rem;
+            font-weight: 700;
+            padding: 1px 4px;
+            border-radius: 20px;
+            border: 2px solid #fff;
+            line-height: 1.3;
+            min-width: 16px;
+            text-align: center;
+        }
+
+        /* Notifications dropdown */
+        .navbar-notif-dropdown {
+            width: 320px;
+            padding: 0;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+        .navbar-notif-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            background: #fafbfc;
+        }
+        .navbar-notif-header span {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #334155;
+        }
+        .navbar-notif-header a {
+            font-size: 0.72rem;
+            color: #4f7cff;
+            text-decoration: none;
+        }
+        .navbar-notif-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 16px;
+            border-bottom: 1px solid #f8fafc;
+            transition: background 0.15s;
+            text-decoration: none !important;
+        }
+        .navbar-notif-item:hover { background: #f8fafc; }
+        .navbar-notif-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(79,124,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: #4f7cff;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .navbar-notif-text {
+            font-size: 0.78rem;
+            color: #475569;
+            line-height: 1.45;
+            flex: 1;
+        }
+        .navbar-notif-text strong { color: #1e293b; font-weight: 600; }
+        .navbar-notif-empty {
+            text-align: center;
+            padding: 24px 16px;
+            color: #94a3b8;
+            font-size: 0.78rem;
+        }
+        .navbar-notif-empty i {
+            display: block;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            opacity: 0.4;
+        }
+
+        /* Language dropdown */
+        .navbar-lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 12px;
+            height: 38px;
+            border-radius: 10px;
+            color: #64748b;
+            font-size: 0.78rem;
+            font-weight: 600;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: background 0.18s, color 0.18s;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+        .navbar-lang-btn:hover {
+            background: #f1f5f9;
+            color: #334155;
+        }
+        .navbar-lang-dropdown {
+            min-width: 140px;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            padding: 4px;
+            overflow: hidden;
+        }
+        .navbar-lang-dropdown .dropdown-item {
+            border-radius: 7px;
+            font-size: 0.8rem;
+            padding: 7px 12px;
+            font-weight: 500;
+            color: #475569;
+        }
+        .navbar-lang-dropdown .dropdown-item:hover {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        /* Divider */
+        .navbar-divider {
+            width: 1px;
+            height: 22px;
+            background: #e2e8f0;
+            margin: 0 6px;
+        }
+
+        /* User avatar button */
+        .navbar-user-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 10px 4px 4px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.18s;
+            text-decoration: none !important;
+            border: none;
+            background: transparent;
+        }
+        .navbar-user-btn:hover { background: #f1f5f9; }
+        [dir="rtl"] .navbar-user-btn { padding: 4px 4px 4px 10px; }
+        .navbar-user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #4f7cff 0%, #7c4fff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .navbar-user-info .user-name {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #334155;
+            line-height: 1.2;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .navbar-user-info .user-role {
+            font-size: 0.68rem;
+            color: #94a3b8;
+            line-height: 1;
+        }
+        .navbar-user-caret {
+            font-size: 0.6rem;
+            color: #94a3b8;
+            margin-left: 2px;
+        }
+        [dir="rtl"] .navbar-user-caret { margin-left: 0; margin-right: 2px; }
+
+        /* User dropdown */
+        .navbar-user-dropdown {
+            min-width: 200px;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            padding: 6px;
+            overflow: hidden;
+        }
+        .navbar-user-dropdown .dropdown-item {
+            border-radius: 8px;
+            font-size: 0.8rem;
+            padding: 8px 12px;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .navbar-user-dropdown .dropdown-item i {
+            width: 16px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        .navbar-user-dropdown .dropdown-item:hover { background: #f8fafc; color: #1e293b; }
+        .navbar-user-dropdown .dropdown-item:hover i { color: #4f7cff; }
+        .navbar-user-dropdown .dropdown-divider { margin: 4px 0; border-color: #f1f5f9; }
+        .navbar-user-dropdown .dropdown-item.text-danger { color: #ef4444 !important; }
+        .navbar-user-dropdown .dropdown-item.text-danger i { color: #ef4444 !important; }
+        .navbar-user-dropdown .dropdown-item.text-danger:hover { background: #fff5f5; }
+
+        /* Content wrapper background */
+        .content-wrapper { background: #f4f6f9 !important; }
+
+        /* Footer */
+        .main-footer {
+            background: #fff !important;
+            border-top: 1px solid rgba(0,0,0,0.06) !important;
+            color: #94a3b8 !important;
+            font-size: 0.78rem !important;
+            padding: 12px 20px !important;
+        }
+
+        /* Alert messages */
+        .alert { border-radius: 10px !important; border: none !important; font-size: 0.83rem; }
+        .alert-success { background: #f0fdf4 !important; color: #166534 !important; border-left: 3px solid #22c55e !important; }
+        .alert-danger  { background: #fef2f2 !important; color: #991b1b !important; border-left: 3px solid #ef4444 !important; }
+        [dir="rtl"] .alert-success { border-left: none !important; border-right: 3px solid #22c55e !important; }
+        [dir="rtl"] .alert-danger  { border-left: none !important; border-right: 3px solid #ef4444 !important; }
     </style>
 
     @yield('styles')
@@ -140,68 +408,139 @@
 
 <body class="sidebar-mini layout-fixed" style="height: auto;">
 <div class="wrapper">
-    <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
-        <!-- Left navbar links -->
-        <ul class="navbar-nav">
+
+    {{-- ============ NAVBAR ============ --}}
+    <nav class="main-header admin-navbar navbar navbar-expand">
+
+        {{-- Left: Toggle + Page Title --}}
+        <ul class="navbar-nav" style="align-items:center;">
             <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+                <a class="navbar-toggler-btn" data-widget="pushmenu" href="#" role="button">
+                    <i class="fas fa-bars"></i>
+                </a>
+            </li>
+            <li class="nav-item d-none d-sm-block">
+                <span class="navbar-page-title">
+                    <i class="fas fa-home" style="color:#4f7cff;margin-left:4px;margin-right:4px;"></i>
+                    {{ trans('panel.site_title') }}
+                </span>
             </li>
         </ul>
 
-        <!-- Right navbar links -->
-        @if(count(config('panel.available_languages', [])) > 1)
-            <ul class="navbar-nav ml-auto">
-                <li  class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        {{ strtoupper(app()->getLocale()) }}
-                    </a>
-                    <div  class="dropdown-menu dropdown-menu-right">
-                        @foreach(config('panel.available_languages') as $langLocale => $langName)
-                            <a class="dropdown-item"
-                               href="{{ url()->current() }}?change_language={{ $langLocale }}">{{ strtoupper($langLocale) }}
-                                ({{ $langName }})</a>
-                        @endforeach
-                    </div>
-                </li>
-            </ul>
-        @endif
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown notifications-menu">
-                <a href="#" class="nav-link" data-toggle="dropdown">
-                    <i class="far fa-bell"></i>
-                    @php($alertsCount = \Auth::user()->userUserAlerts()->where('read', false)->count())
+        {{-- Right: Language + Notifications + User --}}
+        <div class="navbar-right-items">
+
+            {{-- Language Switcher --}}
+            @if(count(config('panel.available_languages', [])) > 1)
+            <div class="nav-item dropdown">
+                <a class="navbar-lang-btn" data-toggle="dropdown" href="#" role="button">
+                    <i class="fas fa-globe"></i>
+                    {{ strtoupper(app()->getLocale()) }}
+                    <i class="fas fa-chevron-down" style="font-size:0.55rem;opacity:0.5;"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right navbar-lang-dropdown">
+                    @foreach(config('panel.available_languages') as $langLocale => $langName)
+                        <a class="dropdown-item {{ app()->getLocale() == $langLocale ? 'active' : '' }}"
+                           href="{{ url()->current() }}?change_language={{ $langLocale }}">
+                            @if(app()->getLocale() == $langLocale)
+                                <i class="fas fa-check" style="font-size:0.65rem;color:#4f7cff;margin-left:2px;"></i>
+                            @endif
+                            {{ strtoupper($langLocale) }} — {{ $langName }}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+            <div class="navbar-divider"></div>
+            @endif
+
+            {{-- Notifications --}}
+            @php($alertsCount = \Auth::user()->userUserAlerts()->where('read', false)->count())
+            @php($alerts = \Auth::user()->userUserAlerts()->withPivot('read')->limit(10)->orderBy('created_at', 'DESC')->get())
+            <div class="nav-item dropdown notifications-menu">
+                <a href="#" class="navbar-icon-btn" data-toggle="dropdown" role="button" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
                     @if($alertsCount > 0)
-                        <span class="badge badge-warning navbar-badge">
-                                    {{ $alertsCount }}
-                                </span>
+                        <span class="navbar-badge-count">{{ $alertsCount > 9 ? '9+' : $alertsCount }}</span>
+                    @else
+                        <span class="navbar-badge-dot" style="display:none;"></span>
                     @endif
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    @if(count($alerts = \Auth::user()->userUserAlerts()->withPivot('read')->limit(10)->orderBy('created_at', 'ASC')->get()->reverse()) > 0)
+                <div class="dropdown-menu dropdown-menu-right navbar-notif-dropdown">
+                    <div class="navbar-notif-header">
+                        <span>{{ trans('cruds.userAlert.title') ?? 'Notifications' }}</span>
+                        @if($alertsCount > 0)
+                            <a href="{{ route('admin.user-alerts.index') }}">{{ trans('global.see_all') ?? 'See all' }}</a>
+                        @endif
+                    </div>
+                    @if(count($alerts) > 0)
                         @foreach($alerts as $alert)
-                            <div class="dropdown-item">
-                                <a href="{{ $alert->alert_link ? $alert->alert_link : "#" }}" target="_blank"
-                                   rel="noopener noreferrer">
-                                    @if($alert->pivot->read === 0) <strong> @endif
-                                        {{ $alert->alert_text }}
-                                        @if($alert->pivot->read === 0) </strong> @endif
-                                </a>
+                        <a href="{{ $alert->alert_link ? $alert->alert_link : '#' }}"
+                           class="navbar-notif-item"
+                           target="{{ $alert->alert_link ? '_blank' : '_self' }}"
+                           rel="noopener noreferrer">
+                            <div class="navbar-notif-icon">
+                                <i class="fas fa-bell"></i>
                             </div>
+                            <div class="navbar-notif-text">
+                                @if($alert->pivot->read === 0)<strong>@endif
+                                    {{ Str::limit($alert->alert_text, 60) }}
+                                @if($alert->pivot->read === 0)</strong>@endif
+                            </div>
+                        </a>
                         @endforeach
                     @else
-                        <div class="text-center">
+                        <div class="navbar-notif-empty">
+                            <i class="fas fa-bell-slash"></i>
                             {{ trans('global.no_alerts') }}
                         </div>
                     @endif
                 </div>
-            </li>
-        </ul>
+            </div>
 
+            {{-- Divider --}}
+            <div class="navbar-divider"></div>
+
+            {{-- User Dropdown --}}
+            <div class="nav-item dropdown">
+                <a href="#" class="navbar-user-btn" data-toggle="dropdown" role="button">
+                    <div class="navbar-user-avatar">
+                        {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
+                    </div>
+                    <div class="navbar-user-info d-none d-md-block">
+                        <div class="user-name">{{ Auth::user()->name }}</div>
+                        <div class="user-role">{{ Auth::user()->email }}</div>
+                    </div>
+                    <i class="fas fa-chevron-down navbar-user-caret d-none d-md-block"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right navbar-user-dropdown">
+                    @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
+                        @can('profile_password_edit')
+                        <a class="dropdown-item" href="{{ route('profile.password.edit') }}">
+                            <i class="fas fa-user-circle"></i>
+                            {{ trans('global.my_profile') }}
+                        </a>
+                        @endcan
+                    @endif
+                    <a class="dropdown-item" href="{{ route('admin.settings.index') }}">
+                        <i class="fas fa-cog"></i>
+                        {{ trans('cruds.setting.title') }}
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-danger" href="#"
+                       onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        {{ trans('global.logout') }}
+                    </a>
+                </div>
+            </div>
+
+        </div>{{-- end navbar-right-items --}}
     </nav>
+    {{-- ============ END NAVBAR ============ --}}
 
     @include('partials.menu')
+
     <div class="content-wrapper" style="min-height: 917px;">
-        <!-- Main content -->
         <section class="content" style="padding-top: 20px">
             @if(session('message'))
                 <div class="row mb-2">
@@ -212,28 +551,31 @@
             @endif
             @if($errors->count() > 0)
                 <div class="alert alert-danger">
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled mb-0">
                         @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li><i class="fas fa-exclamation-circle mr-1"></i>{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
             @endif
             @yield('content')
         </section>
-        <!-- /.content -->
     </div>
 
     <footer class="main-footer">
         <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.0.0-alpha
+            <strong>{{ trans('panel.site_title') }}</strong> &mdash; v3.0.0
         </div>
-        <strong> &copy;</strong> {{ trans('global.allRightsReserved') }}
+        <strong>&copy; {{ date('Y') }}</strong> {{ trans('global.allRightsReserved') }}
     </footer>
-    <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
+
+    <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display:none;">
         {{ csrf_field() }}
     </form>
-</div>
+
+</div>{{-- /.wrapper --}}
+
+{{-- JS Libraries --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -251,382 +593,70 @@
 <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
 <script src="https://cdn.ckeditor.com/4.15.1/full/ckeditor.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<script
-    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
 <script src="{{ asset('/js/main.js') }}"></script>
+
 <script>
-    $(function () {
-        let copyButtonTrans = '{{ trans('global.datatables.copy') }}'
-        let csvButtonTrans = '{{ trans('global.datatables.csv') }}'
-        let excelButtonTrans = '{{ trans('global.datatables.excel') }}'
-        let pdfButtonTrans = '{{ trans('global.datatables.pdf') }}'
-        let printButtonTrans = '{{ trans('global.datatables.print') }}'
-        let colvisButtonTrans = '{{ trans('global.datatables.colvis') }}'
-        let selectAllButtonTrans = '{{ trans('global.select_all') }}'
-        let selectNoneButtonTrans = '{{ trans('global.deselect_all') }}'
+$(function () {
+    let copyButtonTrans = '{{ trans('global.datatables.copy') }}'
+    let csvButtonTrans = '{{ trans('global.datatables.csv') }}'
+    let excelButtonTrans = '{{ trans('global.datatables.excel') }}'
+    let pdfButtonTrans = '{{ trans('global.datatables.pdf') }}'
+    let printButtonTrans = '{{ trans('global.datatables.print') }}'
+    let colvisButtonTrans = '{{ trans('global.datatables.colvis') }}'
+    let selectAllButtonTrans = '{{ trans('global.select_all') }}'
+    let selectNoneButtonTrans = '{{ trans('global.deselect_all') }}'
 
-        let languages = {
-            'en': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/English.json',
-            'ar': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Arabic.json'
-        };
+    let languages = {
+        'en': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/English.json',
+        'ar': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Arabic.json'
+    };
 
-        $.extend(true, $.fn.dataTable.Buttons.defaults.dom.button, {className: 'btn'})
-        $.extend(true, $.fn.dataTable.defaults, {
-            language: {
-                url: languages['{{ app()->getLocale() }}']
-            },
-            columnDefs: [{
-                orderable: false,
-                className: 'select-checkbox',
-                targets: 0
-            }, {
-                orderable: false,
-                searchable: false,
-                targets: -1
-            }],
-            select: {
-                style: 'multi+shift',
-                selector: 'td:first-child'
-            },
-            order: [],
-            scrollX: true,
-            pageLength: 100,
-            dom: 'lBfrtip<"actions">',
-            buttons: [
-                {
-                    extend: 'selectAll',
-                    className: 'btn-primary',
-                    text: selectAllButtonTrans,
-                    exportOptions: {
-                        columns: ':visible'
-                    },
-                    action: function (e, dt) {
-                        e.preventDefault()
-                        dt.rows().deselect();
-                        dt.rows({search: 'applied'}).select();
-                    }
-                },
-                {
-                    extend: 'selectNone',
-                    className: 'btn-primary',
-                    text: selectNoneButtonTrans,
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'copy',
-                    className: 'btn-default',
-                    text: copyButtonTrans,
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'csv',
-                    className: 'btn-default',
-                    text: csvButtonTrans,
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    className: 'btn-default',
-                    text: excelButtonTrans,
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdf',
-                    className: 'btn-default',
-                    text: pdfButtonTrans,
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'print',
-                    className: 'btn-default',
-                    text: printButtonTrans,
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'colvis',
-                    className: 'btn-default',
-                    text: colvisButtonTrans,
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                }
-            ]
-        });
-
-        $.fn.dataTable.ext.classes.sPageButton = '';
+    $.extend(true, $.fn.dataTable.Buttons.defaults.dom.button, {className: 'btn'})
+    $.extend(true, $.fn.dataTable.defaults, {
+        language: { url: languages['{{ app()->getLocale() }}'] },
+        columnDefs: [
+            { orderable: false, className: 'select-checkbox', targets: 0 },
+            { orderable: false, searchable: false, targets: -1 }
+        ],
+        select: { style: 'multi+shift', selector: 'td:first-child' },
+        order: [],
+        scrollX: true,
+        pageLength: 100,
+        dom: 'lBfrtip<"actions">',
+        buttons: [
+            { extend: 'selectAll',  className: 'btn-primary', text: selectAllButtonTrans,  exportOptions: {columns: ':visible'}, action: function (e, dt) { e.preventDefault(); dt.rows().deselect(); dt.rows({search: 'applied'}).select(); } },
+            { extend: 'selectNone', className: 'btn-primary', text: selectNoneButtonTrans, exportOptions: {columns: ':visible'} },
+            { extend: 'copy',   className: 'btn-default', text: copyButtonTrans,   exportOptions: {columns: ':visible'} },
+            { extend: 'csv',    className: 'btn-default', text: csvButtonTrans,    exportOptions: {columns: ':visible'} },
+            { extend: 'excel',  className: 'btn-default', text: excelButtonTrans,  exportOptions: {columns: ':visible'} },
+            { extend: 'pdf',    className: 'btn-default', text: pdfButtonTrans,    exportOptions: {columns: ':visible'} },
+            { extend: 'print',  className: 'btn-default', text: printButtonTrans,  exportOptions: {columns: ':visible'} },
+            { extend: 'colvis', className: 'btn-default', text: colvisButtonTrans, exportOptions: {columns: ':visible'} }
+        ]
     });
-
+    $.fn.dataTable.ext.classes.sPageButton = '';
+});
 </script>
+
 <script>
-    $(document).ready(function () {
-        $(".notifications-menu").on('click', function () {
-            if (!$(this).hasClass('open')) {
-                $('.notifications-menu .label-warning').hide();
-                $.get('/admin/user-alert/read');
-            }
-        });
+$(document).ready(function () {
+    $(".notifications-menu").on('click', function () {
+        if (!$(this).hasClass('open')) {
+            $.get('/admin/user-alert/read');
+        }
     });
-
+});
 </script>
+
 <script>
-    /*!
- * AdminLTE v3.0.0-alpha.2 (https://adminlte.io)
- * Copyright 2014-2018 Abdullah Almsaeed <abdullah@almsaeedstudio.com>
- * Licensed under MIT (https://github.com/almasaeed2010/AdminLTE/blob/master/LICENSE)
+/*!
+ * AdminLTE v3.0.0-alpha.2
  */
-    !function (e, t) {
-        "object" == typeof exports && "undefined" != typeof module ? t(exports) : "function" == typeof define && define.amd ? define(["exports"], t) : t(e.adminlte = {})
-    }(this, function (e) {
-        "use strict";
-        var i, t, o, n, r, a, s, c, f, l, u, d, h, p, _, g, y, m, v, C, D, E, A, O, w, b, L, S, j, T, I, Q, R, P, x, B,
-            M, k, H, N, Y, U, V, G, W, X, z, F, q, J, K, Z, $, ee, te,
-            ne = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (e) {
-                return typeof e
-            } : function (e) {
-                return e && "function" == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e
-            }, ie = function (e, t) {
-                if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-            },
-            oe = (i = jQuery, t = "ControlSidebar", o = "lte.control.sidebar", n = i.fn[t], r = ".control-sidebar", a = '[data-widget="control-sidebar"]', s = ".main-header", c = "control-sidebar-open", f = "control-sidebar-slide-open", l = {slide: !0}, u = function () {
-                function n(e, t) {
-                    ie(this, n), this._element = e, this._config = this._getConfig(t)
-                }
-
-                return n.prototype.show = function () {
-                    this._config.slide ? i("body").removeClass(f) : i("body").removeClass(c)
-                }, n.prototype.collapse = function () {
-                    this._config.slide ? i("body").addClass(f) : i("body").addClass(c)
-                }, n.prototype.toggle = function () {
-                    this._setMargin(), i("body").hasClass(c) || i("body").hasClass(f) ? this.show() : this.collapse()
-                }, n.prototype._getConfig = function (e) {
-                    return i.extend({}, l, e)
-                }, n.prototype._setMargin = function () {
-                    i(r).css({top: i(s).outerHeight()})
-                }, n._jQueryInterface = function (t) {
-                    return this.each(function () {
-                        var e = i(this).data(o);
-                        if (e || (e = new n(this, i(this).data()), i(this).data(o, e)), "undefined" === e[t]) throw new Error(t + " is not a function");
-                        e[t]()
-                    })
-                }, n
-            }(), i(document).on("click", a, function (e) {
-                e.preventDefault(), u._jQueryInterface.call(i(this), "toggle")
-            }), i.fn[t] = u._jQueryInterface, i.fn[t].Constructor = u, i.fn[t].noConflict = function () {
-                return i.fn[t] = n, u._jQueryInterface
-            }, u),
-            re = (d = jQuery, h = "Layout", p = "lte.layout", _ = d.fn[h], g = ".main-sidebar", y = ".main-header", m = ".content-wrapper", v = ".main-footer", C = "hold-transition", D = function () {
-                function n(e) {
-                    ie(this, n), this._element = e, this._init()
-                }
-
-                return n.prototype.fixLayoutHeight = function () {
-                    var e = {
-                        window: d(window).height(),
-                        header: d(y).outerHeight(),
-                        footer: d(v).outerHeight(),
-                        sidebar: d(g).height()
-                    }, t = this._max(e);
-                    d(m).css("min-height", e.window - e.header - e.footer), d(g).css("min-height", e.window - e.header)
-                }, n.prototype._init = function () {
-                    var e = this;
-                    d("body").removeClass(C), this.fixLayoutHeight(), d(g).on("collapsed.lte.treeview expanded.lte.treeview collapsed.lte.pushmenu expanded.lte.pushmenu", function () {
-                        e.fixLayoutHeight()
-                    }), d(window).resize(function () {
-                        e.fixLayoutHeight()
-                    }), d("body, html").css("height", "auto")
-                }, n.prototype._max = function (t) {
-                    var n = 0;
-                    return Object.keys(t).forEach(function (e) {
-                        t[e] > n && (n = t[e])
-                    }), n
-                }, n._jQueryInterface = function (t) {
-                    return this.each(function () {
-                        var e = d(this).data(p);
-                        e || (e = new n(this), d(this).data(p, e)), t && e[t]()
-                    })
-                }, n
-            }(), d(window).on("load", function () {
-                D._jQueryInterface.call(d("body"))
-            }), d.fn[h] = D._jQueryInterface, d.fn[h].Constructor = D, d.fn[h].noConflict = function () {
-                return d.fn[h] = _, D._jQueryInterface
-            }, D), ae = (E = jQuery, A = "PushMenu", w = "." + (O = "lte.pushmenu"), b = E.fn[A], L = {
-                COLLAPSED: "collapsed" + w,
-                SHOWN: "shown" + w
-            }, S = {screenCollapseSize: 768}, j = {
-                TOGGLE_BUTTON: '[data-widget="pushmenu"]',
-                SIDEBAR_MINI: ".sidebar-mini",
-                SIDEBAR_COLLAPSED: ".sidebar-collapse",
-                BODY: "body",
-                OVERLAY: "#sidebar-overlay",
-                WRAPPER: ".wrapper"
-            }, T = "sidebar-collapse", I = "sidebar-open", Q = function () {
-                function n(e, t) {
-                    ie(this, n), this._element = e, this._options = E.extend({}, S, t), E(j.OVERLAY).length || this._addOverlay()
-                }
-
-                return n.prototype.show = function () {
-                    E(j.BODY).addClass(I).removeClass(T);
-                    var e = E.Event(L.SHOWN);
-                    E(this._element).trigger(e)
-                }, n.prototype.collapse = function () {
-                    E(j.BODY).removeClass(I).addClass(T);
-                    var e = E.Event(L.COLLAPSED);
-                    E(this._element).trigger(e)
-                }, n.prototype.toggle = function () {
-                    (E(window).width() >= this._options.screenCollapseSize ? !E(j.BODY).hasClass(T) : E(j.BODY).hasClass(I)) ? this.collapse() : this.show()
-                }, n.prototype._addOverlay = function () {
-                    var e = this, t = E("<div />", {id: "sidebar-overlay"});
-                    t.on("click", function () {
-                        e.collapse()
-                    }), E(j.WRAPPER).append(t)
-                }, n._jQueryInterface = function (t) {
-                    return this.each(function () {
-                        var e = E(this).data(O);
-                        e || (e = new n(this), E(this).data(O, e)), t && e[t]()
-                    })
-                }, n
-            }(), E(document).on("click", j.TOGGLE_BUTTON, function (e) {
-                e.preventDefault();
-                var t = e.currentTarget;
-                "pushmenu" !== E(t).data("widget") && (t = E(t).closest(j.TOGGLE_BUTTON)), Q._jQueryInterface.call(E(t), "toggle")
-            }), E.fn[A] = Q._jQueryInterface, E.fn[A].Constructor = Q, E.fn[A].noConflict = function () {
-                return E.fn[A] = b, Q._jQueryInterface
-            }, Q), se = (R = jQuery, P = "Treeview", B = "." + (x = "lte.treeview"), M = R.fn[P], k = {
-                SELECTED: "selected" + B,
-                EXPANDED: "expanded" + B,
-                COLLAPSED: "collapsed" + B,
-                LOAD_DATA_API: "load" + B
-            }, H = ".nav-item", N = ".nav-treeview", Y = ".menu-open", V = "menu-open", G = {
-                trigger: (U = '[data-widget="treeview"]') + " " + ".nav-link",
-                animationSpeed: 300,
-                accordion: !0
-            }, W = function () {
-                function i(e, t) {
-                    ie(this, i), this._config = t, this._element = e
-                }
-
-                return i.prototype.init = function () {
-                    this._setupListeners()
-                }, i.prototype.expand = function (e, t) {
-                    var n = this, i = R.Event(k.EXPANDED);
-                    if (this._config.accordion) {
-                        var o = t.siblings(Y).first(), r = o.find(N).first();
-                        this.collapse(r, o)
-                    }
-                    e.slideDown(this._config.animationSpeed, function () {
-                        t.addClass(V), R(n._element).trigger(i)
-                    })
-                }, i.prototype.collapse = function (e, t) {
-                    var n = this, i = R.Event(k.COLLAPSED);
-                    e.slideUp(this._config.animationSpeed, function () {
-                        t.removeClass(V), R(n._element).trigger(i), e.find(Y + " > " + N).slideUp(), e.find(Y).removeClass(V)
-                    })
-                }, i.prototype.toggle = function (e) {
-                    var t = R(e.currentTarget), n = t.next();
-                    if (n.is(N)) {
-                        e.preventDefault();
-                        var i = t.parents(H).first();
-                        i.hasClass(V) ? this.collapse(R(n), i) : this.expand(R(n), i)
-                    }
-                }, i.prototype._setupListeners = function () {
-                    var t = this;
-                    R(document).on("click", this._config.trigger, function (e) {
-                        t.toggle(e)
-                    })
-                }, i._jQueryInterface = function (n) {
-                    return this.each(function () {
-                        var e = R(this).data(x), t = R.extend({}, G, R(this).data());
-                        e || (e = new i(R(this), t), R(this).data(x, e)), "init" === n && e[n]()
-                    })
-                }, i
-            }(), R(window).on(k.LOAD_DATA_API, function () {
-                R(U).each(function () {
-                    W._jQueryInterface.call(R(this), "init")
-                })
-            }), R.fn[P] = W._jQueryInterface, R.fn[P].Constructor = W, R.fn[P].noConflict = function () {
-                return R.fn[P] = M, W._jQueryInterface
-            }, W), ce = (X = jQuery, z = "Widget", q = "." + (F = "lte.widget"), J = X.fn[z], K = {
-                EXPANDED: "expanded" + q,
-                COLLAPSED: "collapsed" + q,
-                REMOVED: "removed" + q
-            }, $ = "collapsed-card", ee = {
-                animationSpeed: "normal",
-                collapseTrigger: (Z = {
-                    DATA_REMOVE: '[data-widget="remove"]',
-                    DATA_COLLAPSE: '[data-widget="collapse"]',
-                    CARD: ".card",
-                    CARD_HEADER: ".card-header",
-                    CARD_BODY: ".card-body",
-                    CARD_FOOTER: ".card-footer",
-                    COLLAPSED: ".collapsed-card"
-                }).DATA_COLLAPSE,
-                removeTrigger: Z.DATA_REMOVE
-            }, te = function () {
-                function n(e, t) {
-                    ie(this, n), this._element = e, this._parent = e.parents(Z.CARD).first(), this._settings = X.extend({}, ee, t)
-                }
-
-                return n.prototype.collapse = function () {
-                    var e = this;
-                    this._parent.children(Z.CARD_BODY + ", " + Z.CARD_FOOTER).slideUp(this._settings.animationSpeed, function () {
-                        e._parent.addClass($)
-                    });
-                    var t = X.Event(K.COLLAPSED);
-                    this._element.trigger(t, this._parent)
-                }, n.prototype.expand = function () {
-                    var e = this;
-                    this._parent.children(Z.CARD_BODY + ", " + Z.CARD_FOOTER).slideDown(this._settings.animationSpeed, function () {
-                        e._parent.removeClass($)
-                    });
-                    var t = X.Event(K.EXPANDED);
-                    this._element.trigger(t, this._parent)
-                }, n.prototype.remove = function () {
-                    this._parent.slideUp();
-                    var e = X.Event(K.REMOVED);
-                    this._element.trigger(e, this._parent)
-                }, n.prototype.toggle = function () {
-                    this._parent.hasClass($) ? this.expand() : this.collapse()
-                }, n.prototype._init = function (e) {
-                    var t = this;
-                    this._parent = e, X(this).find(this._settings.collapseTrigger).click(function () {
-                        t.toggle()
-                    }), X(this).find(this._settings.removeTrigger).click(function () {
-                        t.remove()
-                    })
-                }, n._jQueryInterface = function (t) {
-                    return this.each(function () {
-                        var e = X(this).data(F);
-                        e || (e = new n(X(this), e), X(this).data(F, "string" == typeof t ? e : t)), "string" == typeof t && t.match(/remove|toggle/) ? e[t]() : "object" === ("undefined" == typeof t ? "undefined" : ne(t)) && e._init(X(this))
-                    })
-                }, n
-            }(), X(document).on("click", Z.DATA_COLLAPSE, function (e) {
-                e && e.preventDefault(), te._jQueryInterface.call(X(this), "toggle")
-            }), X(document).on("click", Z.DATA_REMOVE, function (e) {
-                e && e.preventDefault(), te._jQueryInterface.call(X(this), "remove")
-            }), X.fn[z] = te._jQueryInterface, X.fn[z].Constructor = te, X.fn[z].noConflict = function () {
-                return X.fn[z] = J, te._jQueryInterface
-            }, te);
-        e.ControlSidebar = oe, e.Layout = re, e.PushMenu = ae, e.Treeview = se, e.Widget = ce, Object.defineProperty(e, "__esModule", {value: !0})
-    });
-    //# sourceMappingURL=adminlte.min.js.map
-
+!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?t(exports):"function"==typeof define&&define.amd?define(["exports"],t):t(e.adminlte={})}(this,function(e){"use strict";var i,t,o,n,r,a,s,c,f,l,u,d,h,p,_,g,y,m,v,C,D,E,A,O,w,b,L,S,j,T,I,Q,R,P,x,B,M,k,H,N,Y,U,V,G,W,X,z,F,q,J,K,Z,$,ee,te,ne="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},ie=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},oe=(i=jQuery,t="ControlSidebar",o="lte.control.sidebar",n=i.fn[t],r=".control-sidebar",a='[data-widget="control-sidebar"]',s=".main-header",c="control-sidebar-open",f="control-sidebar-slide-open",l={slide:!0},u=function(){function n(e,t){ie(this,n),this._element=e,this._config=this._getConfig(t)}return n.prototype.show=function(){this._config.slide?i("body").removeClass(f):i("body").removeClass(c)},n.prototype.collapse=function(){this._config.slide?i("body").addClass(f):i("body").addClass(c)},n.prototype.toggle=function(){this._setMargin(),i("body").hasClass(c)||i("body").hasClass(f)?this.show():this.collapse()},n.prototype._getConfig=function(e){return i.extend({},l,e)},n.prototype._setMargin=function(){i(r).css({top:i(s).outerHeight()})},n._jQueryInterface=function(t){return this.each(function(){var e=i(this).data(o);if(e||(e=new n(this,i(this).data()),i(this).data(o,e)),"undefined"===e[t])throw new Error(t+" is not a function");e[t]()})},n}(),i(document).on("click",a,function(e){e.preventDefault(),u._jQueryInterface.call(i(this),"toggle")}),i.fn[t]=u._jQueryInterface,i.fn[t].Constructor=u,i.fn[t].noConflict=function(){return i.fn[t]=n,u._jQueryInterface},u),re=(d=jQuery,h="Layout",p="lte.layout",_=d.fn[h],g=".main-sidebar",y=".main-header",m=".content-wrapper",v=".main-footer",C="hold-transition",D=function(){function n(e){ie(this,n),this._element=e,this._init()}return n.prototype.fixLayoutHeight=function(){var e={window:d(window).height(),header:d(y).outerHeight(),footer:d(v).outerHeight(),sidebar:d(g).height()},t=this._max(e);d(m).css("min-height",e.window-e.header-e.footer),d(g).css("min-height",e.window-e.header)},n.prototype._init=function(){var e=this;d("body").removeClass(C),this.fixLayoutHeight(),d(g).on("collapsed.lte.treeview expanded.lte.treeview collapsed.lte.pushmenu expanded.lte.pushmenu",function(){e.fixLayoutHeight()}),d(window).resize(function(){e.fixLayoutHeight()}),d("body, html").css("height","auto")},n.prototype._max=function(t){var n=0;return Object.keys(t).forEach(function(e){t[e]>n&&(n=t[e])}),n},n._jQueryInterface=function(t){return this.each(function(){var e=d(this).data(p);e||(e=new n(this),d(this).data(p,e)),t&&e[t]()})},n}(),d(window).on("load",function(){D._jQueryInterface.call(d("body"))}),d.fn[h]=D._jQueryInterface,d.fn[h].Constructor=D,d.fn[h].noConflict=function(){return d.fn[h]=_,D._jQueryInterface},D),ae=(E=jQuery,A="PushMenu",w="."+(O="lte.pushmenu"),b=E.fn[A],L={COLLAPSED:"collapsed"+w,SHOWN:"shown"+w},S={screenCollapseSize:768},j={TOGGLE_BUTTON:'[data-widget="pushmenu"]',SIDEBAR_MINI:".sidebar-mini",SIDEBAR_COLLAPSED:".sidebar-collapse",BODY:"body",OVERLAY:"#sidebar-overlay",WRAPPER:".wrapper"},T="sidebar-collapse",I="sidebar-open",Q=function(){function n(e,t){ie(this,n),this._element=e,this._options=E.extend({},S,t),E(j.OVERLAY).length||this._addOverlay()}return n.prototype.show=function(){E(j.BODY).addClass(I).removeClass(T);var e=E.Event(L.SHOWN);E(this._element).trigger(e)},n.prototype.collapse=function(){E(j.BODY).removeClass(I).addClass(T);var e=E.Event(L.COLLAPSED);E(this._element).trigger(e)},n.prototype.toggle=function(){(E(window).width()>=this._options.screenCollapseSize?!E(j.BODY).hasClass(T):E(j.BODY).hasClass(I))?this.collapse():this.show()},n.prototype._addOverlay=function(){var e=this,t=E("<div />",{id:"sidebar-overlay"});t.on("click",function(){e.collapse()}),E(j.WRAPPER).append(t)},n._jQueryInterface=function(t){return this.each(function(){var e=E(this).data(O);e||(e=new n(this),E(this).data(O,e)),t&&e[t]()})},n}(),E(document).on("click",j.TOGGLE_BUTTON,function(e){e.preventDefault();var t=e.currentTarget;"pushmenu"!==E(t).data("widget")&&(t=E(t).closest(j.TOGGLE_BUTTON)),Q._jQueryInterface.call(E(t),"toggle")}),E.fn[A]=Q._jQueryInterface,E.fn[A].Constructor=Q,E.fn[A].noConflict=function(){return E.fn[A]=b,Q._jQueryInterface},Q),se=(R=jQuery,P="Treeview",B="."+(x="lte.treeview"),M=R.fn[P],k={SELECTED:"selected"+B,EXPANDED:"expanded"+B,COLLAPSED:"collapsed"+B,LOAD_DATA_API:"load"+B},H=".nav-item",N=".nav-treeview",Y=".menu-open",V="menu-open",G={trigger:(U='[data-widget="treeview"]')+" "+".nav-link",animationSpeed:300,accordion:!0},W=function(){function i(e,t){ie(this,i),this._config=t,this._element=e}return i.prototype.init=function(){this._setupListeners()},i.prototype.expand=function(e,t){var n=this,i=R.Event(k.EXPANDED);if(this._config.accordion){var o=t.siblings(Y).first(),r=o.find(N).first();this.collapse(r,o)}e.slideDown(this._config.animationSpeed,function(){t.addClass(V),R(n._element).trigger(i)})},i.prototype.collapse=function(e,t){var n=this,i=R.Event(k.COLLAPSED);e.slideUp(this._config.animationSpeed,function(){t.removeClass(V),R(n._element).trigger(i),e.find(Y+" > "+N).slideUp(),e.find(Y).removeClass(V)})},i.prototype.toggle=function(e){var t=R(e.currentTarget),n=t.next();if(n.is(N)){e.preventDefault();var i=t.parents(H).first();i.hasClass(V)?this.collapse(R(n),i):this.expand(R(n),i)}},i.prototype._setupListeners=function(){var t=this;R(document).on("click",this._config.trigger,function(e){t.toggle(e)})},i._jQueryInterface=function(n){return this.each(function(){var e=R(this).data(x),t=R.extend({},G,R(this).data());e||(e=new i(R(this),t),R(this).data(x,e)),"init"===n&&e[n]()})},i}(),R(window).on(k.LOAD_DATA_API,function(){R(U).each(function(){W._jQueryInterface.call(R(this),"init")})}),R.fn[P]=W._jQueryInterface,R.fn[P].Constructor=W,R.fn[P].noConflict=function(){return R.fn[P]=M,W._jQueryInterface},W),ce=(X=jQuery,z="Widget",q="."+(F="lte.widget"),J=X.fn[z],K={EXPANDED:"expanded"+q,COLLAPSED:"collapsed"+q,REMOVED:"removed"+q},$="collapsed-card",ee={animationSpeed:"normal",collapseTrigger:(Z={DATA_REMOVE:'[data-widget="remove"]',DATA_COLLAPSE:'[data-widget="collapse"]',CARD:".card",CARD_HEADER:".card-header",CARD_BODY:".card-body",CARD_FOOTER:".card-footer",COLLAPSED:".collapsed-card"}).DATA_COLLAPSE,removeTrigger:Z.DATA_REMOVE},te=function(){function n(e,t){ie(this,n),this._element=e,this._parent=e.parents(Z.CARD).first(),this._settings=X.extend({},ee,t)}return n.prototype.collapse=function(){var e=this;this._parent.children(Z.CARD_BODY+", "+Z.CARD_FOOTER).slideUp(this._settings.animationSpeed,function(){e._parent.addClass($)});var t=X.Event(K.COLLAPSED);this._element.trigger(t,this._parent)},n.prototype.expand=function(){var e=this;this._parent.children(Z.CARD_BODY+", "+Z.CARD_FOOTER).slideDown(this._settings.animationSpeed,function(){e._parent.removeClass($)});var t=X.Event(K.EXPANDED);this._element.trigger(t,this._parent)},n.prototype.remove=function(){this._parent.slideUp();var e=X.Event(K.REMOVED);this._element.trigger(e,this._parent)},n.prototype.toggle=function(){this._parent.hasClass($)?this.expand():this.collapse()},n.prototype._init=function(e){var t=this;this._parent=e,X(this).find(this._settings.collapseTrigger).click(function(){t.toggle()}),X(this).find(this._settings.removeTrigger).click(function(){t.remove()})},n._jQueryInterface=function(t){return this.each(function(){var e=X(this).data(F);e||(e=new n(X(this),e),X(this).data(F,"string"==typeof t?e:t)),"string"==typeof t&&t.match(/remove|toggle/)?e[t]():"object"===("undefined"==typeof t?"undefined":ne(t))&&e._init(X(this))})},n}(),X(document).on("click",Z.DATA_COLLAPSE,function(e){e&&e.preventDefault(),te._jQueryInterface.call(X(this),"toggle")}),X(document).on("click",Z.DATA_REMOVE,function(e){e&&e.preventDefault(),te._jQueryInterface.call(X(this),"remove")}),X.fn[z]=te._jQueryInterface,X.fn[z].Constructor=te,X.fn[z].noConflict=function(){return X.fn[z]=J,te._jQueryInterface},te);e.ControlSidebar=oe,e.Layout=re,e.PushMenu=ae,e.Treeview=se,e.Widget=ce,Object.defineProperty(e,"__esModule",{value:!0})});
 </script>
+
 @yield('scripts')
 </body>
-
 </html>
