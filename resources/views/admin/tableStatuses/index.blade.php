@@ -1,8 +1,10 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="background:#f0f2f8;min-height:100vh;padding:24px;">
+<div style="padding:24px;">
+
     <x-admin-page-header title="Table Statuses" icon="fas fa-toggle-on" color="green"
         :breadcrumbs="[['label'=>trans('global.dashboard'),'url'=>route('admin.home')],['label'=>'Table Statuses']]" />
+
     @php $total=$tableStatuses->count(); @endphp
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:22px;">
         <div style="background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 2px 10px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
@@ -10,6 +12,7 @@
             <div><div style="font-size:1.4rem;font-weight:800;color:#1e293b;line-height:1;">{{ $total }}</div><div style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">Statuses</div></div>
         </div>
     </div>
+
     <x-admin-table
         title="Table Statuses"
         icon="fas fa-toggle-on"
@@ -36,6 +39,7 @@
             @endforeach
         </x-slot>
     </x-admin-table>
+
 </div>
 @endsection
 @section('scripts')
