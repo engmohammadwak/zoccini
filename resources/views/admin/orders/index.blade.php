@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-<div class="content-wrapper" style="min-height:100vh;padding:24px;">
+<div style="min-height:100vh;padding:24px;">
 
     <x-admin-page-header
         :title="trans('cruds.order.title')"
