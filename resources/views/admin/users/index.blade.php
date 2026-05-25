@@ -14,7 +14,7 @@
 
     @php
         $total     = $users->count();
-        $active    = $users->where('status',1)->count();
+        $active    = $users->where('status_id',1)->count();
         $admins    = $users->where('user_type',1)->count();
         $customers = $users->where('user_type',2)->count();
         $restCount = $users->where('user_type',3)->count();
@@ -94,7 +94,7 @@
                     {{-- Name + Avatar --}}
                     <td>
                         <div style="display:flex;align-items:center;gap:10px;">
-                            @if($user->avatar)
+                            @if($user->avatar ?? null)
                                 <img src="{{ asset('storage/'.$user->avatar) }}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid var(--z-border);" alt="" loading="lazy" />
                             @else
                                 <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#a78bfa);display:flex;align-items:center;justify-content:center;font-size:0.82rem;font-weight:800;color:#fff;flex-shrink:0;">{{ strtoupper(substr($user->name ?? 'U',0,1)) }}</div>
@@ -112,7 +112,7 @@
                         <span style="display:inline-flex;align-items:center;gap:5px;font-size:0.82rem;color:var(--z-text-muted);">
                             <i class="fas fa-phone" style="color:var(--z-primary);font-size:0.7rem;"></i>{{ $user->phone }}
                         </span>
-                        @else<span style="color:var(--z-text-faint);">—</span>@endif
+                        @else<span style="color:var(--z-text-faint);">&#8212;</span>@endif
                     </td>
                     {{-- Type --}}
                     <td>
@@ -121,9 +121,9 @@
                             {{ $tc['label'] }}
                         </span>
                     </td>
-                    {{-- Status --}}
+                    {{-- Status (use status_id to avoid UserStatus object comparison) --}}
                     <td>
-                        @if($user->status == 1)
+                        @if(($user->status_id ?? 0) == 1)
                         <span style="background:rgba(16,185,129,.12);color:#065f46;padding:4px 11px;border-radius:999px;font-weight:600;font-size:0.75rem;display:inline-flex;align-items:center;gap:5px;">
                             <span style="width:6px;height:6px;border-radius:50%;background:#10b981;"></span>{{ trans('global.active') ?? 'Active' }}
                         </span>
