@@ -1,20 +1,10 @@
 {{--
   ╔════════════════════════════════════════════════════════════╗
-  ║         SHARED ADMIN TABLE COMPONENT                     ║
-  ║  Usage:                                                  ║
-  ║  <x-admin-table                                          ║
-  ║      :title="trans('...')"                               ║
-  ║      icon="fas fa-list"                                  ║
-  ║      color="blue"                                        ║
-  ║      datatableClass="datatable-Order"                    ║
-  ║      :count="$items->count()"                            ║
-  ║      createPermission="order_create"     ← NEW (optional)║
-  ║      :createRoute="route('admin.orders.create')"         ║
-  ║      createLabel="Add New"                               ║
-  ║  >                                                       ║
-  ║    <x-slot name="thead"> ... </x-slot>                   ║
-  ║    <x-slot name="tbody"> ... </x-slot>                   ║
-  ║  </x-admin-table>                                        ║
+  ║  SHARED ADMIN TABLE COMPONENT                              ║
+  ║  Props:                                                    ║
+  ║    title, icon, color, datatableClass, count, countLabel  ║
+  ║    createPermission (optional - gate key e.g. order_create)║
+  ║    createRoute, createLabel, extraButtons                  ║
   ╚════════════════════════════════════════════════════════════╝
 --}}
 
@@ -32,236 +22,193 @@
 ])
 
 @php
-$palettes = [
-    'blue'   => ['grad' => 'linear-gradient(135deg,#4f7cff 0%,#7c4fff 100%)', 'light' => '#eef1ff', 'text' => '#4f7cff', 'shadow' => 'rgba(79,124,255,0.3)', 'header_bg' => 'linear-gradient(135deg,#f7f9ff 0%,#f0f4ff 100%)', 'page_btn' => 'linear-gradient(135deg,#4f7cff,#7c4fff)', 'focus' => 'rgba(79,124,255,0.12)'],
-    'green'  => ['grad' => 'linear-gradient(135deg,#22c55e 0%,#16a34a 100%)', 'light' => '#dcfce7', 'text' => '#16a34a', 'shadow' => 'rgba(34,197,94,0.3)',  'header_bg' => 'linear-gradient(135deg,#f0fff4 0%,#e6ffed 100%)', 'page_btn' => 'linear-gradient(135deg,#22c55e,#16a34a)', 'focus' => 'rgba(34,197,94,0.12)'],
-    'orange' => ['grad' => 'linear-gradient(135deg,#f97316 0%,#ea580c 100%)', 'light' => '#ffedd5', 'text' => '#ea580c', 'shadow' => 'rgba(249,115,22,0.3)',  'header_bg' => 'linear-gradient(135deg,#fff7f0 0%,#fff0e6 100%)', 'page_btn' => 'linear-gradient(135deg,#f97316,#ea580c)', 'focus' => 'rgba(249,115,22,0.12)'],
-    'purple' => ['grad' => 'linear-gradient(135deg,#a855f7 0%,#7c3aed 100%)', 'light' => '#f3e8ff', 'text' => '#7c3aed', 'shadow' => 'rgba(168,85,247,0.3)',  'header_bg' => 'linear-gradient(135deg,#faf5ff 0%,#f3e8ff 100%)', 'page_btn' => 'linear-gradient(135deg,#a855f7,#7c3aed)', 'focus' => 'rgba(168,85,247,0.12)'],
-    'red'    => ['grad' => 'linear-gradient(135deg,#ef4444 0%,#b91c1c 100%)', 'light' => '#fee2e2', 'text' => '#b91c1c', 'shadow' => 'rgba(239,68,68,0.3)',   'header_bg' => 'linear-gradient(135deg,#fff5f5 0%,#fee2e2 100%)', 'page_btn' => 'linear-gradient(135deg,#ef4444,#b91c1c)', 'focus' => 'rgba(239,68,68,0.12)'],
-    'cyan'   => ['grad' => 'linear-gradient(135deg,#06b6d4 0%,#0e7490 100%)', 'light' => '#e0f2fe', 'text' => '#0e7490', 'shadow' => 'rgba(6,182,212,0.3)',   'header_bg' => 'linear-gradient(135deg,#f0faff 0%,#e0f2fe 100%)', 'page_btn' => 'linear-gradient(135deg,#06b6d4,#0e7490)', 'focus' => 'rgba(6,182,212,0.12)'],
-    'indigo' => ['grad' => 'linear-gradient(135deg,#6366f1 0%,#4338ca 100%)', 'light' => '#e0e7ff', 'text' => '#4338ca', 'shadow' => 'rgba(99,102,241,0.3)',  'header_bg' => 'linear-gradient(135deg,#f5f3ff 0%,#ede9fe 100%)', 'page_btn' => 'linear-gradient(135deg,#6366f1,#4338ca)', 'focus' => 'rgba(99,102,241,0.12)'],
-    'teal'   => ['grad' => 'linear-gradient(135deg,#14b8a6 0%,#0f766e 100%)', 'light' => '#ccfbf1', 'text' => '#0f766e', 'shadow' => 'rgba(20,184,166,0.3)',  'header_bg' => 'linear-gradient(135deg,#f0fdfa 0%,#ccfbf1 100%)', 'page_btn' => 'linear-gradient(135deg,#14b8a6,#0f766e)', 'focus' => 'rgba(20,184,166,0.12)'],
-    'pink'   => ['grad' => 'linear-gradient(135deg,#ec4899 0%,#be185d 100%)', 'light' => '#fce7f3', 'text' => '#be185d', 'shadow' => 'rgba(236,72,153,0.3)',  'header_bg' => 'linear-gradient(135deg,#fff0f8 0%,#fce7f3 100%)', 'page_btn' => 'linear-gradient(135deg,#ec4899,#be185d)', 'focus' => 'rgba(236,72,153,0.12)'],
+$accents = [
+    'blue'   => ['grad'=>'linear-gradient(135deg,#4f7cff,#7c4fff)','text'=>'#4f7cff','shadow'=>'rgba(79,124,255,.3)','focus'=>'rgba(79,124,255,.12)','page'=>'linear-gradient(135deg,#4f7cff,#7c4fff)'],
+    'green'  => ['grad'=>'linear-gradient(135deg,#22c55e,#16a34a)','text'=>'#16a34a','shadow'=>'rgba(34,197,94,.3)','focus'=>'rgba(34,197,94,.12)','page'=>'linear-gradient(135deg,#22c55e,#16a34a)'],
+    'orange' => ['grad'=>'linear-gradient(135deg,#f97316,#ea580c)','text'=>'#ea580c','shadow'=>'rgba(249,115,22,.3)','focus'=>'rgba(249,115,22,.12)','page'=>'linear-gradient(135deg,#f97316,#ea580c)'],
+    'purple' => ['grad'=>'linear-gradient(135deg,#a855f7,#7c3aed)','text'=>'#7c3aed','shadow'=>'rgba(168,85,247,.3)','focus'=>'rgba(168,85,247,.12)','page'=>'linear-gradient(135deg,#a855f7,#7c3aed)'],
+    'red'    => ['grad'=>'linear-gradient(135deg,#ef4444,#b91c1c)','text'=>'#b91c1c','shadow'=>'rgba(239,68,68,.3)','focus'=>'rgba(239,68,68,.12)','page'=>'linear-gradient(135deg,#ef4444,#b91c1c)'],
+    'cyan'   => ['grad'=>'linear-gradient(135deg,#06b6d4,#0e7490)','text'=>'#0e7490','shadow'=>'rgba(6,182,212,.3)','focus'=>'rgba(6,182,212,.12)','page'=>'linear-gradient(135deg,#06b6d4,#0e7490)'],
+    'indigo' => ['grad'=>'linear-gradient(135deg,#6366f1,#4338ca)','text'=>'#4338ca','shadow'=>'rgba(99,102,241,.3)','focus'=>'rgba(99,102,241,.12)','page'=>'linear-gradient(135deg,#6366f1,#4338ca)'],
+    'teal'   => ['grad'=>'linear-gradient(135deg,#14b8a6,#0f766e)','text'=>'#0f766e','shadow'=>'rgba(20,184,166,.3)','focus'=>'rgba(20,184,166,.12)','page'=>'linear-gradient(135deg,#14b8a6,#0f766e)'],
+    'pink'   => ['grad'=>'linear-gradient(135deg,#ec4899,#be185d)','text'=>'#be185d','shadow'=>'rgba(236,72,153,.3)','focus'=>'rgba(236,72,153,.12)','page'=>'linear-gradient(135deg,#ec4899,#be185d)'],
 ];
-$p = $palettes[$color] ?? $palettes['blue'];
+$a   = $accents[$color] ?? $accents['blue'];
 $uid = 'tbl_'.Str::random(6);
 
-// حساب صلاحية زر الإضافة:
-// إذا تم تمرير createPermission نتحقق منه، وإلا نعرض الزر مباشرة إذا createRoute موجود.
 $showCreateBtn = false;
 if ($createRoute) {
-    if ($createPermission) {
-        $showCreateBtn = \Illuminate\Support\Facades\Gate::allows($createPermission);
-    } else {
-        $showCreateBtn = true;
-    }
+    $showCreateBtn = $createPermission
+        ? \Illuminate\Support\Facades\Gate::allows($createPermission)
+        : true;
 }
 @endphp
 
 <style>
-/* ── admin-table component ────────────────────────────────────── */
+/* ===== admin-table component (dark-mode-aware) ===== */
+
+/* Card */
 .adm-tbl-card {
-    background:#fff;
-    border-radius:14px;
-    border:1px solid #e8ecf4;
-    box-shadow:0 2px 12px rgba(0,0,0,0.06);
-    overflow:hidden;
-    margin-bottom:24px;
-    width:100%;
+    background: var(--z-card-bg, #fff);
+    border: 1px solid var(--z-card-border, #e8ecf4);
+    border-radius: 14px;
+    box-shadow: var(--z-card-shadow, 0 2px 12px rgba(0,0,0,.06));
+    overflow: hidden;
+    width: 100%;
 }
+
+/* Header */
 .adm-tbl-header {
-    background: {{ $p['header_bg'] }};
-    border-bottom:1px solid #e8ecf4;
-    padding:16px 20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    flex-wrap:wrap;
+    border-bottom: 1px solid var(--z-border, #e8ecf4);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: var(--z-surface-2, #f7f9ff);
 }
 .adm-tbl-header-title {
-    font-size:0.92rem;
-    font-weight:700;
-    color:#1a1f2e;
-    display:flex;
-    align-items:center;
-    gap:8px;
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--z-text, #1a1f2e);
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
-.adm-tbl-header-title i { color: {{ $p['text'] }}; }
+.adm-tbl-header-title i { color: {{ $a['text'] }}; }
 .adm-tbl-header-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-.adm-tbl-body { padding:20px; }
 
-.adm-tbl-wrap {
-    width:100%;
-    overflow-x:auto;
-    border-radius:10px;
-    border:1px solid #eef0f8;
+/* Icon badge */
+.adm-title-icon {
+    width:34px; height:34px;
+    border-radius:9px;
+    background: {{ $a['grad'] }};
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:.85rem;
+    box-shadow:0 3px 8px {{ $a['shadow'] }};
+    flex-shrink:0;
 }
 
+/* Body */
+.adm-tbl-body { padding: 0; }
+
+/* Table wrap */
+.adm-tbl-wrap { width:100%; overflow-x:auto; }
+
+/* Table */
 .adm-tbl-table {
     width:100% !important;
     min-width:100%;
     border-collapse:collapse;
-    font-size:0.84rem;
+    font-size:.84rem;
     table-layout:auto;
 }
 .adm-tbl-table thead tr:first-child th {
-    background:#f5f7ff;
-    color:#4a5080;
+    background: var(--z-surface-2, #f5f7ff);
+    color: var(--z-text-muted, #4a5080);
     font-weight:700;
-    font-size:0.78rem;
+    font-size:.75rem;
     text-transform:uppercase;
-    letter-spacing:0.5px;
-    padding:12px 14px;
-    border-bottom:2px solid #e2e7f4;
+    letter-spacing:.5px;
+    padding:11px 14px;
+    border-bottom:2px solid var(--z-border, #e2e7f4);
     white-space:nowrap;
 }
-.adm-tbl-table thead tr:nth-child(2) td {
-    background:#fafbff;
-    padding:8px 10px;
-    border-bottom:1px solid #e8ecf4;
-}
-.adm-tbl-table thead tr:nth-child(2) select {
-    width:100%;
-    border:1px solid #dde2f0;
-    border-radius:7px;
-    padding:5px 8px;
-    font-size:0.78rem;
-    color:#4a5080;
-    background:#fff;
-    outline:none;
-    cursor:pointer;
-    transition:border-color 0.2s;
-}
-.adm-tbl-table thead tr:nth-child(2) select:focus {
-    border-color: {{ $p['text'] }};
-    box-shadow:0 0 0 3px {{ $p['focus'] }};
-}
 .adm-tbl-table tbody tr {
-    border-bottom:1px solid #f0f2fa;
-    transition:background 0.15s;
+    border-bottom:1px solid var(--z-border, #f0f2fa);
+    transition:background .15s;
 }
 .adm-tbl-table tbody tr:last-child { border-bottom:none; }
-.adm-tbl-table tbody tr:hover { background:#f7f9ff; }
+.adm-tbl-table tbody tr:hover { background:var(--z-surface-2, #f7f9ff); }
 .adm-tbl-table tbody td {
-    padding:13px 14px;
-    color:#2d3250;
+    padding:12px 14px;
+    color:var(--z-text, #2d3250);
     vertical-align:middle;
 }
 
-.adm-count-chip {
-    display:inline-flex;
-    align-items:center;
-    gap:7px;
-    background:#fff;
-    border:1px solid #e8ecf4;
-    border-radius:10px;
-    padding:7px 14px;
-    font-size:0.82rem;
-    font-weight:600;
-    color:#3a4060;
-    box-shadow:0 1px 4px rgba(0,0,0,0.05);
-    margin-bottom:16px;
-}
-.adm-count-chip .dot {
-    width:8px;height:8px;border-radius:50%;
-    background: {{ $p['text'] }};
-}
-
+/* Create button */
 .adm-btn-create {
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    padding:7px 16px;
-    background: {{ $p['grad'] }};
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 15px;
+    background: {{ $a['grad'] }};
     color:#fff !important;
-    border-radius:9px;
-    font-size:0.82rem;
-    font-weight:600;
-    text-decoration:none;
-    border:none;
-    cursor:pointer;
-    box-shadow:0 3px 10px {{ $p['shadow'] }};
-    transition:opacity 0.2s, transform 0.15s;
+    border-radius:8px;
+    font-size:.81rem; font-weight:600;
+    text-decoration:none; border:none; cursor:pointer;
+    box-shadow:0 3px 10px {{ $a['shadow'] }};
+    transition:opacity .2s, transform .15s;
     white-space:nowrap;
 }
-.adm-btn-create:hover { opacity:0.88; transform:translateY(-1px); color:#fff !important; text-decoration:none; }
+.adm-btn-create:hover { opacity:.87; transform:translateY(-1px); color:#fff !important; text-decoration:none; }
 
-.adm-title-icon {
-    width:36px;height:36px;
-    border-radius:10px;
-    background: {{ $p['grad'] }};
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    font-size:0.9rem;
-    box-shadow:0 4px 10px {{ $p['shadow'] }};
-    flex-shrink:0;
-}
-
+/* DataTables overrides */
 #{{ $uid }}_wrapper { width:100% !important; }
 #{{ $uid }}_wrapper .dataTables_filter input {
-    border:1px solid #dde2f0 !important;
-    border-radius:8px !important;
-    padding:6px 12px !important;
-    font-size:0.83rem !important;
+    border:1px solid var(--z-border, #dde2f0) !important;
+    border-radius:7px !important;
+    padding:5px 11px !important;
+    font-size:.82rem !important;
     outline:none !important;
+    background:var(--z-card-bg,#fff) !important;
+    color:var(--z-text,#222) !important;
 }
 #{{ $uid }}_wrapper .dataTables_filter input:focus {
-    border-color: {{ $p['text'] }} !important;
-    box-shadow:0 0 0 3px {{ $p['focus'] }} !important;
+    border-color:{{ $a['text'] }} !important;
+    box-shadow:0 0 0 3px {{ $a['focus'] }} !important;
 }
 #{{ $uid }}_wrapper .dataTables_length select {
-    border:1px solid #dde2f0 !important;
-    border-radius:8px !important;
+    border:1px solid var(--z-border,#dde2f0) !important;
+    border-radius:7px !important;
     padding:4px 8px !important;
-    font-size:0.83rem !important;
+    font-size:.82rem !important;
+    background:var(--z-card-bg,#fff) !important;
+    color:var(--z-text,#222) !important;
 }
 #{{ $uid }}_wrapper .dataTables_info,
 #{{ $uid }}_wrapper .dataTables_paginate {
-    font-size:0.82rem !important;
-    margin-top:14px !important;
-    color:#7a80a0 !important;
+    font-size:.81rem !important;
+    margin-top:12px !important;
+    color:var(--z-text-muted,#7a80a0) !important;
 }
-#{{ $uid }}_wrapper .paginate_button { border-radius:7px !important; font-size:0.8rem !important; }
+#{{ $uid }}_wrapper .paginate_button { border-radius:6px !important; font-size:.79rem !important; }
 #{{ $uid }}_wrapper .paginate_button.current,
 #{{ $uid }}_wrapper .paginate_button.current:hover {
-    background: {{ $p['page_btn'] }} !important;
+    background: {{ $a['page'] }} !important;
     color:#fff !important;
     border:none !important;
 }
 #{{ $uid }}_wrapper .dt-buttons {
     float:none !important;
-    display:flex !important;
-    flex-wrap:wrap !important;
-    gap:6px !important;
-    margin-bottom:10px !important;
+    display:flex !important; flex-wrap:wrap !important;
+    gap:5px !important; margin-bottom:8px !important;
 }
 #{{ $uid }}_wrapper .dataTables_length,
 #{{ $uid }}_wrapper .dataTables_filter {
     display:inline-flex !important;
-    align-items:center !important;
-    gap:6px !important;
+    align-items:center !important; gap:6px !important;
 }
 #{{ $uid }}_wrapper > .row,
 #{{ $uid }}_wrapper > div { width:100% !important; }
-</style>
 
-{{-- Count chip --}}
-@if(!is_null($count))
-<div class="adm-count-chip">
-    <div class="dot"></div>
-    {{ $countLabel ?? trans('global.total') ?? 'Total' }}: <strong>{{ $count }}</strong>
-</div>
-@endif
+/* DataTables toolbar area inside body */
+.adm-tbl-toolbar {
+    padding:14px 18px 10px;
+    border-bottom:1px solid var(--z-border,#eef0f8);
+}
+</style>
 
 {{-- Card --}}
 <div class="adm-tbl-card">
+
+    {{-- Header --}}
     <div class="adm-tbl-header">
         <div class="adm-tbl-header-title">
             <div class="adm-title-icon"><i class="{{ $icon }}"></i></div>
             {{ $title }}
+            @if(!is_null($count))
+            <span style="background:var(--z-surface-offset,#eef0f8);color:var(--z-text-muted,#5a6080);border-radius:999px;padding:2px 9px;font-size:.73rem;font-weight:700;margin-inline-start:2px;">{{ $count }}</span>
+            @endif
         </div>
         <div class="adm-tbl-header-actions">
             {{ $extraButtons ?? '' }}
@@ -271,21 +218,20 @@ if ($createRoute) {
                     {{ $createLabel ?? trans('global.add') ?? 'Add' }}
                 </a>
             @endif
-            <span style="font-size:0.78rem;color:#9aa0c0;">
-                <i class="fas fa-sync-alt" style="margin-inline-start:4px;"></i>
-                {{ now()->translatedFormat('d/m/Y H:i') }}
-            </span>
         </div>
     </div>
 
+    {{-- Body --}}
     <div class="adm-tbl-body">
-        <div class="adm-tbl-wrap">
+        <div id="{{ $uid }}-toolbar" class="adm-tbl-toolbar" style="display:none;"></div>
+        <div class="adm-tbl-wrap" style="padding:0 18px 16px;">
             <table id="{{ $uid }}" class="adm-tbl-table table datatable {{ $datatableClass }}">
                 <thead>{{ $thead }}</thead>
                 <tbody>{{ $tbody }}</tbody>
             </table>
         </div>
     </div>
+
 </div>
 
 <script>
@@ -293,18 +239,30 @@ if ($createRoute) {
     function fixTbl(){
         var tbl = $('#{{ $uid }}');
         if(!tbl.length) return;
-        var dt = tbl.DataTable ? tbl.DataTable() : null;
-        if(dt){
-            dt.settings()[0].oInit.autoWidth = false;
+        if($.fn.DataTable && $.fn.DataTable.isDataTable('#{{ $uid }}')){
+            var dt = tbl.DataTable();
             dt.columns.adjust();
         }
         $('#{{ $uid }}_wrapper').css('width','100%');
         tbl.css('width','100%');
+        // Move DataTables toolbar into our styled area
+        var toolbarEl = $('#{{ $uid }}-toolbar');
+        var dtFilter  = $('#{{ $uid }}_wrapper .dataTables_filter');
+        var dtLength  = $('#{{ $uid }}_wrapper .dataTables_length');
+        var dtBtns    = $('#{{ $uid }}_wrapper .dt-buttons');
+        if(dtFilter.length || dtLength.length || dtBtns.length){
+            toolbarEl.show().css({'display':'flex','align-items':'center','gap':'10px','flex-wrap':'wrap','justify-content':'space-between'});
+            if(dtBtns.length) dtBtns.appendTo(toolbarEl);
+            var right = $('<div>').css({'display':'flex','align-items':'center','gap':'8px'});
+            if(dtLength.length) right.append(dtLength);
+            if(dtFilter.length) right.append(dtFilter);
+            right.appendTo(toolbarEl);
+        }
     }
     if(document.readyState === 'loading'){
-        document.addEventListener('DOMContentLoaded', function(){setTimeout(fixTbl,300);});
+        document.addEventListener('DOMContentLoaded', function(){setTimeout(fixTbl,350);});
     } else {
-        setTimeout(fixTbl,300);
+        setTimeout(fixTbl,350);
     }
 })();
 </script>
