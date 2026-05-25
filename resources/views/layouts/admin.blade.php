@@ -3,7 +3,7 @@
 @endif
 
 <!DOCTYPE html>
-<html {{\Illuminate\Support\Facades\App::getLocale() == 'ar' ? 'dir="rtl"' : ''}}>
+<html {{\Illuminate\Support\Facades\App::getLocale() == 'ar' ? 'dir="rtl" lang="ar"' : 'lang="en"'}}>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -11,6 +11,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ trans('panel.site_title') }}</title>
     <link rel="icon" href="{{asset('img/setting/'.getSetting('website_icon'))}}"/>
+
+    {{-- Fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     {{-- CSS Libraries --}}
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"/>
@@ -24,7 +29,9 @@
     <link href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet"/>
     <link href="{{ asset('/css/custom.css') }}" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    {{-- ✨ Zoccini Brand Theme (CSS Variables + Light/Dark) --}}
+    <link href="{{ asset('/css/admin-theme.css') }}" rel="stylesheet"/>
 
     @if (\Illuminate\Support\Facades\App::getLocale() == 'ar')
     <style>
@@ -49,358 +56,263 @@
             .content-wrapper, .content-wrapper::before, .main-footer, .main-footer::before, .main-header, .main-header::before { margin-right: 0; }
             .sidebar-open .main-sidebar, .sidebar-open .main-sidebar::before { margin-right: 0; }
         }
-        body { margin: 0; font-family: 'Cairo', sans-serif; font-size: 1rem; font-weight: 400; line-height: 1.5; color: #212529; text-align: right !important; background-color: #f4f6f9; }
+        body { font-family: 'Cairo', sans-serif; text-align: right !important; }
         .nav { display: flex; flex-wrap: wrap; padding-right: 0 !important; margin-bottom: 0; list-style: none; }
         .ml-auto, .mx-auto { margin-right: auto !important; }
         .nav-sidebar .nav-link>.right, .nav-sidebar .nav-link>p>.right { left: 2rem !important; right: auto; }
-        /* Navbar RTL fixes */
         .navbar-right-items { margin-right: auto !important; margin-left: 0 !important; }
-        .admin-navbar .navbar-left { margin-right: 0; }
-        .admin-navbar .dropdown-menu-right { right: auto !important; left: 0 !important; }
     </style>
     @endif
 
     <style>
+        /* ================================================================
+           BASE — Apply CSS Variables to AdminLTE
+        ================================================================ */
         body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #f4f6f9;
+            font-family: 'Cairo', sans-serif !important;
+            background-color: var(--z-bg) !important;
+            color: var(--z-text) !important;
         }
 
-        /* =============================================
-           NAVBAR — Modern Redesign
-        ============================================= */
+        /* Content wrapper */
+        .content-wrapper {
+            background: var(--z-bg) !important;
+            color: var(--z-text) !important;
+            transition: background var(--z-transition-slow), color var(--z-transition-slow);
+        }
+
+        /* Footer */
+        .main-footer {
+            background: var(--z-surface) !important;
+            border-top: 1px solid var(--z-border) !important;
+            color: var(--z-text-faint) !important;
+            font-size: 0.78rem !important;
+            padding: 12px 20px !important;
+            transition: background var(--z-transition-slow), border-color var(--z-transition-slow);
+        }
+
+        /* Alerts */
+        .alert { border-radius: 10px !important; border: none !important; font-size: 0.83rem; }
+        .alert-success {
+            background: rgba(39,186,77,0.08) !important;
+            color: var(--z-primary) !important;
+            border-left: 3px solid var(--z-primary) !important;
+        }
+        .alert-danger  {
+            background: rgba(239,68,68,0.08) !important;
+            color: #dc2626 !important;
+            border-left: 3px solid #ef4444 !important;
+        }
+        [dir="rtl"] .alert-success { border-left: none !important; border-right: 3px solid var(--z-primary) !important; }
+        [dir="rtl"] .alert-danger  { border-left: none !important; border-right: 3px solid #ef4444 !important; }
+
+        /* ================================================================
+           NAVBAR
+        ================================================================ */
         .admin-navbar {
-            background: #ffffff !important;
-            border-bottom: 1px solid rgba(0,0,0,0.07) !important;
+            background: var(--z-surface) !important;
+            border-bottom: 1px solid var(--z-border) !important;
             box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
             height: 58px !important;
             padding: 0 16px !important;
             display: flex !important;
             align-items: center !important;
             z-index: 1030;
+            transition: background var(--z-transition-slow), border-color var(--z-transition-slow);
         }
 
         /* Toggle button */
         .navbar-toggler-btn {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
             border-radius: 8px;
-            color: #64748b;
-            transition: background 0.18s, color 0.18s;
-            text-decoration: none;
-            font-size: 1rem;
+            color: var(--z-text-muted);
+            transition: background var(--z-transition), color var(--z-transition);
+            text-decoration: none; font-size: 1rem;
         }
         .navbar-toggler-btn:hover {
-            background: #f1f5f9;
-            color: #334155;
+            background: var(--z-surface-offset);
+            color: var(--z-text);
         }
 
-        /* Breadcrumb / page title area */
+        /* Page title */
         .navbar-page-title {
-            font-size: 0.83rem;
-            font-weight: 600;
-            color: #475569;
-            margin-left: 12px;
-            padding-left: 12px;
-            border-left: 1px solid #e2e8f0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 0.83rem; font-weight: 600;
+            color: var(--z-text-muted);
+            margin-left: 12px; padding-left: 12px;
+            border-left: 1px solid var(--z-border);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             max-width: 260px;
         }
         [dir="rtl"] .navbar-page-title {
-            margin-left: 0;
-            padding-left: 0;
-            margin-right: 12px;
-            padding-right: 12px;
-            border-left: none;
-            border-right: 1px solid #e2e8f0;
+            margin-left: 0; padding-left: 0;
+            margin-right: 12px; padding-right: 12px;
+            border-left: none; border-right: 1px solid var(--z-border);
         }
 
-        /* Right section */
+        /* Right items */
         .navbar-right-items {
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            display: flex; align-items: center; gap: 4px;
             margin-left: auto;
         }
-        [dir="rtl"] .navbar-right-items {
-            margin-left: 0;
-            margin-right: auto;
-        }
+        [dir="rtl"] .navbar-right-items { margin-left: 0; margin-right: auto; }
 
         /* Icon buttons */
         .navbar-icon-btn {
-            position: relative;
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative; width: 38px; height: 38px;
+            display: flex; align-items: center; justify-content: center;
             border-radius: 10px;
-            color: #64748b;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            transition: background 0.18s, color 0.18s;
-            font-size: 0.95rem;
-            text-decoration: none;
+            color: var(--z-text-muted);
+            background: transparent; border: none; cursor: pointer;
+            transition: background var(--z-transition), color var(--z-transition);
+            font-size: 0.95rem; text-decoration: none;
         }
-        .navbar-icon-btn:hover {
-            background: #f1f5f9;
-            color: #334155;
-        }
+        .navbar-icon-btn:hover { background: var(--z-surface-offset); color: var(--z-text); }
         .navbar-icon-btn:focus { outline: none; }
 
-        /* Notification badge */
+        /* Badges */
         .navbar-badge-dot {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            width: 8px;
-            height: 8px;
-            background: #ef4444;
-            border-radius: 50%;
-            border: 2px solid #fff;
+            position: absolute; top: 6px; right: 6px;
+            width: 8px; height: 8px;
+            background: #ef4444; border-radius: 50%;
+            border: 2px solid var(--z-surface);
         }
         .navbar-badge-count {
-            position: absolute;
-            top: 4px;
-            right: 3px;
-            background: #ef4444;
-            color: #fff;
-            font-size: 0.58rem;
-            font-weight: 700;
-            padding: 1px 4px;
-            border-radius: 20px;
-            border: 2px solid #fff;
-            line-height: 1.3;
-            min-width: 16px;
-            text-align: center;
+            position: absolute; top: 4px; right: 3px;
+            background: #ef4444; color: #fff;
+            font-size: 0.58rem; font-weight: 700;
+            padding: 1px 4px; border-radius: 20px;
+            border: 2px solid var(--z-surface);
+            line-height: 1.3; min-width: 16px; text-align: center;
         }
 
         /* Notifications dropdown */
         .navbar-notif-dropdown {
-            width: 320px;
-            padding: 0;
-            border: 1px solid rgba(0,0,0,0.08);
+            width: 320px; padding: 0;
+            border: 1px solid var(--z-border);
             border-radius: 12px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.12);
             overflow: hidden;
+            background: var(--z-surface);
         }
         .navbar-notif-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
             padding: 12px 16px;
-            border-bottom: 1px solid #f1f5f9;
-            background: #fafbfc;
+            border-bottom: 1px solid var(--z-border);
+            background: var(--z-surface-offset);
         }
-        .navbar-notif-header span {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #334155;
-        }
-        .navbar-notif-header a {
-            font-size: 0.72rem;
-            color: #4f7cff;
-            text-decoration: none;
-        }
+        .navbar-notif-header span { font-size: 0.8rem; font-weight: 700; color: var(--z-text); }
+        .navbar-notif-header a { font-size: 0.72rem; color: var(--z-primary); text-decoration: none; }
         .navbar-notif-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
+            display: flex; align-items: flex-start; gap: 10px;
             padding: 10px 16px;
-            border-bottom: 1px solid #f8fafc;
+            border-bottom: 1px solid var(--z-border);
             transition: background 0.15s;
             text-decoration: none !important;
+            background: var(--z-surface);
         }
-        .navbar-notif-item:hover { background: #f8fafc; }
+        .navbar-notif-item:hover { background: var(--z-surface-offset); }
         .navbar-notif-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: rgba(79,124,255,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            color: #4f7cff;
-            flex-shrink: 0;
-            margin-top: 1px;
+            width: 32px; height: 32px; border-radius: 8px;
+            background: rgba(39,186,77,0.1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; color: var(--z-primary);
+            flex-shrink: 0; margin-top: 1px;
         }
-        .navbar-notif-text {
-            font-size: 0.78rem;
-            color: #475569;
-            line-height: 1.45;
-            flex: 1;
-        }
-        .navbar-notif-text strong { color: #1e293b; font-weight: 600; }
-        .navbar-notif-empty {
-            text-align: center;
-            padding: 24px 16px;
-            color: #94a3b8;
-            font-size: 0.78rem;
-        }
-        .navbar-notif-empty i {
-            display: block;
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-            opacity: 0.4;
-        }
+        .navbar-notif-text { font-size: 0.78rem; color: var(--z-text-muted); line-height: 1.45; flex: 1; }
+        .navbar-notif-text strong { color: var(--z-text); font-weight: 600; }
+        .navbar-notif-empty { text-align: center; padding: 24px 16px; color: var(--z-text-faint); font-size: 0.78rem; }
+        .navbar-notif-empty i { display: block; font-size: 1.8rem; margin-bottom: 8px; opacity: 0.4; }
 
         /* Language dropdown */
         .navbar-lang-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 0 12px;
-            height: 38px;
-            border-radius: 10px;
-            color: #64748b;
-            font-size: 0.78rem;
-            font-weight: 600;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            transition: background 0.18s, color 0.18s;
-            text-decoration: none;
-            letter-spacing: 0.5px;
+            display: flex; align-items: center; gap: 6px;
+            padding: 0 12px; height: 38px; border-radius: 10px;
+            color: var(--z-text-muted);
+            font-size: 0.78rem; font-weight: 600;
+            background: transparent; border: none; cursor: pointer;
+            transition: background var(--z-transition), color var(--z-transition);
+            text-decoration: none; letter-spacing: 0.5px;
         }
-        .navbar-lang-btn:hover {
-            background: #f1f5f9;
-            color: #334155;
-        }
+        .navbar-lang-btn:hover { background: var(--z-surface-offset); color: var(--z-text); }
         .navbar-lang-dropdown {
             min-width: 140px;
-            border: 1px solid rgba(0,0,0,0.08);
+            border: 1px solid var(--z-border);
             border-radius: 10px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-            padding: 4px;
-            overflow: hidden;
+            padding: 4px; overflow: hidden;
+            background: var(--z-surface);
         }
         .navbar-lang-dropdown .dropdown-item {
-            border-radius: 7px;
-            font-size: 0.8rem;
-            padding: 7px 12px;
-            font-weight: 500;
-            color: #475569;
-        }
-        .navbar-lang-dropdown .dropdown-item:hover {
-            background: #f1f5f9;
-            color: #1e293b;
-        }
-
-        /* Divider */
-        .navbar-divider {
-            width: 1px;
-            height: 22px;
-            background: #e2e8f0;
-            margin: 0 6px;
-        }
-
-        /* User avatar button */
-        .navbar-user-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 10px 4px 4px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.18s;
-            text-decoration: none !important;
-            border: none;
+            border-radius: 7px; font-size: 0.8rem; padding: 7px 12px;
+            font-weight: 500; color: var(--z-text-muted);
             background: transparent;
         }
-        .navbar-user-btn:hover { background: #f1f5f9; }
+        .navbar-lang-dropdown .dropdown-item:hover { background: var(--z-surface-offset); color: var(--z-text); }
+        .navbar-lang-dropdown .dropdown-item.active { color: var(--z-primary) !important; }
+
+        /* Divider */
+        .navbar-divider { width: 1px; height: 22px; background: var(--z-border); margin: 0 6px; }
+
+        /* User button */
+        .navbar-user-btn {
+            display: flex; align-items: center; gap: 8px;
+            padding: 4px 10px 4px 4px; border-radius: 10px;
+            cursor: pointer; transition: background var(--z-transition);
+            text-decoration: none !important; border: none;
+            background: transparent;
+        }
+        .navbar-user-btn:hover { background: var(--z-surface-offset); }
         [dir="rtl"] .navbar-user-btn { padding: 4px 4px 4px 10px; }
         .navbar-user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 9px;
-            background: linear-gradient(135deg, #4f7cff 0%, #7c4fff 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: #fff;
-            flex-shrink: 0;
+            width: 32px; height: 32px; border-radius: 9px;
+            background: linear-gradient(135deg, var(--z-primary) 0%, #1a9e3f 100%);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.78rem; font-weight: 700; color: #fff; flex-shrink: 0;
         }
         .navbar-user-info .user-name {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: #334155;
-            line-height: 1.2;
-            max-width: 120px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            font-size: 0.78rem; font-weight: 600; color: var(--z-text);
+            line-height: 1.2; max-width: 120px;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
-        .navbar-user-info .user-role {
-            font-size: 0.68rem;
-            color: #94a3b8;
-            line-height: 1;
-        }
-        .navbar-user-caret {
-            font-size: 0.6rem;
-            color: #94a3b8;
-            margin-left: 2px;
-        }
+        .navbar-user-info .user-role { font-size: 0.68rem; color: var(--z-text-faint); line-height: 1; }
+        .navbar-user-caret { font-size: 0.6rem; color: var(--z-text-faint); margin-left: 2px; }
         [dir="rtl"] .navbar-user-caret { margin-left: 0; margin-right: 2px; }
 
         /* User dropdown */
         .navbar-user-dropdown {
             min-width: 200px;
-            border: 1px solid rgba(0,0,0,0.08);
+            border: 1px solid var(--z-border);
             border-radius: 12px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-            padding: 6px;
-            overflow: hidden;
+            padding: 6px; overflow: hidden;
+            background: var(--z-surface);
         }
         .navbar-user-dropdown .dropdown-item {
-            border-radius: 8px;
-            font-size: 0.8rem;
-            padding: 8px 12px;
-            color: #475569;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            border-radius: 8px; font-size: 0.8rem; padding: 8px 12px;
+            color: var(--z-text-muted);
+            display: flex; align-items: center; gap: 8px;
+            background: transparent;
         }
-        .navbar-user-dropdown .dropdown-item i {
-            width: 16px;
-            text-align: center;
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
-        .navbar-user-dropdown .dropdown-item:hover { background: #f8fafc; color: #1e293b; }
-        .navbar-user-dropdown .dropdown-item:hover i { color: #4f7cff; }
-        .navbar-user-dropdown .dropdown-divider { margin: 4px 0; border-color: #f1f5f9; }
+        .navbar-user-dropdown .dropdown-item i { width: 16px; text-align: center; font-size: 0.8rem; color: var(--z-text-faint); }
+        .navbar-user-dropdown .dropdown-item:hover { background: var(--z-surface-offset); color: var(--z-text); }
+        .navbar-user-dropdown .dropdown-item:hover i { color: var(--z-primary); }
+        .navbar-user-dropdown .dropdown-divider { margin: 4px 0; border-color: var(--z-border); }
         .navbar-user-dropdown .dropdown-item.text-danger { color: #ef4444 !important; }
         .navbar-user-dropdown .dropdown-item.text-danger i { color: #ef4444 !important; }
-        .navbar-user-dropdown .dropdown-item.text-danger:hover { background: #fff5f5; }
+        .navbar-user-dropdown .dropdown-item.text-danger:hover { background: rgba(239,68,68,0.07); }
 
-        /* Content wrapper background */
-        .content-wrapper { background: #f4f6f9 !important; }
-
-        /* Footer */
-        .main-footer {
-            background: #fff !important;
-            border-top: 1px solid rgba(0,0,0,0.06) !important;
-            color: #94a3b8 !important;
-            font-size: 0.78rem !important;
-            padding: 12px 20px !important;
+        /* Dark mode toggle button */
+        #z-theme-toggle {
+            width: 38px; height: 38px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 10px;
+            color: var(--z-text-muted);
+            background: transparent; border: none; cursor: pointer;
+            transition: background var(--z-transition), color var(--z-transition);
+            font-size: 0.95rem;
         }
-
-        /* Alert messages */
-        .alert { border-radius: 10px !important; border: none !important; font-size: 0.83rem; }
-        .alert-success { background: #f0fdf4 !important; color: #166534 !important; border-left: 3px solid #22c55e !important; }
-        .alert-danger  { background: #fef2f2 !important; color: #991b1b !important; border-left: 3px solid #ef4444 !important; }
-        [dir="rtl"] .alert-success { border-left: none !important; border-right: 3px solid #22c55e !important; }
-        [dir="rtl"] .alert-danger  { border-left: none !important; border-right: 3px solid #ef4444 !important; }
+        #z-theme-toggle:hover { background: var(--z-surface-offset); color: var(--z-text); }
     </style>
 
     @yield('styles')
@@ -421,13 +333,13 @@
             </li>
             <li class="nav-item d-none d-sm-block">
                 <span class="navbar-page-title">
-                    <i class="fas fa-home" style="color:#4f7cff;margin-left:4px;margin-right:4px;"></i>
+                    <i class="fas fa-home" style="color:var(--z-primary);margin-left:4px;margin-right:4px;"></i>
                     {{ trans('panel.site_title') }}
                 </span>
             </li>
         </ul>
 
-        {{-- Right: Language + Notifications + User --}}
+        {{-- Right: Language + Theme + Notifications + User --}}
         <div class="navbar-right-items">
 
             {{-- Language Switcher --}}
@@ -443,15 +355,22 @@
                         <a class="dropdown-item {{ app()->getLocale() == $langLocale ? 'active' : '' }}"
                            href="{{ url()->current() }}?change_language={{ $langLocale }}">
                             @if(app()->getLocale() == $langLocale)
-                                <i class="fas fa-check" style="font-size:0.65rem;color:#4f7cff;margin-left:2px;"></i>
+                                <i class="fas fa-check" style="font-size:0.65rem;color:var(--z-primary);margin-left:2px;"></i>
                             @endif
-                            {{ strtoupper($langLocale) }} — {{ $langName }}
+                            {{ strtoupper($langLocale) }} &mdash; {{ $langName }}
                         </a>
                     @endforeach
                 </div>
             </div>
             <div class="navbar-divider"></div>
             @endif
+
+            {{-- Dark / Light Mode Toggle --}}
+            <button id="z-theme-toggle" title="Toggle Dark Mode" aria-label="Toggle dark mode">
+                <i class="fas fa-moon" id="z-theme-icon"></i>
+            </button>
+
+            <div class="navbar-divider"></div>
 
             {{-- Notifications --}}
             @php($alertsCount = \Auth::user()->userUserAlerts()->where('read', false)->count())
@@ -461,8 +380,6 @@
                     <i class="fas fa-bell"></i>
                     @if($alertsCount > 0)
                         <span class="navbar-badge-count">{{ $alertsCount > 9 ? '9+' : $alertsCount }}</span>
-                    @else
-                        <span class="navbar-badge-dot" style="display:none;"></span>
                     @endif
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-notif-dropdown">
@@ -478,9 +395,7 @@
                            class="navbar-notif-item"
                            target="{{ $alert->alert_link ? '_blank' : '_self' }}"
                            rel="noopener noreferrer">
-                            <div class="navbar-notif-icon">
-                                <i class="fas fa-bell"></i>
-                            </div>
+                            <div class="navbar-notif-icon"><i class="fas fa-bell"></i></div>
                             <div class="navbar-notif-text">
                                 @if($alert->pivot->read === 0)<strong>@endif
                                     {{ Str::limit($alert->alert_text, 60) }}
@@ -491,13 +406,12 @@
                     @else
                         <div class="navbar-notif-empty">
                             <i class="fas fa-bell-slash"></i>
-                            {{ trans('global.no_alerts') }}
+                            {{ trans('global.no_alerts') ?? 'No notifications' }}
                         </div>
                     @endif
                 </div>
             </div>
 
-            {{-- Divider --}}
             <div class="navbar-divider"></div>
 
             {{-- User Dropdown --}}
@@ -534,7 +448,7 @@
                 </div>
             </div>
 
-        </div>{{-- end navbar-right-items --}}
+        </div>
     </nav>
     {{-- ============ END NAVBAR ============ --}}
 
@@ -648,6 +562,34 @@ $(document).ready(function () {
         }
     });
 });
+</script>
+
+{{-- Dark/Light Mode Toggle Script --}}
+<script>
+(function() {
+    var html = document.documentElement;
+    var btn  = document.getElementById('z-theme-toggle');
+    var icon = document.getElementById('z-theme-icon');
+    var saved = localStorage.getItem('z-theme');
+    var mode = saved ? saved : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+    function applyTheme(m) {
+        html.setAttribute('data-z-theme', m);
+        if (icon) {
+            icon.className = m === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+    }
+
+    applyTheme(mode);
+
+    if (btn) {
+        btn.addEventListener('click', function() {
+            mode = mode === 'dark' ? 'light' : 'dark';
+            applyTheme(mode);
+            try { localStorage.setItem('z-theme', mode); } catch(e) {}
+        });
+    }
+})();
 </script>
 
 <script>
