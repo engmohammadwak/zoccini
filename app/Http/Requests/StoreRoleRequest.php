@@ -21,6 +21,14 @@ class StoreRoleRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'title_ar'      => [
+                'string',
+                'nullable',
+            ],
+            'title_en'      => [
+                'string',
+                'nullable',
+            ],
             'permissions.*' => [
                 'integer',
             ],

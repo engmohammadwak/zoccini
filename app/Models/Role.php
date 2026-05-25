@@ -20,6 +20,8 @@ class Role extends Model
 
     protected $fillable = [
         'title',
+        'title_ar',
+        'title_en',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -33,5 +35,17 @@ class Role extends Model
     public function permissions()
     {
         return $this->belongsToMany(Permission::class);
+    }
+
+    /**
+     * Get the role title based on current locale.
+     */
+    public function getLocaleTitleAttribute()
+    {
+        $locale = app()->getLocale();
+        if ($locale === 'ar' && $this->title_ar) {
+            return $this->title_ar;
+        }
+        return $this->title_en ?? $this->title;
     }
 }

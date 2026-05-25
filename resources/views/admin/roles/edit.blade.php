@@ -7,36 +7,67 @@
         </div>
 
         <div class="card-body">
-            <form method="POST" action="{{ route("admin.roles.update", [$role->id]) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route(\"admin.roles.update\", [$role->id]) }}" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
+
+                {{-- Title (internal/system name) --}}
                 <div class="form-group">
                     <label class="required" for="title">{{ trans('cruds.role.fields.title') }}</label>
-                    <input class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" type="text" name="title" id="title" value="{{ old('title', $role->title) }}" required>
+                    <input class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" type="text" name="title"
+                           id="title" value="{{ old('title', $role->title) }}" required>
                     @if($errors->has('title'))
                         <span class="text-danger">{{ $errors->first('title') }}</span>
                     @endif
                     <span class="help-block">{{ trans('cruds.role.fields.title_helper') }}</span>
                 </div>
+
+                {{-- Title Arabic --}}
+                <div class="form-group">
+                    <label for="title_ar">الاسم بالعربية</label>
+                    <input class="form-control {{ $errors->has('title_ar') ? 'is-invalid' : '' }}" type="text"
+                           name="title_ar" id="title_ar" value="{{ old('title_ar', $role->title_ar) }}" dir="rtl"
+                           placeholder="أدخل اسم الدور بالعربية">
+                    @if($errors->has('title_ar'))
+                        <span class="text-danger">{{ $errors->first('title_ar') }}</span>
+                    @endif
+                </div>
+
+                {{-- Title English --}}
+                <div class="form-group">
+                    <label for="title_en">Name in English</label>
+                    <input class="form-control {{ $errors->has('title_en') ? 'is-invalid' : '' }}" type="text"
+                           name="title_en" id="title_en" value="{{ old('title_en', $role->title_en) }}"
+                           placeholder="Enter role name in English">
+                    @if($errors->has('title_en'))
+                        <span class="text-danger">{{ $errors->first('title_en') }}</span>
+                    @endif
+                </div>
+
+                {{-- Permissions --}}
                 <div class="form-group">
                     <label for="permissions">{{ trans('cruds.role.fields.permissions') }}</label>
                     <div class="row">
                         @foreach($result as $datas)
                             <div class="col-md-6">
                                 <hr>
-                                <h4>{{ $datas['link_name'] }} </h4>
+                                <h4>{{ $datas['link_name'] }}</h4>
                                 <hr>
                                 @php
-                                    $permission = \App\Models\Permission::where('category' , $datas['permissions']['category'])->orderByDesc('id')->get();
+                                    $permission = \App\Models\Permission::where('category', $datas['permissions']['category'])->orderByDesc('id')->get();
                                 @endphp
                                 @foreach($permission as $data)
                                     <div class="form-group">
                                         <div class="row">
-                                            <label class="col-sm-2 col-md-6 control-label" style="">{{\Illuminate\Support\Facades\App::getLocale() == 'ar' ? $data['name_ar'] : $data['name_en'] }}</label>
+                                            <label class="col-sm-2 col-md-6 control-label">
+                                                {{ \Illuminate\Support\Facades\App::getLocale() == 'ar' ? $data['name_ar'] : $data['name_en'] }}
+                                            </label>
                                             <div class="col-sm-10 col-md-6">
-                                                <label class=" control-label">
-                                                    <input type="checkbox" name="perm[]" value="{{$data['id'] }}" class="flat-red"  {{ $role->permissions->contains($data['id'])  ? 'checked' : '' }}> &nbsp;{{ trans('cruds.checked') }}
-                                                </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <label class="control-label">
+                                                    <input type="checkbox" name="perm[]" value="{{ $data['id'] }}"
+                                                           class="flat-red" {{ $role->permissions->contains($data['id']) ? 'checked' : '' }}>
+                                                    &nbsp;{{ trans('cruds.checked') }}
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
@@ -44,19 +75,8 @@
                             </div>
                         @endforeach
                     </div>
-
-
-
-
-
-
-                    {{--                <select class="form-control select2 {{ $errors->has('permissions') ? 'is-invalid' : '' }}" name="permissions[]" id="permissions" multiple>--}}
-                    {{--                    @foreach($permissions as $id => $permissions)--}}
-                    {{--                        <option value="{{ $id }}" {{ (in_array($id, old('permissions', [])) || $role->permissions->contains($id)) ? 'selected' : '' }}>{{ $permissions }}</option>--}}
-                    {{--                    @endforeach--}}
-                    {{--                </select>--}}
-
                 </div>
+
                 <div class="form-group">
                     <button class="btn btn-danger" type="submit">
                         {{ trans('global.save') }}
@@ -65,7 +85,5 @@
             </form>
         </div>
     </div>
-
-
 
 @endsection
