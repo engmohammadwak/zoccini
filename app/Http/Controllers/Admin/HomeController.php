@@ -26,6 +26,17 @@ use Illuminate\Support\Facades\Schema;
 
 class HomeController
 {
+    /**
+     * Resolve the actual table name from a model class safely.
+     * Returns null if the class doesn't exist or the table doesn't exist in DB.
+     */
+    private function modelTable(string $class): ?string
+    {
+        if (!class_exists($class)) return null;
+        $table = (new $class)->getTable();
+        return Schema::hasTable($table) ? $table : null;
+    }
+
     /** Find the best available price column in the orders table. */
     private function priceCol(): ?string
     {
@@ -46,7 +57,7 @@ class HomeController
         return (float) $query->sum($col);
     }
 
-    /** Safe column query — only applies where clause if column exists. */
+    /** Safe column check — cached. */
     private function safeCol(string $table, string $col): bool
     {
         static $cache = [];
@@ -79,8 +90,11 @@ class HomeController
         // Subscription banner
         $subEndDay = null;
         if ($isRestaurant) {
-            $sub = SubscriptionUser::where('user_id', $user->id)->where('status', 1)->first();
-            $subEndDay = $sub ? $sub->end_day : null;
+            $subTable = $this->modelTable(SubscriptionUser::class);
+            if ($subTable) {
+                $sub = SubscriptionUser::where('user_id', $user->id)->where('status', 1)->first();
+                $subEndDay = $sub ? $sub->end_day : null;
+            }
         }
 
         // ═══════════════════ ORDERS ═══════════════════
@@ -101,7 +115,7 @@ class HomeController
         $ordersYear      = (clone $ordersQ)->where('created_at', '>=', Carbon::now()->startOfYear())->count();
         $latestOrders    = (clone $ordersQ)->with(['user', 'restaurants', 'status'])->latest()->take(10)->get();
 
-        // Charts data: last 14 days
+        // Charts: last 14 days
         $ordersChartLabels = [];
         $ordersChartData   = [];
         $revenueChartData  = [];
@@ -141,48 +155,49 @@ class HomeController
         $totalRestaurants  = $isAdmin ? User::where('user_type', 3)->count() : 0;
         $newRestWeek       = $isAdmin ? User::where('user_type', 3)->where('created_at', '>=', Carbon::now()->startOfWeek())->count() : 0;
 
-        // active restaurants — only if column exists
         $activeRestaurants = 0;
-        if ($isAdmin && $this->safeCol('restaurants', 'active')) {
-            $activeRestaurants = Restaurant::where('active', 1)->count();
-        } elseif ($isAdmin) {
-            $activeRestaurants = Restaurant::count();
+        if ($isAdmin) {
+            $restTable = $this->modelTable(Restaurant::class);
+            if ($restTable) {
+                $activeRestaurants = $this->safeCol($restTable, 'active')
+                    ? Restaurant::where('active', 1)->count()
+                    : Restaurant::count();
+            }
         }
 
         // ═══════════════════ ITEMS ═══════════════════
         $itemsQ = Item::query();
         if ($isRestaurant) $itemsQ->where('restaurant_id', $restId);
-        $totalItems = (clone $itemsQ)->count();
-        $activeItems = 0;
-        if ($this->safeCol('items', 'active')) {
-            $activeItems = (clone $itemsQ)->where('active', 1)->count();
-        } else {
-            $activeItems = $totalItems;
-        }
+        $totalItems  = (clone $itemsQ)->count();
+        $itemTable   = $this->modelTable(Item::class);
+        $activeItems = ($itemTable && $this->safeCol($itemTable, 'active'))
+            ? (clone $itemsQ)->where('active', 1)->count()
+            : $totalItems;
 
         // ═══════════════════ RATINGS ═══════════════════
-        $totalRatings = 0;
-        $avgRating    = 0;
-        $rating5      = 0;
-        $rating4      = 0;
-        $rating3      = 0;
-        $ratingBelow3 = 0;
+        $totalRatings        = 0;
+        $avgRating           = 0;
+        $rating5             = 0;
+        $rating4             = 0;
+        $rating3             = 0;
+        $ratingBelow3        = 0;
         $topRatedRestaurants = collect();
 
-        if (Schema::hasTable('rates')) {
+        $rateTable = $this->modelTable(Rate::class);
+        if ($rateTable) {
             $ratesQ = Rate::query();
-            if ($isRestaurant && $this->safeCol('rates', 'restaurant_id')) {
+            if ($isRestaurant && $this->safeCol($rateTable, 'restaurant_id')) {
                 $ratesQ->where('restaurant_id', $restId);
             }
             $totalRatings = (clone $ratesQ)->count();
             $avgRating    = (clone $ratesQ)->avg('rating') ?? 0;
-            if ($this->safeCol('rates', 'rating')) {
+            if ($this->safeCol($rateTable, 'rating')) {
                 $rating5      = (clone $ratesQ)->where('rating', 5)->count();
                 $rating4      = (clone $ratesQ)->whereBetween('rating', [4, 4.99])->count();
                 $rating3      = (clone $ratesQ)->whereBetween('rating', [3, 3.99])->count();
                 $ratingBelow3 = (clone $ratesQ)->where('rating', '<', 3)->count();
             }
-            if ($isAdmin && $this->safeCol('rates', 'restaurant_id')) {
+            if ($isAdmin && $this->safeCol($rateTable, 'restaurant_id')) {
                 $topRatedRestaurants = Rate::select('restaurant_id', DB::raw('avg(rating) as avg_rate'), DB::raw('count(*) as cnt'))
                     ->with('restaurant')
                     ->groupBy('restaurant_id')
@@ -193,27 +208,32 @@ class HomeController
         }
 
         // ═══════════════════ COUPONS, FAVORITES, ADS ═══════════════════
-        $totalCoupons  = (class_exists(Coupon::class) && Schema::hasTable('coupons')) ? Coupon::count() : 0;
+        $totalCoupons  = 0;
         $activeCoupons = 0;
-        if ($totalCoupons > 0 && $this->safeCol('coupons', 'active')) {
-            $activeCoupons = Coupon::where('active', 1)->count();
-        } else {
-            $activeCoupons = $totalCoupons;
+        $couponTable   = $this->modelTable(Coupon::class);
+        if ($couponTable) {
+            $totalCoupons  = Coupon::count();
+            $activeCoupons = $this->safeCol($couponTable, 'active')
+                ? Coupon::where('active', 1)->count()
+                : $totalCoupons;
         }
 
         $totalFavorites = 0;
-        if (class_exists(Favorite::class) && Schema::hasTable('favorites')) {
-            $totalFavorites = $isRestaurant && $this->safeCol('favorites', 'restaurant_id')
+        $favTable = $this->modelTable(Favorite::class);
+        if ($favTable) {
+            $totalFavorites = ($isRestaurant && $this->safeCol($favTable, 'restaurant_id'))
                 ? Favorite::where('restaurant_id', $restId)->count()
                 : Favorite::count();
         }
 
-        $totalAds  = (class_exists(AllAd::class) && Schema::hasTable('all_ads')) ? AllAd::count() : 0;
+        $totalAds  = 0;
         $activeAds = 0;
-        if ($totalAds > 0 && $this->safeCol('all_ads', 'status')) {
-            $activeAds = AllAd::where('status', 1)->count();
-        } else {
-            $activeAds = $totalAds;
+        $adTable   = $this->modelTable(AllAd::class);
+        if ($adTable) {
+            $totalAds  = AllAd::count();
+            $activeAds = $this->safeCol($adTable, 'status')
+                ? AllAd::where('status', 1)->count()
+                : $totalAds;
         }
 
         // ═══════════════════ RESTAURANT-SPECIFIC ═══════════════════
@@ -221,11 +241,13 @@ class HomeController
         $restFavorites = 0;
         $restCartItems = 0;
         if ($isRestaurant) {
-            $rest = Restaurant::find($restId);
-            $restVisits    = $rest && $this->safeCol('restaurants', 'visits') ? ($rest->visits ?? 0) : 0;
-            $restFavorites = (class_exists(Favorite::class) && Schema::hasTable('favorites') && $this->safeCol('favorites', 'restaurant_id'))
+            $rest          = Restaurant::find($restId);
+            $restTable2    = $this->modelTable(Restaurant::class);
+            $restVisits    = ($rest && $restTable2 && $this->safeCol($restTable2, 'visits')) ? ($rest->visits ?? 0) : 0;
+            $restFavorites = ($favTable && $this->safeCol($favTable, 'restaurant_id'))
                 ? Favorite::where('restaurant_id', $restId)->count() : 0;
-            $restCartItems = (class_exists(CartItem::class) && Schema::hasTable('cart_items'))
+            $cartTable = $this->modelTable(CartItem::class);
+            $restCartItems = $cartTable
                 ? CartItem::whereHas('item', fn($q) => $q->where('restaurant_id', $restId))->count() : 0;
         }
 
@@ -237,14 +259,16 @@ class HomeController
         $netProfit      = 0;
         $netProfitMonth = 0;
         if ($isAdmin) {
-            if (class_exists(Income::class) && Schema::hasTable('incomes')) {
+            $incomeTable = $this->modelTable(Income::class);
+            if ($incomeTable) {
                 $totalIncome = Income::sum('amount');
                 $incomeMonth = Income::where('created_at', '>=', Carbon::now()->startOfMonth())->sum('amount');
             } else {
                 $totalIncome = $revenueTotal;
                 $incomeMonth = $revenueMonth;
             }
-            if (class_exists(Expense::class) && Schema::hasTable('expenses')) {
+            $expenseTable = $this->modelTable(Expense::class);
+            if ($expenseTable) {
                 $totalExpense = Expense::sum('amount');
                 $expenseMonth = Expense::where('created_at', '>=', Carbon::now()->startOfMonth())->sum('amount');
             }
@@ -256,10 +280,13 @@ class HomeController
         $activeSubs    = 0;
         $expiredSubs   = 0;
         $subsThisMonth = 0;
-        if ($isAdmin && Schema::hasTable('subscription_users')) {
-            $activeSubs    = SubscriptionUser::where('status', 1)->count();
-            $expiredSubs   = SubscriptionUser::where('status', '!=', 1)->count();
-            $subsThisMonth = SubscriptionUser::where('created_at', '>=', Carbon::now()->startOfMonth())->count();
+        if ($isAdmin) {
+            $subTable2 = $this->modelTable(SubscriptionUser::class);
+            if ($subTable2) {
+                $activeSubs    = SubscriptionUser::where('status', 1)->count();
+                $expiredSubs   = SubscriptionUser::where('status', '!=', 1)->count();
+                $subsThisMonth = SubscriptionUser::where('created_at', '>=', Carbon::now()->startOfMonth())->count();
+            }
         }
 
         // ═══════════════════ SUPPORT TICKETS (admin) ═══════════════════
@@ -267,11 +294,14 @@ class HomeController
         $openTickets   = 0;
         $closedTickets = 0;
         $latestTickets = collect();
-        if ($isAdmin && class_exists(Ticket::class) && Schema::hasTable('tickets')) {
-            $totalTickets  = Ticket::count();
-            $openTickets   = $this->safeCol('tickets','ticket_status_id') ? Ticket::where('ticket_status_id', 1)->count() : 0;
-            $closedTickets = $this->safeCol('tickets','ticket_status_id') ? Ticket::where('ticket_status_id', '!=', 1)->count() : 0;
-            $latestTickets = Ticket::with(['user', 'status'])->latest()->take(8)->get();
+        if ($isAdmin) {
+            $ticketTable = $this->modelTable(Ticket::class);
+            if ($ticketTable) {
+                $totalTickets  = Ticket::count();
+                $openTickets   = $this->safeCol($ticketTable, 'ticket_status_id') ? Ticket::where('ticket_status_id', 1)->count() : 0;
+                $closedTickets = $this->safeCol($ticketTable, 'ticket_status_id') ? Ticket::where('ticket_status_id', '!=', 1)->count() : 0;
+                $latestTickets = Ticket::with(['user', 'status'])->latest()->take(8)->get();
+            }
         }
 
         // ═══════════════════ MISC (admin) ═══════════════════
@@ -283,21 +313,30 @@ class HomeController
         $openQa         = 0;
         $totalPoints    = 0;
         if ($isAdmin) {
-            if (class_exists(\App\Models\Contact::class) && Schema::hasTable('contacts')) {
+            $contactTable = $this->modelTable(\App\Models\Contact::class);
+            if ($contactTable) {
                 $totalContacts = \App\Models\Contact::count();
             }
-            if (class_exists(Partner::class) && Schema::hasTable('partners')) {
+
+            $partnerTable = $this->modelTable(Partner::class);
+            if ($partnerTable) {
                 $totalPartners = Partner::count();
             }
-            if (class_exists(Report::class) && Schema::hasTable('reports')) {
+
+            $reportTable = $this->modelTable(Report::class);
+            if ($reportTable) {
                 $totalReports   = Report::count();
-                $pendingReports = $this->safeCol('reports','status') ? Report::where('status', 0)->count() : 0;
+                $pendingReports = $this->safeCol($reportTable, 'status') ? Report::where('status', 0)->count() : 0;
             }
-            if (class_exists(QaTopic::class) && Schema::hasTable('qa_topics')) {
+
+            $qaTable = $this->modelTable(QaTopic::class);
+            if ($qaTable) {
                 $totalQa = QaTopic::count();
-                $openQa  = $this->safeCol('qa_topics','status') ? QaTopic::where('status', 'open')->count() : 0;
+                $openQa  = $this->safeCol($qaTable, 'status') ? QaTopic::where('status', 'open')->count() : 0;
             }
-            if (class_exists(UserPoint::class) && Schema::hasTable('user_points')) {
+
+            $pointsTable = $this->modelTable(UserPoint::class);
+            if ($pointsTable) {
                 $totalPoints = UserPoint::sum('points');
             }
         }
