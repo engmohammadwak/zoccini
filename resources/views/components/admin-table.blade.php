@@ -1,35 +1,34 @@
 {{--
-  ╔══════════════════════════════════════════════════════════╗
+  ╔════════════════════════════════════════════════════════════╗
   ║         SHARED ADMIN TABLE COMPONENT                     ║
   ║  Usage:                                                  ║
   ║  <x-admin-table                                          ║
   ║      :title="trans('...')"                               ║
   ║      icon="fas fa-list"                                  ║
-  ║      color="blue"          (blue|green|orange|purple|    ║
-  ║                              red|cyan|indigo — default:blue)║
+  ║      color="blue"                                        ║
   ║      datatableClass="datatable-Order"                    ║
   ║      :count="$items->count()"                            ║
-  ║      countLabel="Total"                                  ║
+  ║      createPermission="order_create"     ← NEW (optional)║
   ║      :createRoute="route('admin.orders.create')"         ║
   ║      createLabel="Add New"                               ║
   ║  >                                                       ║
   ║    <x-slot name="thead"> ... </x-slot>                   ║
   ║    <x-slot name="tbody"> ... </x-slot>                   ║
-  ║    (optional) <x-slot name="scripts"> ... </x-slot>      ║
   ║  </x-admin-table>                                        ║
-  ╚══════════════════════════════════════════════════════════╝
+  ╚════════════════════════════════════════════════════════════╝
 --}}
 
 @props([
-    'title'          => '',
-    'icon'           => 'fas fa-table',
-    'color'          => 'blue',
-    'datatableClass' => 'datatable-Default',
-    'count'          => null,
-    'countLabel'     => null,
-    'createRoute'    => null,
-    'createLabel'    => null,
-    'extraButtons'   => null,
+    'title'            => '',
+    'icon'             => 'fas fa-table',
+    'color'            => 'blue',
+    'datatableClass'   => 'datatable-Default',
+    'count'            => null,
+    'countLabel'       => null,
+    'createRoute'      => null,
+    'createLabel'      => null,
+    'createPermission' => null,
+    'extraButtons'     => null,
 ])
 
 @php
@@ -46,10 +45,21 @@ $palettes = [
 ];
 $p = $palettes[$color] ?? $palettes['blue'];
 $uid = 'tbl_'.Str::random(6);
+
+// حساب صلاحية زر الإضافة:
+// إذا تم تمرير createPermission نتحقق منه، وإلا نعرض الزر مباشرة إذا createRoute موجود.
+$showCreateBtn = false;
+if ($createRoute) {
+    if ($createPermission) {
+        $showCreateBtn = \Illuminate\Support\Facades\Gate::allows($createPermission);
+    } else {
+        $showCreateBtn = true;
+    }
+}
 @endphp
 
 <style>
-/* ── admin-table component ──────────────────────────── */
+/* ── admin-table component ────────────────────────────────────── */
 .adm-tbl-card {
     background:#fff;
     border-radius:14px;
@@ -81,7 +91,6 @@ $uid = 'tbl_'.Str::random(6);
 .adm-tbl-header-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 .adm-tbl-body { padding:20px; }
 
-/* wrap — full width, scroll only when content wider than container */
 .adm-tbl-wrap {
     width:100%;
     overflow-x:auto;
@@ -89,7 +98,6 @@ $uid = 'tbl_'.Str::random(6);
     border:1px solid #eef0f8;
 }
 
-/* table — always fill its container */
 .adm-tbl-table {
     width:100% !important;
     min-width:100%;
@@ -141,7 +149,6 @@ $uid = 'tbl_'.Str::random(6);
     vertical-align:middle;
 }
 
-/* count chip */
 .adm-count-chip {
     display:inline-flex;
     align-items:center;
@@ -161,7 +168,6 @@ $uid = 'tbl_'.Str::random(6);
     background: {{ $p['text'] }};
 }
 
-/* create button */
 .adm-btn-create {
     display:inline-flex;
     align-items:center;
@@ -181,7 +187,6 @@ $uid = 'tbl_'.Str::random(6);
 }
 .adm-btn-create:hover { opacity:0.88; transform:translateY(-1px); color:#fff !important; text-decoration:none; }
 
-/* title icon */
 .adm-title-icon {
     width:36px;height:36px;
     border-radius:10px;
@@ -195,10 +200,7 @@ $uid = 'tbl_'.Str::random(6);
     flex-shrink:0;
 }
 
-/* DataTables overrides scoped by component */
-#{{ $uid }}_wrapper {
-    width:100% !important;
-}
+#{{ $uid }}_wrapper { width:100% !important; }
 #{{ $uid }}_wrapper .dataTables_filter input {
     border:1px solid #dde2f0 !important;
     border-radius:8px !important;
@@ -229,8 +231,6 @@ $uid = 'tbl_'.Str::random(6);
     color:#fff !important;
     border:none !important;
 }
-
-/* Force DataTables buttons row to stretch full width */
 #{{ $uid }}_wrapper .dt-buttons {
     float:none !important;
     display:flex !important;
@@ -245,9 +245,7 @@ $uid = 'tbl_'.Str::random(6);
     gap:6px !important;
 }
 #{{ $uid }}_wrapper > .row,
-#{{ $uid }}_wrapper > div {
-    width:100% !important;
-}
+#{{ $uid }}_wrapper > div { width:100% !important; }
 </style>
 
 {{-- Count chip --}}
@@ -260,8 +258,6 @@ $uid = 'tbl_'.Str::random(6);
 
 {{-- Card --}}
 <div class="adm-tbl-card">
-
-    {{-- Header --}}
     <div class="adm-tbl-header">
         <div class="adm-tbl-header-title">
             <div class="adm-title-icon"><i class="{{ $icon }}"></i></div>
@@ -269,9 +265,7 @@ $uid = 'tbl_'.Str::random(6);
         </div>
         <div class="adm-tbl-header-actions">
             {{ $extraButtons ?? '' }}
-            @if($createRoute)
-                @can(Str::replace(['admin.','s.create','.create'], ['','_create','_create'], $createRoute ?? '') )
-                @endcan
+            @if($showCreateBtn)
                 <a href="{{ $createRoute }}" class="adm-btn-create">
                     <i class="fas fa-plus"></i>
                     {{ $createLabel ?? trans('global.add') ?? 'Add' }}
@@ -284,7 +278,6 @@ $uid = 'tbl_'.Str::random(6);
         </div>
     </div>
 
-    {{-- Body --}}
     <div class="adm-tbl-body">
         <div class="adm-tbl-wrap">
             <table id="{{ $uid }}" class="adm-tbl-table table datatable {{ $datatableClass }}">
@@ -293,10 +286,8 @@ $uid = 'tbl_'.Str::random(6);
             </table>
         </div>
     </div>
-
 </div>
 
-{{-- Fix DataTables autoWidth + stretch after init --}}
 <script>
 (function(){
     function fixTbl(){
@@ -307,7 +298,6 @@ $uid = 'tbl_'.Str::random(6);
             dt.settings()[0].oInit.autoWidth = false;
             dt.columns.adjust();
         }
-        // Force wrapper to 100%
         $('#{{ $uid }}_wrapper').css('width','100%');
         tbl.css('width','100%');
     }
@@ -319,5 +309,4 @@ $uid = 'tbl_'.Str::random(6);
 })();
 </script>
 
-{{-- Optional extra scripts slot --}}
 {{ $scripts ?? '' }}
