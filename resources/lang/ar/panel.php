@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'site_title' => getSetting(),
+    'site_title' => getSetting('sitename_ar'),
   'About' => 'حول',
   'How it works' => 'كيف تعمل',
   'Top Restaurants' => 'أفضل المطاعم',
@@ -32,7 +32,7 @@ return [
                                      اليوم.',
   'Get Started' => 'البدء',
   'Become a Partner' => 'كن شريكا',
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. dimentum diam orci, orci feugiat cursus. Dictumst risus, sem gestas odio' => 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. dimentum diam orci, orci feugiat cursus. Dictumst risus, sem gestas odio' => 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.
 إذا كنت تحتاج إلى عدد أكبر من الفقرات يتيح لك مولد النص العربى زيادة عدد الفقرات كما تريد، النص لن يبدو مقسما ولا يحوي أخطاء لغوية، مولد النص العربى مفيد لمصممي المواقع على وجه الخصوص، حيث يحتاج العميل فى كثير من الأحيان أن يطلع على صورة حقيقية لتصميم الموقع.',
   'Personal Information' => 'معلومات شخصية',
   'first name' => 'الاسم الاول',
@@ -230,13 +230,12 @@ return [
   'twitter:url' => 'twitter:url',  
   'About Me' => 'About Me',
 
-  // ═══════════════════════════════════════
+  // =======================================
   // Dashboard keys
-  // ═══════════════════════════════════════
+  // =======================================
   'dashboard'              => 'لوحة التحكم',
-  'welcome_back'           => 'مرحباً بك،',
+  'welcome_back'           => 'مرحباً بك,',
 
-  // Orders
   'orders'                 => 'الطلبات',
   'total_orders'           => 'إجمالي الطلبات',
   'today'                  => 'اليوم',
@@ -253,12 +252,10 @@ return [
   'orders_status'          => 'الطلبات حسب الحالة',
   'latest_orders'          => 'آخر الطلبات',
 
-  // Revenue
   'revenue'                => 'الإيرادات',
   'total_revenue'          => 'إجمالي الإيرادات',
   'avg_order'              => 'متوسط الطلب',
 
-  // Users & Restaurants
   'users_restaurants'      => 'المستخدمون والمطاعم',
   'total_users'            => 'إجمالي المستخدمين',
   'new_today'              => 'جديد اليوم',
@@ -269,14 +266,12 @@ return [
   'top_restaurants_orders' => 'أعلى المطاعم طلباً',
   'restaurant_col'         => 'المطعم',
 
-  // Restaurant
   'my_restaurant'          => 'مطعمي',
   'favorites'              => 'المفضلة',
   'active_carts'           => 'سلات نشطة',
   'items'                  => 'الأصناف',
   'active'                 => 'نشط',
 
-  // Ratings
   'ratings'                => 'التقييمات',
   'avg_rating'             => 'متوسط التقييم',
   'total'                  => 'الإجمالي',
@@ -287,41 +282,34 @@ return [
   'avg'                    => 'المتوسط',
   'count'                  => 'عدد',
 
-  // Catalog & Marketing
   'catalog_marketing'      => 'الكتالوج والتسويق',
   'total_items'            => 'إجمالي الأصناف',
   'coupons'                => 'الكوبونات',
   'ads'                    => 'الإعلانات',
 
-  // Finance
   'finance'                => 'المالية',
   'total_income'           => 'إجمالي الإيرادات',
   'total_expense'          => 'إجمالي المصروفات',
   'net_profit'             => 'صافي الربح',
 
-  // Subscriptions
   'subscriptions'          => 'الاشتراكات',
   'active_subs'            => 'اشتراكات نشطة',
   'expired_subs'           => 'اشتراكات منتهية',
   'subs_this_month'        => 'هذا الشهر',
 
-  // Support
   'support'                => 'الدعم الفني',
   'total_tickets'          => 'إجمالي التذاكر',
   'open_tickets'           => 'مفتوحة',
   'closed_tickets'         => 'مغلقة',
   'latest_tickets'         => 'آخر التذاكر',
 
-  // Table columns
   'user'                   => 'المستخدم',
-  'restaurant'             => 'المطعم',
   'price'                  => 'السعر',
   'status'                 => 'الحالة',
   'date'                   => 'التاريخ',
   'title'                  => 'العنوان',
   'no_data'                => 'لا يوجد بيانات',
 
-  // Misc / Other stats
   'other_stats'            => 'إحصائيات أخرى',
   'contacts'               => 'رسائل التواصل',
   'partners_requests'      => 'طلبات الشراكة',
